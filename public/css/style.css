@@ -1,0 +1,42 @@
+.main {
+    margin-top: 20rem;
+    text-align: center;
+}
+
+.btn_class {
+    text-align: center;
+}
+
+.auth_btn {
+    width: 10rem;
+    height: 3rem;
+    border-radius: 3%;
+    font-weight: 900;
+    font-size: 1rem;
+    margin-top: 1rem;
+    background-color: blue;
+    border: none;
+    color: wheat;
+}
+
+.auth_btn:hover {
+    animation-name: btn_animation;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes btn_animation {
+    20% {
+        background-color: blueviolet;
+        color: aquamarine;
+    }
+    50% {
+        background-color: blueviolet;
+        color: aquamarine;
+
+    }
+    100% {
+        background-color: blueviolet;
+        color: aquamarine;
+    }
+}

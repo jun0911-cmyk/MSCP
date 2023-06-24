@@ -1,0 +1,4 @@
+[TIME : 1687615966069] [LOGGER err LOG] : sequelize DB Error : SequelizeDatabaseError: Incorrect column specifier for column 'id'
+[TIME : 1687620831390] [LOGGER err LOG] : sequelize findOne error : Error: Invalid value {}
+[TIME : 1687620868442] [LOGGER err LOG] : sequelize findOne error : Error: Invalid value {}
+[TIME : 1687620875313] [LOGGER err LOG] : sequelize findOne error : Error: Invalid value {}
