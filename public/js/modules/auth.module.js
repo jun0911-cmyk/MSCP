@@ -1,6 +1,6 @@
 const postGetNonce = async (auth_data) => {
     const response = await $.ajax({
-        url: '/auth',
+        url: '/auth/nonce',
         type: 'POST',
         data: JSON.stringify(auth_data),
         headers: {
@@ -26,7 +26,7 @@ const postAuth = async (auth_data) => {
     });
 
     if (response.status == 200 & response.message == "success") {
-        return response.token;
+        return "success";
     } else {
         return null;
     }

@@ -2,3 +2,11 @@
 [TIME : 1687620831390] [LOGGER err LOG] : sequelize findOne error : Error: Invalid value {}
 [TIME : 1687620868442] [LOGGER err LOG] : sequelize findOne error : Error: Invalid value {}
 [TIME : 1687620875313] [LOGGER err LOG] : sequelize findOne error : Error: Invalid value {}
+[TIME : 1687669265455] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1687669270332] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1687669317542] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1687669335952] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1687669823084] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature
+[TIME : 1687669854630] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature
+[TIME : 1687670845323] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature
+[TIME : 1687673260809] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature

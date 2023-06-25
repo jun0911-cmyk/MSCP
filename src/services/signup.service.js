@@ -1,4 +1,5 @@
 const models = require("../models");
+const { Op }  = require("sequelize");
 const logger = require("../middlewares/log.middleware.js");
 const uuidv4 = require("uuid4");
 const crypto = require("crypto");
@@ -42,7 +43,14 @@ class Signup {
         try {
             return await models.user.findOne({
                 where: {
-                    publicAddress: this.publicAddress
+                    [Op.or]: [
+                        {
+                            publicAddress: this.publicAddress
+                        },
+                        {
+                            username: this.username
+                        }
+                    ]
                 }
             });
         } catch (err) {

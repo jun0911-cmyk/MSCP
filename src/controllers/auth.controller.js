@@ -6,7 +6,7 @@ module.exports.renderFile = (req, res, next) => {
     res.sendFile(path.join(__dirname + "/../../public/views/auth.html"));
 }
 
-module.exports.authUser = async (req, res, next) => {
+module.exports.authNonce = async (req, res, next) => {
     const row = await getNonce(req.body.publicAddress);
 
     if (row == null) {
@@ -74,14 +74,19 @@ module.exports.authVerify = async (req, res, next) => {
 
     else if (authToken) {
         res.cookie("accessToken", authToken, {
-            maxAge: 1000 * 60 * 3,
+            maxAge: 1000 * 60 * 60 * 3,
             httpOnly: true,
             secure: process.env.NODE_ENV !== "development",
         });
 
         return res.send({
             status: 200,
-            message: "auth success",
+            message: "success",
         }).status(200); 
     }
+}
+
+module.exports.authLogOut = (req, res, next) => {
+    res.clearCookie("accessToken");
+    res.redirect("/auth");
 }

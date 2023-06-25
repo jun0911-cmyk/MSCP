@@ -21,9 +21,7 @@ signupBtn.addEventListener("click", async () => {
         address: walletAddress,
     };
 
-    const result = await signup.postSignUp(account_data);
-
-    console.log(result);
+    await signup.postSignUp(account_data);
 });
 
 authBtn.addEventListener("click", async () => {
@@ -33,8 +31,14 @@ authBtn.addEventListener("click", async () => {
     });
 
     const signData = await metamask.signMetaMask(metamaskAddress, nonce);
-    const token = await auth.postAuth({
+    const result = await auth.postAuth({
         publicAddress: metamaskAddress,
         signature: signData,
     });
-})
+
+    if (result == "success") {
+        location.href = "/";
+    } else {
+        console.log("auth failure");
+    }
+});

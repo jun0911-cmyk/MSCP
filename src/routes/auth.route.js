@@ -1,10 +1,11 @@
 const express = require("express");
-const { renderFile, authUser, authVerify, authSignup } = require("../controllers/auth.controller.js");
+const { renderFile, authNonce, authVerify, authSignup, authLogOut } = require("../controllers/auth.controller.js");
 
 const router = express.Router();
 
 router.get("/", renderFile);
-router.post("/", authUser);
+router.get("/logout", authLogOut);
+router.post("/nonce", authNonce);
 router.post("/signup", authSignup);
 router.post("/verify", authVerify);
 
