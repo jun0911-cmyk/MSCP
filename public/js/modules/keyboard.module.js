@@ -167,16 +167,10 @@ const etcKeyConvert = (key, inputElement, keyboardElement) => {
 }
 
 $(".form-control").click(function(event) {
-    if (checkKey != "Enter" || checkKey == "") {
-        if (beforeKeyboard) {
-            beforeKeyboard.innerHTML = "";
-        }
-
-        if (checkKey != "") {
-            beforeKeyboard.innerHTML = "";
-            checkKey = "Enter";
-            shift = 0;
-        }
+    if (checkKey != "" || beforeKeyboard) {
+        beforeKeyboard.innerHTML = "";
+        checkKey = "";
+        shift = 0;
     }
 
     const element = document.getElementById("keyboard." + event.target.id);
