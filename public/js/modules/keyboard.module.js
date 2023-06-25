@@ -137,7 +137,6 @@ const keyboard_html = `
 
 const etcKeyConvert = (key, inputElement, keyboardElement) => {
     checkKey = key;
-    beforeKeyboard = keyboardElement;
 
     if (key == "Tab") {
         return "    ";
@@ -160,6 +159,8 @@ const etcKeyConvert = (key, inputElement, keyboardElement) => {
         }
 
         return null;
+    } else if (key == "UpperMod" || key == "LowerMod") {
+        return null;
     }
 
     return shift % 2 == 0 ? key.toUpperCase() : key.toLowerCase();
@@ -167,6 +168,10 @@ const etcKeyConvert = (key, inputElement, keyboardElement) => {
 
 $(".form-control").click(function(event) {
     if (checkKey != "Enter" || checkKey == "") {
+        if (beforeKeyboard) {
+            beforeKeyboard.innerHTML = "";
+        }
+
         if (checkKey != "") {
             beforeKeyboard.innerHTML = "";
             checkKey = "Enter";
@@ -178,6 +183,7 @@ $(".form-control").click(function(event) {
     const inputElement = document.getElementById(event.target.id);
 
     element.innerHTML = keyboard_html;
+    beforeKeyboard = element;
 
     $(".key").click(function(event) {
         const keyboard_key = event.target.innerText;
