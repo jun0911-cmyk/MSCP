@@ -3,7 +3,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const logging = require("./middlewares/log.middleware.js");
 const logger = require("morgan");
-
 require("dotenv").config({ path: __dirname + "/config/.env" });
 require("./config/sequelize.connect.js")
 
@@ -12,6 +11,7 @@ const port = process.env.PORT;
 
 const authRouter = require("./routes/auth.route.js");
 const indexRouter = require("./routes/index.route.js");
+const contractRouter = require("./routes/contract.route.js");
 
 app.use(cors());
 app.use(express.json());
@@ -19,6 +19,8 @@ app.use("/static/css", express.static("../public/css"));
 app.use("/static/js", express.static("../public/js"));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(logger("dev"));
+
+app.use("/contract", contractRouter);
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
 
