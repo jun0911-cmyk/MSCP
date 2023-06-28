@@ -30,19 +30,20 @@
 }
 
 .contract_viewer {
+    overflow-y: hidden;
+    overflow-x: hidden;
     margin: auto;
-    width: 50rem;
+    width: 37rem;
     height: 50rem;
     border-radius: 3%;
     border-color: black;
-    background-color: rgb(131, 100, 100);
-    padding: 30px;
+    background-color: #525659;
 }
 
 .btn_class {
-    float: right;
-    bottom: 0;
-    margin-top: 43rem;
+    position: absolute;
+    margin-top: 46rem;
+    margin-left: 71rem;
 }
 
 .btn_class button {

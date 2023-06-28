@@ -3,17 +3,20 @@ const jwtAuth = require("../controllers/jwt.controller.js");
 const multer = require("multer");
 const path = require("path");
 const logger = require("../middlewares/log.middleware.js");
-const { uploadFile } = require("../controllers/contract.controller.js");
+const redis = require("../middlewares/redis.moddleware.js");
+const { uploadFile, readContractFile } = require("../controllers/contract.controller.js");
 
 const router = express.Router();
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: async function (req, file, cb) {
         cb(null, path.join(__dirname, "../../contract_temp/"));
     },
-    filename: function (req, file, cb) {
+    filename: async function (req, file, cb) {
         const idArr = req.id.split("-");
         const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
         const filename = id + "_" + "contract" + "_" + file.originalname;
+
+        await redis.set(id, file.originalname);
 
         cb(null, filename);
     }
@@ -34,12 +37,12 @@ const fileFilter = (req, file, cb) => {
         const ext = filename.split(".")[1];
         
         for (let filter of ["..", "../", "./", "/"]) {
-            req.upload = {
-                result: "failure",
-                message: "file filter catch",
-            };
-    
             if (filename.includes(filter)) {
+                req.upload = {
+                    result: "failure",
+                    message: "file filter catch",
+                };
+
                 return cb(null, false);
             }
         }
@@ -81,5 +84,6 @@ const upload = multer({
 
 
 router.post("/file/upload", jwtAuth, upload.single("contract_file"), uploadFile);
+router.get("/file/read", jwtAuth, readContractFile);
 
 module.exports = router;
