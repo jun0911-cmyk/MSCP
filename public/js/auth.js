@@ -6,6 +6,7 @@ const signupBtn = document.getElementById("signup_btn");
 const authBtn = document.getElementById("auth_btn");
 const metamaskGetBtn = document.getElementById("get_eth_btn");
 const wallet_address = document.getElementById("wallet_address");
+const down_cert_file = document.getElementById("down_cert_file");
 
 metamaskGetBtn.addEventListener("click", async () => {
   wallet_address.value = await metamask.accessAccountWallet();  
@@ -41,4 +42,8 @@ authBtn.addEventListener("click", async () => {
     } else {
         console.log("auth failure");
     }
+});
+
+down_cert_file.addEventListener("click", () => {
+    location.href = "/auth/certificate/download";
 });

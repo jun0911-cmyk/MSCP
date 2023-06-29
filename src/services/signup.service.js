@@ -1,7 +1,6 @@
 const models = require("../models");
 const { Op }  = require("sequelize");
 const logger = require("../middlewares/log.middleware.js");
-const uuidv4 = require("uuid4");
 const crypto = require("crypto");
 
 const generateRandomString = (length) => {
@@ -22,7 +21,8 @@ const generateRandomString = (length) => {
 };
 
 class Signup {
-    constructor(username, email, name, publicAddress) {
+    constructor(id, username, email, name, publicAddress) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.name = name;
@@ -62,7 +62,7 @@ class Signup {
     async createRow() {
         try {
             return await models.user.create({
-                id: uuidv4(),
+                id: this.id,
                 username: this.username,
                 email: this.email,
                 name: this.name,

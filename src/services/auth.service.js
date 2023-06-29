@@ -79,5 +79,18 @@ const getNonce = async (publicAddress) => {
     }
 }
 
+const updateCertDownload = async (id) => {
+    try {
+        return models.user.update(
+            { cert_file_download: true }, 
+            { where: { id: id } },
+        );
+    } catch (err) {
+        logger("sequelize update error : " + err, "err");
+        return null;
+    }
+}
+
+module.exports.updateCertDownload = updateCertDownload;
 module.exports.getNonce = getNonce;
 module.exports.Auth = Auth;

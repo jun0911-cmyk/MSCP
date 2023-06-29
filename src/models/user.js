@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
         },
         name: {
-            type: DataTypes.STRING(10),
+            type: DataTypes.STRING(30),
             allowNull: false,
         },
         email: {
@@ -28,10 +28,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true,
         },
-        cert_file_address: {
-            type: DataTypes.STRING(100),
-            allowNull: true,
-            defaultValue: "no_cert",
+        cert_file_download: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         }
     }, {
         charset: "utf8",

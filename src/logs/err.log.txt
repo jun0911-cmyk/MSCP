@@ -10,3 +10,16 @@
 [TIME : 1687669854630] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature
 [TIME : 1687670845323] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature
 [TIME : 1687673260809] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: invalid signature
+[TIME : 1688054369976] [LOGGER err LOG] : sequelize insert error : SequelizeDatabaseError: Data too long for column 'name' at row 1
+[TIME : 1688054407944] [LOGGER err LOG] : sequelize insert error : SequelizeDatabaseError: Data too long for column 'name' at row 1
+[TIME : 1688054459367] [LOGGER err LOG] : sequelize insert error : SequelizeDatabaseError: Data too long for column 'name' at row 1
+[TIME : 1688054521350] [LOGGER err LOG] : sequelize insert error : SequelizeDatabaseError: Data too long for column 'name' at row 1
+[TIME : 1688054562976] [LOGGER err LOG] : sequelize insert error : SequelizeDatabaseError: Data too long for column 'name' at row 1
+[TIME : 1688054746944] [LOGGER err LOG] : sequelize insert error : SequelizeDatabaseError: Data too long for column 'name' at row 1
+[TIME : 1688059781565] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688059783909] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688059848253] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688059900087] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688062099186] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688062292699] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688064452739] [LOGGER err LOG] : user findOne Error or user not found

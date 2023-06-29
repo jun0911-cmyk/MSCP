@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract User Certification File</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans|Pinyon+Script|Rochester');
+
+      body {
+        font-family:'Open Sans', sans-serif;
+      }
+      
+      .certificate {
+        width: 650px;
+        height: 860px;
+        margin: 0 auto;
+        border: 3px solid #353535;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      
+      .certificate-header {
+        text-align: center;
+      }
+      
+      .certificate-title {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 50px;
+      }
+
+      .certificate-description {
+        margin-bottom: 50px;
+      }
+
+      .certificate-info {
+        margin-top: 50px;
+      }
+      
+      .certificate-recipient {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      
+      .certificate-date {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      
+      .certificate-signature {
+        text-align: right;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+     /* font-family: 'Pinyon Script', cursive; */
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="certificate-header">
+            <h1 class="certificate-title"><div>Contract Access Certification Document<hr></h1>
+        </div>
+        <div class="certificate-body">
+            <p class="certificate-description">Since the certificate is an NFT certificate used in the MSCP service contract, tampering and sharing are prohibited and must be owned only by the user. A public certificate is an important means of authentication for identity verification when signing contracts between contractors. If disclosed to others, the certificate may be tampered with and may be vulnerable to security. That certificate should only be owned by you. The certificate is protected by the NFT blockchain.<hr></p>
+            <div class="certificate-info">
+                <p class="certificate-recipient">Owner Identification ID : {{id}}</p>
+                <p class="certificate-recipient">Owner Nickname : {{username}}</p>
+                <p class="certificate-recipient">Owner Name : <span style="font-family: 'Pinyon Script', cursive;">{{name}}</span></p>
+                <p class="certificate-recipient" style="margin-bottom: 50px;">Owner Email : {{email}}</p>
+                <hr style="margin-bottom: 50px;">
+                <p class="certificate-date">Date of issue of certificate : <span style="font-family: 'Pinyon Script', cursive;">{{date}}</span></p>
+            </div>
+        </div>
+        <div class="certificate-footer">
+            <p class="certificate-signature" style="margin-top: 100px;">Signature : &nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{sign}}</span></p>
+        </div>
+    </div>
+</body>
+</html>
