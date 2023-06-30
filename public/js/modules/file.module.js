@@ -1,18 +1,18 @@
-const createForm = (file) => {
+const createForm = (file, identifier) => {
     const formData = new FormData();
 
-    formData.append("contract_file", file);
+    formData.append(identifier, file);
     formData.append("name", file.name);
     
     return formData;
 }
 
-const file_upload = async (file) => {
-    const formData = await createForm(file);
+const file_upload = async (file, url, identifier) => {
+    const formData = await createForm(file, identifier);
 
     const response = await $.ajax({
         type: "POST",
-        url: "/contract/file/upload",
+        url: url,
         processData: false,
         contentType: false,
         data: formData,

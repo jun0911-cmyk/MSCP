@@ -8,7 +8,7 @@
     margin: auto;
 }
 
-#file_upload_btn {
+button {
     border: none;
     width: 15rem;
     height: 3rem;
@@ -19,7 +19,7 @@
     color: aqua;
 }
 
-#file_upload_btn:hover {
+button:hover {
     animation: file_upload_btn_animation;
     animation-duration: 1s;
     animation-fill-mode: forwards;
