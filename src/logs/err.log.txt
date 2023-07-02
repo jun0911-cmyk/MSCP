@@ -25,3 +25,25 @@
 [TIME : 1688064452739] [LOGGER err LOG] : user findOne Error or user not found
 [TIME : 1688138399700] [LOGGER err LOG] : user findOne Error or user not found
 [TIME : 1688141014852] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1688312206751] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - SyntaxError: JSON Parse error: Unexpected identifier "object"
+Stack:
+  at undefined
+
+[TIME : 1688312283507] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - SyntaxError: JSON Parse error: Unrecognized token '&'
+Stack:
+  at undefined
+
+[TIME : 1688312915514] [LOGGER err LOG] : PDF Create Error : Error: Lexical error on line 94. Unrecognized text.
+...ganizer_signData}}}}</h2>            </
+-----------------------^
+[TIME : 1688315726406] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - TypeError: undefined is not a constructor (evaluating 'canvas2.getContext('2d')')
+Stack:
+  at undefined
+
+[TIME : 1688316060384] [LOGGER err LOG] : PDF Create Error : Error: Parse error on line 83:
+...">{{participant_name}}}}</span>        
+-----------------------^
+Expecting 'CLOSE', 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', got 'CLOSE_RAW_BLOCK'

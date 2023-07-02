@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Conclusion Certificate Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans|Pinyon+Script|Rochester');
+
+      body {
+        font-family:'Open Sans', sans-serif;
+      }
+      
+      .certificate {
+        width: 650px;
+        height: 860px;
+        margin: 0 auto;
+        border: 3px solid #353535;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      
+      .certificate-header {
+        text-align: center;
+      }
+      
+      .certificate-title {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 40px;
+      }
+
+      .certificate-description {
+        margin-bottom: 40px;
+      }
+
+      .certificate-info {
+        margin-top: 40px;
+      }
+      
+      .certificate-recipient {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      
+      .certificate-signature {
+        font-size: 17px;
+        font-weight: bold;
+      }
+
+      .signature1 {
+        text-align: left;
+      }
+
+      .signature2 {
+        text-align: left;
+      }
+
+      canvas {
+            border: 2px solid #000;
+            border-radius: 3%;
+        }
+
+     /* font-family: 'Pinyon Script', cursive; */
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="certificate-header">
+            <h1 class="certificate-title"><div>Contract Conclusion Certificate Document<hr></h1>
+        </div>
+        <div class="certificate-body">
+            <p class="certificate-description">The contract certificate is a legally effective certificate proving that the contract of "{{contract_filename}}" has been completed. The certificate is issued as an NFT and officially acknowledges that the contract between the contractors has been concluded. A contract is a stand-alone document that cannot be forged or tampered with. Since the contract has been proved between the parties, the contracting parties are deemed to have acknowledged the fact of the contract. The certificate is a contract certificate officially issued by the MSCP service.<hr style="margin-bottom: 20px;">Signed Contract at : <span style="font-family: 'Pinyon Script', cursive;">{{date}}</span><hr style="margin-top: 20px;"></p>
+            <div class="certificate-info">
+                <div class="signature1">
+                  <p class="certificate-signature" style="margin-top: 10px;">Contract Organizer Signature :&nbsp;&nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{organizer_name}}</span>&nbsp;&nbsp;&nbsp;({{organizer_name}})</p>
+                  <hr>
+                  <canvas id="canvas" width="250" height="80"></canvas>
+              </div>
+              <div class="signature2">
+                  <p class="certificate-signature" style="margin-top: 30px;">Contract Participant Signature :&nbsp;&nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{participant_name}}</span>&nbsp;&nbsp;&nbsp;({{participant_name}})</p>
+                  <hr>
+                  <canvas id="canvas2" width="250" height="80"></canvas>
+              </div>
+            </div>
+        </div>
+    </div>
+    <h2 id="data" hidden>{{organizer_signData}}</h2>
+    <h2 id="data2" hidden>{{participant_signData}}</h2>
+    <h1 id="datas"></h1>
+    <script>
+      const canvas1 = document.getElementById('canvas');
+      const ctx1 = canvas1.getContext('2d');
+      const canvas2 = document.getElementById('canvas2');
+      const ctx2 = canvas2.getContext('2d');
+
+      function drawSign(ctx, lines, canvas) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          lines.forEach(function (line) {
+              ctx.beginPath();
+              ctx.lineWidth = 3; 
+              ctx.moveTo(lines[0].x, lines[0].y);
+
+              lines.forEach(function (point) {
+                  ctx.lineTo(point.x, point.y);
+              });
+
+              ctx.stroke();
+          });
+      }
+
+      drawSign(ctx1, JSON.parse(document.getElementById("data").innerText), canvas1);
+      drawSign(ctx2, JSON.parse(document.getElementById("data2").innerText), canvas2);
+    </script>
+</body>
+</html>

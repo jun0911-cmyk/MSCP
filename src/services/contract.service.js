@@ -39,7 +39,7 @@ const createFilename = async (req) => {
         const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
         const filename = id + "_" + "contract" + "_" + req.files.contract_file.name;
 
-        await redis.set(id, req.files.contract_file.name);
+        await redis.set(id, filename);
 
         return filename;
     } else {
@@ -77,11 +77,10 @@ const getFilename = async (user_id) => {
             file_id += certID[i];
         }
 
-        const originalFilename = await redis.get(file_id);
+        const filename = await redis.get(file_id);
 
-        if (originalFilename) {
-            const file_name = file_id + "_" + "contract" + "_" + originalFilename;
-            return file_name;
+        if (filename) {
+            return filename;
         } else {
             return null;
         }   
@@ -147,6 +146,30 @@ const isSafeCert = async (client_id, cert_id) => {
     }
 }
 
+const checkRedisData = async (id) => {
+    const idArr = id.split("-");
+    const file_id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
+
+    try {
+        const contract_filename = await redis.get(file_id);
+        const certificate_access = await redis.get(id + "_authed");
+
+        if (contract_filename && certificate_access) {
+            const check_id = certificate_access.split("_")[1].split("-");
+            const generate_cert_id = check_id[0] + check_id[1] + check_id[2] + check_id[3] + check_id[4];
+            const filename_id = contract_filename.split("_")[0];
+            const filename = contract_filename.split("_")[2].split(".")[0];
+
+            return generate_cert_id === filename_id ? Buffer.from(filename, 'utf-8').toString() : null;
+        } else {
+            return null;
+        }
+    } catch (err) {
+        return null;
+    }
+}
+
+module.exports.checkRedisData = checkRedisData;
 module.exports.createPDF = createPDF;
 module.exports.isSafeCert = isSafeCert;
 module.exports.convertPDF2JSON = convertPDF2JSON;

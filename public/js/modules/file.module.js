@@ -18,10 +18,10 @@ const file_upload = async (file, url, identifier) => {
         data: formData,
     });
 
-    if (response.status == "200" && response.message == "success") {
-        return "success";
+    if (response.status == "200") {
+        return response;
     } else {
-        return "failure";
+        return null;
     }
 }
 

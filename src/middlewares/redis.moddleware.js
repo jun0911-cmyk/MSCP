@@ -1,7 +1,10 @@
 const redis = require("redis");
+const logger = require("./log.middleware.js");
 
-const client = redis.createClient({
-    url: `redis://${process.env.REDIS_USERNAME}:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/0`,
+const client = redis.createClient(6379, "127.0.0.1");
+
+client.on("connect", () => {
+    logger("connected redis server, 127.0.0.1:6379", "server");
 });
 
 (async () => {

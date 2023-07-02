@@ -1,5 +1,6 @@
 const contractFile = require("../services/contract.service.js");
 const redis = require("../middlewares/redis.moddleware.js");
+const SignContract = require("../middlewares/sign.middleware.js");
 
 module.exports.uploadFile = async (req, res, next) => {
     const isCreated = await contractFile.createPDF(req);
@@ -79,3 +80,20 @@ module.exports.checkCertificateFile = async (req, res, next) => {
         }).status(401);
     }
 }
+
+module.exports.signContract = async (req, res, next) => {
+    const signData = JSON.parse(req.body.sign);
+    const id = req.id;
+    const filename = await contractFile.checkRedisData(id);
+
+    if (filename) {
+        const signContract = new SignContract(filename, req.name, req.name, signData, signData, req.id, req.id);
+
+        signContract.createPDF();
+    } else {
+        return res.json({
+            status: 400,
+            message: "sign failure",
+        }).status(400);
+    }
+};
