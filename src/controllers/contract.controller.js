@@ -88,12 +88,62 @@ module.exports.signContract = async (req, res, next) => {
 
     if (filename) {
         const signContract = new SignContract(filename, req.name, req.name, signData, signData, req.id, req.id);
+        const createSign = await signContract.createPDF();
 
-        signContract.createPDF();
+        if (createSign) {
+            await redis.set(req.id + "_" + req.id + "_signed", 1);
+
+            return res.json({
+                status: 200,
+                message: "success sign",
+            }).status(200);
+        } else { 
+            return res.json({
+                status: 400,
+                message: "sign failure",
+            }).status(400);
+        }
     } else {
         return res.json({
             status: 400,
             message: "sign failure",
         }).status(400);
     }
-};
+}
+
+module.exports.signDownload = async (req, res, next) => {
+    try {
+        const idArr = req.id.split("-");
+        const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
+        const signer_id = await redis.get(req.id + "_" + req.id + "_signed");
+        const filename = await redis.get(id);
+
+        if (signer_id) {
+            const originalFilename = filename.split("_")[2];
+            const signContract = new SignContract(originalFilename, null, null, null, null, req.id, req.id);
+            const signFile = await signContract.getPDF();
+            
+            res.setHeader('Content-Length', signFile.stat.size);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + signFile.returnFilename);
+
+            await redis.del(req.id);
+            await redis.del(req.id + "_authed");
+            await redis.del(req.id + "_" + req.id + "_signed")
+
+            signFile.file.pipe(res);
+
+            signContract.clearContractData();
+        } else {
+            return res.json({
+                status: 400,
+                message: "no signed contract file",
+            }).status(400);
+        }
+    } catch (err) {
+        return res.json({
+            status: 400,
+            message: "no signed contract file",
+        }).status(400);
+    }
+}

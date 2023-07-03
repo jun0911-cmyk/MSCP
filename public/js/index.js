@@ -48,7 +48,7 @@ sign_btn.addEventListener("click", () => {
         `;
 
     signHandle.drawSign();
-})
+});
 
 return_btn.addEventListener("click", () => {
     if (page > 1) {

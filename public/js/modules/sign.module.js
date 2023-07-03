@@ -51,9 +51,15 @@ const drawSign = () => {
     }
 
     async function saveLines() {
-        await sendSign({
+        const res = await sendSign({
             sign: JSON.stringify(lines)
         });
+
+        if (res.status == 200 && res.message == "success sign") {
+            document.getElementById("downSignPDF").innerHTML = ` <embed id="downSignPDF" src="/contract/sign/download" type="application/pdf">`;
+        } else {
+            console.log("sign failure");
+        }
     }
 
     function setLineWidth(value) {

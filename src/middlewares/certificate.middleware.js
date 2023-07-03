@@ -4,11 +4,12 @@ const path = require("path");
 const logger = require("./log.middleware.js");
 
 class Certification {
-    constructor(id, username, name, email) {
+    constructor(id, username, name, email, sign) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
+        this.sign = sign;
     }
 
     formatObject() {
@@ -19,7 +20,7 @@ class Certification {
             name: this.name,
             email: this.email,
             date: String(date),
-            sign: "test",
+            sign: this.sign,
         };
 
         const options = {

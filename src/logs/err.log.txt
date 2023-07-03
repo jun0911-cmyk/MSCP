@@ -47,3 +47,29 @@ Stack:
 ...">{{participant_name}}}}</span>        
 -----------------------^
 Expecting 'CLOSE', 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', got 'CLOSE_RAW_BLOCK'
+[TIME : 1688395057126] [LOGGER err LOG] : PDF Parsing Error : InvalidPDFException: Invalid PDF structure
+[TIME : 1688397342451] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - TypeError: null is not an object (evaluating 'canvas1.getContext')
+Stack:
+  at undefined
+
+[TIME : 1688397411319] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - TypeError: null is not an object (evaluating 'canvas1.getContext')
+Stack:
+  at undefined
+
+[TIME : 1688397522075] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - TypeError: null is not an object (evaluating 'canvas1.getContext')
+Stack:
+  at undefined
+
+[TIME : 1688397693964] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - TypeError: undefined is not a constructor (evaluating 'lines.forEach')
+Stack:
+  at undefined
+
+[TIME : 1688397844929] [LOGGER err LOG] : PDF Create Error : Error: html-pdf: Unknown Error
+html-pdf: Evaluation - TypeError: undefined is not a constructor (evaluating 'lines.forEach')
+Stack:
+  at undefined
+

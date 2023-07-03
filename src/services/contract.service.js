@@ -3,6 +3,7 @@ const path = require("path");
 const models = require("../models");
 const redis = require("../middlewares/redis.moddleware.js");
 const logger = require("../middlewares/log.middleware.js");
+const utf8 = require("utf8");
 const pdfParser = require("pdf-parse");
 
 const fileFilter = (req) => {
@@ -13,6 +14,7 @@ const fileFilter = (req) => {
     
         const filename = req.files.contract_file.name;
         const ext = filename.split(".")[1];
+        const chFilename = filename.split(".")[0];
         
         for (let filter of ["..", "../", "./", "/"]) {
             if (filename.includes(filter)) {
@@ -23,6 +25,10 @@ const fileFilter = (req) => {
         if (ext !== "pdf") {
             return false;
         }
+
+        if (chFilename.indexOf("_") != -1) {
+            return false;
+        }
     
         return true;
     } catch (err) {
@@ -31,7 +37,6 @@ const fileFilter = (req) => {
         return false;
     }
 }
-
 
 const createFilename = async (req) => {
     if (fileFilter(req)) {

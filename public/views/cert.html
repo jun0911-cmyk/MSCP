@@ -50,9 +50,13 @@
       
       .certificate-signature {
         text-align: right;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: bold;
       }
+
+      canvas {
+            border-radius: 3%;
+        }
 
      /* font-family: 'Pinyon Script', cursive; */
     </style>
@@ -73,9 +77,33 @@
                 <p class="certificate-date">Date of issue of certificate : <span style="font-family: 'Pinyon Script', cursive;">{{date}}</span></p>
             </div>
         </div>
-        <div class="certificate-footer">
-            <p class="certificate-signature" style="margin-top: 100px;">Signature : &nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{sign}}</span></p>
+        <div class="certificate-footer" style="text-align: right;">
+          <p class="certificate-signature" style="margin-top: 10px;">Owner Signature : &nbsp;&nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{name}}</p>
+                  <canvas id="canvas" width="250" height="80"></canvas>
         </div>
     </div>
+    <h2 id="data" hidden>{{sign}}</h2>
+    <script>
+      const canvas1 = document.getElementById('canvas');
+      const ctx1 = canvas1.getContext('2d');
+
+      function drawSign(ctx, lines, canvas) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          lines.forEach(function (line) {
+              ctx.beginPath();
+              ctx.lineWidth = 3; 
+              ctx.moveTo(lines[0].x, lines[0].y);
+
+              lines.forEach(function (point) {
+                  ctx.lineTo(point.x, point.y);
+              });
+
+              ctx.stroke();
+          });
+      }
+
+      drawSign(ctx1, JSON.parse(document.getElementById("data").innerText), canvas1);
+    </script>
 </body>
 </html>

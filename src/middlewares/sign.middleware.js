@@ -1,5 +1,6 @@
 const pdf = require("pdf-creator-node");
 const fs = require("fs");
+const utf8 = require("utf8");
 const path = require("path");
 const logger = require("./log.middleware.js");
 
@@ -18,7 +19,7 @@ class SignContract {
         const date = new Date();
 
         const PDFFormatObj = {
-            contract_filename: this.contract_filename,
+            contract_filename: utf8.decode(this.contract_filename),
             organizer_name: this.organizer_name,
             participant_name: this.participant_name,
             date: String(date),
@@ -61,7 +62,7 @@ class SignContract {
 
     async getPDF() {
         try {
-            const filename = path.join(__dirname, "/../../certificate_temp/" + this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf");
+            const filename = path.join(__dirname, "/../../certSign_temp/" + this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf");
             const returnFilename = this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf";
             
             if (fs.existsSync(filename)) {
@@ -79,13 +80,16 @@ class SignContract {
         }
     }
 
-    async removePDF() {
+    async clearContractData() {
         try {
-            const file_id = this.getUserIDGenerate();
-            const filepath = path.join(__dirname, "/../../certificate_temp/" + file_id + "_" + "certificate.pdf");
+            const idArr = this.organizer_id.split("-");
+            const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
+            const signFilePath = path.join(__dirname, "/../../certSign_temp/" + this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf");
+            const contractFilePath = path.join(__dirname, "/../../contract_temp/" + id + "_" + "contract" + "_" + this.contract_filename);
 
-            if (fs.existsSync(filepath)) {
-                fs.unlinkSync(filepath);
+            if (fs.existsSync(signFilePath) && fs.existsSync(contractFilePath)) {
+                fs.unlinkSync(signFilePath);
+                fs.unlinkSync(contractFilePath);
             } else {
                 return null;
             }

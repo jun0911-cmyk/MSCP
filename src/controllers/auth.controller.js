@@ -27,10 +27,10 @@ module.exports.authNonce = async (req, res, next) => {
 };
 
 module.exports.authSignup = async (req, res, next) => {
-    const { username, email, name, address } = req.body;
+    const { username, email, name, address, sign } = req.body;
     const id = uuidv4();
     const signup = new Signup(id, username, email, name, address);
-    const certification = new Certification(id, username, name, email);
+    const certification = new Certification(id, username, name, email, sign);
 
     if (signup.isNoneData()) {
         return res.send({
