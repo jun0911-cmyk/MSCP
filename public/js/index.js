@@ -14,7 +14,7 @@ $("#next_btn").hide();
 
 file_upload_btn.addEventListener("click", async () => {
     const file = document.getElementById("inputGroupFile02").files[0];
-    const result = await fileHandle.file_upload(file,  "/contract/file/upload", "contract_file");
+    const result = await fileHandle.file_upload(file, "/contract/file/upload", "contract_file");
 
     if (result.message == "success") {
         console.log("file upload success");

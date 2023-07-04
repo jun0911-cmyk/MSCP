@@ -1,0 +1,38 @@
+.file_input {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+#file_input_content {
+    width: 20rem; 
+    margin: auto;
+}
+
+.file_input button {
+    border: none;
+    width: 15rem;
+    height: 3rem;
+    font-weight: 900;
+    border-radius: 3%;
+    font-size: 17px;
+    background-color: rgb(64, 64, 173);
+    color: aqua;
+}
+
+button:hover {
+    animation: file_upload_btn_animation;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes file_upload_btn_animation {
+    20% {
+        background-color: blue;
+    }
+    50% {
+        background-color: blue;
+    }
+    100% {
+        background-color: blue;
+    }
+}
