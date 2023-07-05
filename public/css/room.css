@@ -25,6 +25,57 @@ button:hover {
     animation-fill-mode: forwards;
 }
 
+.read_file {
+    margin-top: 1rem;
+}
+
+.contract_viewer {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: auto;
+    width: 37rem;
+    height: 50rem;
+    border-radius: 3%;
+    border-color: black;
+    background-color: #525659;
+}
+
+#sign_container {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+canvas {
+    border: 2px solid #000;
+    border-radius: 3%;
+}
+
+#sign_container button {
+    border: none;
+    width: 10rem;
+    height: 2rem;
+    font-weight: 900;
+    border-radius: 3%;
+    font-size: 13px;
+    background-color: rgb(64, 64, 173);
+    color: aqua;
+}
+
+.btn_class {
+    position: absolute;
+    margin-top: 46rem;
+    margin-left: 70rem;
+}
+
+.btn_class button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    color: black;
+    border-color: black;
+    background-color: transparent;
+}
+
 @keyframes file_upload_btn_animation {
     20% {
         background-color: blue;

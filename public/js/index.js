@@ -1,25 +1,51 @@
+import room from "./modules/room.module.js";
 import fileHandle from "./modules/file.module.js";
-import signHandle from "./modules/sign.module.js";
 
-const file_upload_btn = document.getElementById("file_upload_btn");
-const cert_verify_btn = document.getElementById("certificate_upload_btn");
-const return_btn = document.getElementById("return_btn");
-const next_btn = document.getElementById("next_btn");
-const sign_btn = document.getElementById("sign_contract_btn");
+const create_btn = document.getElementById("room_create_btn");
+const row = document.getElementById("room_table");
+const cert_verify_btn = document.getElementById("cert_verify_btn");
+const socket = io("http://localhost:9000/room/contract", { transports : ['websocket'], path: "/socket.io" });
 
-let page = 1;
+let organizer_username = "";
 
-$("#return_btn").hide();
-$("#next_btn").hide();
+const appendRooms = async () => {
+    const rooms = await room.room_list();
 
-file_upload_btn.addEventListener("click", async () => {
+    if (rooms == null) {
+        return null;
+    }
+
+    for (let i = 0; i <= rooms.length - 1; i++) {
+        row.innerHTML += `
+        <tr>
+            <th scope="row">${String(i + 1)}</th>
+            <td>${rooms[i].room_name}</td>
+            <td>${rooms[i].organizer_username}</td>
+            <td>${rooms[i].participant_username}</td>
+            <td>Activty</td>
+            <td>${rooms[i].room_people}</td>
+            <td><button id="join_room">JOIN</button></td>
+        </tr>
+        `;
+    }
+
+    $(document).on("click", "#join_room", async function () {
+        document.getElementById("popupOverlay").style.display = "block";
+        organizer_username = $(this).parent().parent().children().eq(2)[0].innerText;
+    });
+}
+
+create_btn.addEventListener("click", async () => {
+    const accesser = document.getElementById("accesser").value;
     const file = document.getElementById("inputGroupFile02").files[0];
     const result = await fileHandle.file_upload(file, "/contract/file/upload", "contract_file");
 
     if (result.message == "success") {
-        console.log("file upload success");
-    } else {
-        console.log("failure");
+        const isRoomCreated = await room.create_room(accesser);
+
+        console.log(isRoomCreated);
+    }  else {
+        console.log("room create failure");
     }
 });
 
@@ -28,36 +54,11 @@ cert_verify_btn.addEventListener("click", async () => {
     const result = await fileHandle.file_upload(file, "/contract/certificate/verify", "certificate_file");
 
     if (result.message == "Authed") {
-        $("#return_btn").show();
-        $("#next_btn").show();
-
-        fileHandle.pdfView(page);
+        socket.emit("join_room", document.cookie);
+        location.href = "/room/join/" + organizer_username;
     } else {
         console.log("certificate file no cert");
     }
 });
 
-sign_btn.addEventListener("click", () => {
-    document.getElementById("sign_container").innerHTML = `
-        <h3>Your Signature Sign</h3>
-        <canvas id="canvas" width="250" height="80"></canvas>
-        <div class="sign_btn_class">
-            <button id="redraw">Redraw Sign</button>
-            <button id="save">Sign Ok</button>
-        </div>
-        `;
-
-    signHandle.drawSign();
-});
-
-return_btn.addEventListener("click", () => {
-    if (page > 1) {
-        page = page - 1;
-        fileHandle.pdfView(page);
-    }
-});
-
-next_btn.addEventListener("click", () => {
-    page = page + 1;
-    fileHandle.pdfView(page);
-});
+appendRooms();

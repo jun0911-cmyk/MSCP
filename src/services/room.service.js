@@ -10,6 +10,29 @@ const getRooms = async () => {
     }
 }
 
+const getOrganizer = async (username) => {
+    try {
+        return await models.user.findOne({
+            where: {
+                username: username,
+            }
+        });
+    } catch (err) {
+        return null;
+    }
+}
+
+const updatePeople = async (room_id) => {
+    try {
+        await models.room.update(
+            { people: people + 1 },
+            { where: { id: room_id } }
+        );
+    } catch (err) {
+        logger("sequelize update Err", err, "err");
+    }
+}
+
 class CreateRoom {
     constructor(organizer_id, organizer_username, participant_username) {
         this.organizer_id = organizer_id;
@@ -68,4 +91,6 @@ class CreateRoom {
 }
 
 module.exports.getRooms = getRooms;
+module.exports.getOrganizer = getOrganizer;
+module.exports.updatePeople = updatePeople;
 module.exports.CreateRoom = CreateRoom;

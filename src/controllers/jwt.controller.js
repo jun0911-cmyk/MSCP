@@ -19,6 +19,32 @@ const settingReqObj = (req, dbUser) => {
 
 
 const jwtAuth = async (req, res, next) => {
+    if (req === "socket") {
+        const accessToken = res;
+
+        if (!accessToken) {
+            return null;
+        };
+
+        const payload = JWT.verify(accessToken);
+
+        if (payload == "expired" || payload == "invalid" || payload == null) {
+            return null;
+        } else {
+            const auth = new Auth(payload.publicAddress, null);
+            const row = await auth.getUser();
+
+            if (row == null) {
+                logger("user findOne Error or user not found", "err");
+                return null;
+            }
+
+            settingReqObj(next, row);
+        
+            return next;
+        };
+    }
+
     if (req.cookies.accessToken) {
         const accessToken = req.cookies.accessToken;
 

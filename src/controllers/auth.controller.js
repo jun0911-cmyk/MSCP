@@ -83,7 +83,7 @@ module.exports.authVerify = async (req, res, next) => {
     else if (authToken) {
         res.cookie("accessToken", authToken, {
             maxAge: 1000 * 60 * 60 * 3,
-            httpOnly: true,
+            httpOnly: false,
         });
 
         return res.send({

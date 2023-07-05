@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.12/pdfobject.min.js"></script>
@@ -13,30 +14,46 @@
 </head>
 <body>
     <div class="file_input">
+        <div class="input-group mb-3" style="width:30rem; margin: auto;" id="test">
+            <span class="input-group-text" id="inputGroup-sizing-default">ACCESS_USERNAME OR EMAIL</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="accesser">
+        </div>
+        <div id="keyboard.accesser"></div>
         <div class="input-group mb-3" id="file_input_content">
             <input type="file" class="form-control" id="inputGroupFile02" name="contract_file">
             <label class="input-group-text" for="inputGroupFile02">Upload</label>
         </div>
-        <button id="file_upload_btn">Upload Contract File</button>
-        <div class="input-group mb-3" id="file_input_content" style="margin-top: 
-        1rem;">
-            <input type="file" class="form-control" id="inputGroupFile03" name="certificate_file">
-            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+        <button id="room_create_btn">Create Contract Room</button>
+    </div>
+    <div class="room_list">
+        <table class="table caption-top">
+            <caption>Contract Room list</caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">name</th>
+                <th scope="col">organizer_username</th>
+                <th scope="col">participant_username</th>
+                <th scope="col">status</th>
+                <th scope="col">people</th>
+                <th scope="col">join</th>
+              </tr>
+            </thead>
+            <tbody id="room_table">
+            </tbody>
+          </table>
+    </div>
+    <div id="popupOverlay" class="overlay">
+        <div class="popup">
+          <span class="close-btn" id="close_popup">&times;</span>
+          <h2>Upload Your Certificate File</h2>
+          <div class="input-group mb-3" id="file_input_content">
+            <input type="file" class="form-control" id="inputGroupFile03" name="contract_file">
+            <label class="input-group-text" for="inputGroupFile03">Upload</label>
         </div>
-        <button id="certificate_upload_btn">Upload Cert File</button>
-        <button id="sign_contract_btn">Sign Contract</button>
-    </div>
-    <div id="sign_container">
-    </div>
-    <div class="read_file">
-        <div class="btn_class">
-            <button class="return_btn" id="return_btn"><i class="fa-solid fa-arrow-left"></i></button>
-            <button class="next_btn" id="next_btn"><i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-        <div class="contract_viewer" id="pdf_viewer">
+        <button id="cert_verify_btn">Upload</button>
         </div>
     </div>
-    <div class="downFile" id="downSignPDF">
-    </div>
+    <script src="./static/js/modules/keyboard.module.js"></script>
     <script src="./static/js/index.js" type="module"></script>
 </body>

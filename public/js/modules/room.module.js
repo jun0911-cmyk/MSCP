@@ -17,7 +17,7 @@ const create_room = async (accesser) => {
     }
 }
 
-const room_list = async (accesser) => {
+const room_list = async () => {
     const response = await $.ajax({
         url: '/room/list',
         type: 'GET',
