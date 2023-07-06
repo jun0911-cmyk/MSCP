@@ -22,11 +22,11 @@ const getOrganizer = async (username) => {
     }
 }
 
-const updatePeople = async (room_id) => {
+const updatePeople = async (room_id, room_people) => {
     try {
         await models.room.update(
-            { people: people + 1 },
-            { where: { id: room_id } }
+            { room_people: room_people },
+            { where: { organizer_id: room_id } }
         );
     } catch (err) {
         logger("sequelize update Err", err, "err");

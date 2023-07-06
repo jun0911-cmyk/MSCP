@@ -1,44 +1,31 @@
-const jwtAuth = require("./controllers/jwt.controller.js");
-const redis = require("./middlewares/redis.moddleware.js");
+const socketMiddle = require("./middlewares/socket.middleware.js");
 
-const parseUser = async (cookie) => {
-    let user = {}
+module.exports = (io) => {
+    io.on("connection",  function (socket) {
+        socket.on("join_room", async (cookie, organizer_username) => {
+            try {
+                const user = await socketMiddle.parseUser(cookie);
 
-    const accessToken = cookie.split("=")[1];
-    
-    user = await jwtAuth("socket", accessToken, user);     
-    
-    if (user == null) {
-        return null;
-    }
+                if (user == null) {
+                    socket.emit("join_room", "fail join room, user not auth");
+                }
 
-    try {
-        const auth = await redis.get(user.id + "_authed");
+                const roomCheck = await socketMiddle.checkRoomUser(organizer_username, user);
 
-        if (auth == null || auth == undefined) {
-            return null;
-        }
+                if (roomCheck == null) {
+                    socket.emit("join_room", "fail join room, room not found");     
+                }
 
-        return user;
-    } catch (err) {
-        return null;
-    }
-}
+                const roomName = roomCheck.room.dataValues.organizer_id + "_contract_room"
 
-module.exports = (io, cookieParser) => {
-    const room = io.of("/room/contract");
+                socket.join(roomName);
 
-    room.use((socket, next) => {
-        cookieParser()(socket.request, socket.request.res || {}, next);
-    }).on("connection",  function (socket) {
-        socket.on("join_room", async (cookie) => {
-            const user = await parseUser(cookie);
+                await socketMiddle.updatePeople(roomCheck.room.dataValues.organizer_id, io.sockets.adapter.rooms.get(roomName).size);
 
-            if (user == null) {
-                socket.emit("join_room", "fail join room, user not auth");
+                socket.emit("join_room", `room join success`);
+            } catch (err) {
+                socket.emit("join_room", "fail join room, room not found");
             }
-
-            
         });
     });
 };

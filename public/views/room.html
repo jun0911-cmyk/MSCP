@@ -26,7 +26,30 @@
         <div class="contract_viewer" id="pdf_viewer">
         </div>
     </div>
+    <div class="chat-container">
+        <div class="chat-header">
+          <h2>Contract Chatting</h2>
+        </div>
+        <div class="chat-messages">
+          <div class="chat-message">
+            <span class="sender">사용자1:</span> 안녕하세요!
+            <span class="timestamp">12:34 PM</span>
+          </div>
+          <div class="chat-message">
+            <span class="sender">사용자2:</span> 반갑습니다.
+            <span class="timestamp">12:35 PM</span>
+          </div>
+        </div>
+        <div class="chat-input">
+          <form id="chatForm">
+            <input type="text" class="form-control" id="chatting_message" placeholder="input yout message">
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+    </div>
+    <div id="keyboard.chatting_message"></div>
     <div class="downFile" id="downSignPDF">
     </div>
+    <script src="/static/js/modules/keyboard.module.js" type="module"></script>
     <script src="/static/js/room.js" type="module"></script>
 </body>

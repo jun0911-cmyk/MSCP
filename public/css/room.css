@@ -76,6 +76,68 @@ canvas {
     background-color: transparent;
 }
 
+.chat-container {
+    width: 500px;
+    height: 650px;
+    margin: 20px auto;
+    position: absolute;
+    margin-left: 80rem;
+    margin-top: -46rem;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+  
+  .chat-header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .chat-messages {
+    height: 480px;
+    padding: 10px;
+    overflow-y: scroll;
+  }
+  
+  .chat-message {
+    margin-bottom: 10px;
+  }
+  
+  .chat-message .sender {
+    font-weight: bold;
+  }
+  
+  .chat-message .timestamp {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .chat-input {
+    padding: 10px;
+  }
+  
+  .chat-input input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+  }
+  
+  .chat-input input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .chat-input input[type="submit"]:hover {
+    background-color: #555;
+  }
+
 @keyframes file_upload_btn_animation {
     20% {
         background-color: blue;

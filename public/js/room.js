@@ -4,12 +4,14 @@ import signHandle from "./modules/sign.module.js";
 const return_btn = document.getElementById("return_btn");
 const next_btn = document.getElementById("next_btn");
 const sign_btn = document.getElementById("sign_contract_btn");
-const socket = io("http://localhost:9000/room/contract", { transports : ['websocket'], path: "/socket.io" });
+const socket = io("http://localhost:9000", { transports : ['websocket'], path: "/socket.io" });
 
 let page = 1;
 
 $("#return_btn").hide();
 $("#next_btn").hide();
+
+socket.emit("join_room", document.cookie, location.pathname.split("/")[3]);
 
 /*
 cert_verify_btn.addEventListener("click", async () => {
@@ -50,4 +52,10 @@ return_btn.addEventListener("click", () => {
 next_btn.addEventListener("click", () => {
     page = page + 1;
     fileHandle.pdfView(page);
+});
+
+socket.on("join_room", (message) => {
+    if (message.includes("fail")) {
+        location.href = "/";
+    }
 });

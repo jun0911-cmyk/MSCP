@@ -4,7 +4,7 @@ import fileHandle from "./modules/file.module.js";
 const create_btn = document.getElementById("room_create_btn");
 const row = document.getElementById("room_table");
 const cert_verify_btn = document.getElementById("cert_verify_btn");
-const socket = io("http://localhost:9000/room/contract", { transports : ['websocket'], path: "/socket.io" });
+const socket = io("http://localhost:9000", { transports : ['websocket'], path: "/socket.io" });
 
 let organizer_username = "";
 
@@ -54,7 +54,6 @@ cert_verify_btn.addEventListener("click", async () => {
     const result = await fileHandle.file_upload(file, "/contract/certificate/verify", "certificate_file");
 
     if (result.message == "Authed") {
-        socket.emit("join_room", document.cookie);
         location.href = "/room/join/" + organizer_username;
     } else {
         console.log("certificate file no cert");
