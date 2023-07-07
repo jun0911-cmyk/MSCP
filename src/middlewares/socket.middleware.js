@@ -5,7 +5,7 @@ const { getOrganizer, CreateRoom, updatePeople } = require("../services/room.ser
 module.exports.updatePeople = updatePeople;
 
 
-module.exports.parseUser = async (cookie) => {
+const parseUser = async (cookie) => {
     let user = {}
 
     const accessToken = cookie.split("=")[1];
@@ -29,7 +29,7 @@ module.exports.parseUser = async (cookie) => {
     }
 }
 
-module.exports.checkRoomUser = async (organizer_username, user) => {
+const checkRoomUser = async (organizer_username, user) => {
     const participant_username = user.username;
     const organizer = await getOrganizer(organizer_username);
 
@@ -69,5 +69,30 @@ module.exports.checkRoomUser = async (organizer_username, user) => {
         }
     } catch (err) {
         return null;
+    }
+}
+
+module.exports.authRoom = async (cookie, organizer_username) => {
+    try {
+        const user = await parseUser(cookie);
+
+        if (user == null) {
+            return null
+        }
+
+        const roomCheck = await checkRoomUser(organizer_username, user);
+
+        if (roomCheck == null) {
+            return null;    
+        }
+
+        const roomData = roomCheck.room
+
+        return {
+            roomData,
+            user
+        };
+    } catch (err) {
+        return null
     }
 }
