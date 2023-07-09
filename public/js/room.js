@@ -90,3 +90,14 @@ socket.on("join_room", (message, username) => {
     `;
     }
 });
+
+socket.on("exited_room", (username) => {
+    if (username) {
+        chat_form.innerHTML += `
+        <div class="chat-message">
+            <span class="sender">System:</span> exited room to ${username}
+            <span class="timestamp">System</span>
+        </div>
+        `;
+    }
+});
