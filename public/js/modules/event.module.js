@@ -16,7 +16,7 @@ const socketEvent = (socket) => {
         `;
     });
 
-    socket.on("join_room", (message, username) => {
+    socket.on("join_room", (message, username, size) => {
         if (message.includes("fail")) {
             location.href = "/";
         } else {
@@ -27,7 +27,7 @@ const socketEvent = (socket) => {
                 <span class="sender">System:</span> join to ${username}
                 <span class="timestamp">System</span>
             </div>
-        `;
+            `;
         }
     });
 
@@ -43,23 +43,17 @@ const socketEvent = (socket) => {
     });
 
     socket.on("rtc_getOffer", (sdp) => {
-        if (sdp != "not authed user") {
-            RTC.createAnswer(sdp, socket);     
-        }
+        RTC.createAnswer(sdp, socket);
     });
 
 
     socket.on("rtc_getAnswer", (sdp) => {
-        if (sdp != "not authed user") {
-            RTC.setRemoteSDP(sdp);     
-        }
+        RTC.setRemoteSDP(sdp);     
     });
 
 
     socket.on("rtc_getCandidate", (candidate) => {
-        if (candidate != "not authed user") {
-            RTC.addCandidate(candidate);     
-        }
+        RTC.addCandidate(candidate);     
     });
 }
 

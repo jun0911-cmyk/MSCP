@@ -8,7 +8,7 @@ const next_btn = document.getElementById("next_btn");
 const sign_btn = document.getElementById("sign_contract_btn");
 const chat_btn = document.getElementById("send_chat_btn");
 
-const socket = window.io("https://192.168.35.16:9000", { transports : ['polling'], path: "/socket.io" });
+const socket = window.io("https://219.255.230.120:8000", { transports : ['polling'], path: "/socket.io" });
 
 let page = 1;
 

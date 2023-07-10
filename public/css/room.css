@@ -25,6 +25,25 @@ button:hover {
     animation-fill-mode: forwards;
 }
 
+.mute_btn {
+  display: flex;
+  margin-left: 20rem;
+}
+
+.toggle-button {
+  margin-left: 0.5rem;
+  font-weight: 900;
+  color: white;
+  width: 140px;
+  height: 50px;
+  border-radius: 3%;
+  background-color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 .webRTC {
     text-align: center;
     margin-top: 2rem;

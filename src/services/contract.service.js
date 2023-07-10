@@ -109,9 +109,9 @@ const getFile = (filename) => {
 const convertPDF2JSON = async (file) => {
     try {
         const pdf = await pdfParser(file.data);
-        const pdfData = pdf.text.split("\t");
-        const id = pdfData[75].split("\n")[0];
-        const username = pdfData[78].split("\n")[0];
+
+        const id = pdf.text.split(":")[1].split("\n")[0].trim();
+        const username = pdf.text.split(":")[2].split("\n")[0].trim();
 
         return {
             id, username

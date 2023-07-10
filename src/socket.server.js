@@ -22,7 +22,7 @@ module.exports = (io) => {
 
             await socketMiddle.updatePeople(authData.roomData.dataValues.organizer_id, io.sockets.adapter.rooms.get(roomName).size);
 
-            io.to(roomName).emit("join_room", `room join success`, authData.user.username);
+            io.sockets.to(socket.id).emit("join_room", `room join success`, authData.user.username, io.sockets.adapter.rooms.get(roomName).size);
         });
 
         socket.on("message_send", async (cookie, organizer_username, message) => {
@@ -47,9 +47,7 @@ module.exports = (io) => {
             const roomData = roomToUser[socket.id];
             
             if (roomData) {
-                io.to(roomData.roomName).emit("rtc_getOffer", sdp);
-            } else {
-                io.to(roomData.roomName).emit("rtc_getOffer", "not authed user");
+                socket.broadcast.emit("rtc_getOffer", sdp);
             }
         });
 
@@ -57,9 +55,7 @@ module.exports = (io) => {
             const roomData = roomToUser[socket.id];
 
             if (roomData) {
-                io.to(roomData.roomName).emit("rtc_getAnswer", sdp);
-            } else {
-                io.to(roomData.roomName).emit("rtc_getAnswer", "not authed user");
+                socket.broadcast.emit("rtc_getAnswer", sdp);
             }
         });
 
@@ -67,9 +63,7 @@ module.exports = (io) => {
             const roomData = roomToUser[socket.id];
 
             if (roomData) {
-                io.to(roomData.roomName).emit("rtc_getCandidate", candidate);
-            } else {
-                io.to(roomData.roomName).emit("rtc_getCandidate", "not authed user");
+                socket.broadcast.emit("rtc_getCandidate", candidate);
             }
         });
 
