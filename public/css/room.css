@@ -25,6 +25,25 @@ button:hover {
     animation-fill-mode: forwards;
 }
 
+.webRTC {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.webRTC #local {
+    background-color: #303436;
+    height: 22.5rem;
+    width: 30rem;
+    border-radius: 1rem;
+}
+
+.webRTC #remote {
+    background-color: #303436;
+    width: 30rem;
+    height: 22.5rem;
+    border-radius: 1rem;
+}
+
 .read_file {
     margin-top: 1rem;
 }

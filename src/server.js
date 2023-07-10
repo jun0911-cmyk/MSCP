@@ -4,19 +4,24 @@ const cookieParser = require("cookie-parser");
 const logging = require("./middlewares/log.middleware.js");
 const fileUpload = require("express-fileupload");
 const logger = require("morgan");
+const fs = require("fs");
 
 require("dotenv").config({ path: __dirname + "/config/.env" });
 require("./config/sequelize.connect.js");
 
 const app = express();
 const port = process.env.PORT;
+const credentials = {
+    key: fs.readFileSync("./config/CA.key"),
+    cert: fs.readFileSync("./config/CA.crt"),
+};
 
 const authRouter = require("./routes/auth.route.js");
 const indexRouter = require("./routes/index.route.js");
 const contractRouter = require("./routes/contract.route.js");
 const roomRouter = require("./routes/room.route.js");
 
-const http = require("http").createServer(app);
+const http = require("https").createServer(credentials, app);
 const io = require("socket.io")(http, { path: "/socket.io" });
 
 require("./socket.server.js")(io, cookieParser);

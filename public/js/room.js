@@ -1,19 +1,22 @@
 import fileHandle from "./modules/file.module.js";
 import signHandle from "./modules/sign.module.js";
+import rtc from "./modules/webRTC.module.js";
+import event from "./modules/event.module.js";
 
 const return_btn = document.getElementById("return_btn");
 const next_btn = document.getElementById("next_btn");
 const sign_btn = document.getElementById("sign_contract_btn");
 const chat_btn = document.getElementById("send_chat_btn");
-const chat_form = document.getElementById("chat-form");
-const socket = io("http://localhost:9000", { transports : ['websocket'], path: "/socket.io" });
+
+const socket = window.io("https://192.168.35.16:9000", { transports : ['polling'], path: "/socket.io" });
 
 let page = 1;
 
+rtc.webRTC(socket);
+event.socketEvent(socket);
+
 $("#return_btn").hide();
 $("#next_btn").hide();
-
-socket.emit("join_room", document.cookie, location.pathname.split("/")[3]);
 
 /*
 cert_verify_btn.addEventListener("click", async () => {
@@ -63,41 +66,4 @@ chat_btn.addEventListener("click", () => {
     socket.emit("message_send", document.cookie, organizer_username, msg);
 
     document.getElementById("chatting_message").value = "";
-});
-
-socket.on("message", (message) => {
-    const username = message.split(":")[1];
-    const chat_message = message.split(":")[2];
-    const time = message.split(":")[3] + ":" + message.split(":")[4];
-
-    chat_form.innerHTML += `
-        <div class="chat-message">
-            <span class="sender">${username}:</span> ${chat_message}
-            <span class="timestamp">${time}</span>
-        </div>
-    `;
-});
-
-socket.on("join_room", (message, username) => {
-    if (message.includes("fail")) {
-        location.href = "/";
-    } else {
-        chat_form.innerHTML += `
-        <div class="chat-message">
-            <span class="sender">System:</span> join to ${username}
-            <span class="timestamp">System</span>
-        </div>
-    `;
-    }
-});
-
-socket.on("exited_room", (username) => {
-    if (username) {
-        chat_form.innerHTML += `
-        <div class="chat-message">
-            <span class="sender">System:</span> exited room to ${username}
-            <span class="timestamp">System</span>
-        </div>
-        `;
-    }
 });

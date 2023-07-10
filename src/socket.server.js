@@ -43,13 +43,41 @@ module.exports = (io) => {
             io.to(roomName).emit("message", `message:${authData.user.username}:${message}:${time}`);
         });
 
-        socket.on("disconnect", async () => {
+        socket.on("rtc_offer", (sdp) => {
+            const roomData = roomToUser[socket.id];
+            
+            if (roomData) {
+                io.to(roomData.roomName).emit("rtc_getOffer", sdp);
+            } else {
+                io.to(roomData.roomName).emit("rtc_getOffer", "not authed user");
+            }
+        });
+
+        socket.on("rtc_answer", (sdp) => {
             const roomData = roomToUser[socket.id];
 
             if (roomData) {
-                const room_people = Number(roomData.room.room_people);
-                
-                let room_update_people = String(room_people - 1);
+                io.to(roomData.roomName).emit("rtc_getAnswer", sdp);
+            } else {
+                io.to(roomData.roomName).emit("rtc_getAnswer", "not authed user");
+            }
+        });
+
+        socket.on("rtc_candidate", (candidate) => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData) {
+                io.to(roomData.roomName).emit("rtc_getCandidate", candidate);
+            } else {
+                io.to(roomData.roomName).emit("rtc_getCandidate", "not authed user");
+            }
+        });
+
+        socket.on("disconnecting", async () => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData) {
+                let room_update_people = String(io.sockets.adapter.rooms.get(roomData.roomName).size - 1);
 
                 if (Number(room_update_people) < 0) {
                     room_update_people = String(0);

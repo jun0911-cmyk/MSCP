@@ -4,7 +4,6 @@ import fileHandle from "./modules/file.module.js";
 const create_btn = document.getElementById("room_create_btn");
 const row = document.getElementById("room_table");
 const cert_verify_btn = document.getElementById("cert_verify_btn");
-const socket = io("http://localhost:9000", { transports : ['websocket'], path: "/socket.io" });
 
 let organizer_username = "";
 
