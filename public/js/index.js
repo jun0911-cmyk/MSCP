@@ -37,7 +37,7 @@ const appendRooms = async () => {
 create_btn.addEventListener("click", async () => {
     const accesser = document.getElementById("accesser").value;
     const file = document.getElementById("inputGroupFile02").files[0];
-    const result = await fileHandle.file_upload(file, accesser, "/contract/file/upload", "contract_file");
+    const result = await fileHandle.file_upload(file, "/contract/file/upload", "contract_file");
 
     if (result.message == "success") {
         const isRoomCreated = await room.create_room(accesser);

@@ -3,7 +3,7 @@ const path = require("path");
 const models = require("../models");
 const redis = require("../middlewares/redis.moddleware.js");
 const logger = require("../middlewares/log.middleware.js");
-const { CreateRoom } = require("./room.service.js");
+const { getRoomFromUser } = require("./room.service.js");
 const utf8 = require("utf8");
 const pdfParser = require("pdf-parse");
 
@@ -39,38 +39,12 @@ const fileFilter = (req) => {
     }
 }
 
-const getParticipantId = async (accesser) => {
-    try {
-        const createRoom = new CreateRoom(null, null, accesser);
-        const participant = await createRoom.checkParticipant();
-
-        if (participant == null) {
-            return null;
-        }
-
-        const participant_id = participant.dataValues.id;
-        const idArr = participant_id.split("-");
-
-        return idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
-    } catch (err) {
-        logger("participant parsing err : " + err, "err");
-
-        return null
-    }
-}
-
 const createFilename = async (req) => {
-    if (fileFilter(req) && req.body.accesser) {
+    if (fileFilter(req)) {
         const idArr = req.id.split("-");
         const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
         const filename = id + "_" + "contract" + "_" + req.files.contract_file.name;
-        const accesser = await getParticipantId(req.body.accesser);
 
-        if (accesser == null) {
-            return null;
-        }
-
-        await redis.set(accesser, filename);
         await redis.set(id, filename);
 
         return filename;
@@ -109,7 +83,13 @@ const getFilename = async (user_id) => {
             file_id += certID[i];
         }
 
-        const filename = await redis.get(file_id);
+        const roomData = await getRoomFromUser(certID);
+
+        if (roomData == null) {
+            return null;
+        }
+
+        const filename = await redis.get(roomData.dataValues.organizer_id);
 
         if (filename) {
             return filename;

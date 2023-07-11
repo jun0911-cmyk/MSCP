@@ -1,5 +1,5 @@
 const path = require("path");
-const { CreateRoom, getRooms, getOrganizer, updatePeople } = require("../services/room.service.js");
+const { CreateRoom, getRooms, getOrganizer, getRoomFromUser } = require("../services/room.service.js");
 const redis = require("../middlewares/redis.moddleware.js");
 
 const generateRooms = async (rooms) => {
@@ -47,7 +47,15 @@ module.exports.createRoom = async (req, res, next) => {
 
     const createRoom = new CreateRoom(organizer_id, organizer_username, participant_username);
 
-    if (await createRoom.existRoom() !== null) {
+    const participant = await createRoom.checkParticipant();
+
+    let participantExist = null;
+
+    if (participant !== null) {
+        participantExist = await getRoomFromUser(participant.dataValues.id);
+    }
+
+    if (await createRoom.existRoom() !== null || participantExist !== null) {
         return res.json({
             status: 400,
             message: "room exists",
