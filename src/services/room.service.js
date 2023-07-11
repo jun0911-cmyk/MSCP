@@ -1,4 +1,5 @@
 const models = require("../models");
+const { Op }  = require("sequelize");
 const logger = require("../middlewares/log.middleware.js");
 
 const getRooms = async () => {
@@ -15,6 +16,25 @@ const getOrganizer = async (username) => {
         return await models.user.findOne({
             where: {
                 username: username,
+            }
+        });
+    } catch (err) {
+        return null;
+    }
+}
+
+const getRoomFromUser = async (id) => {
+    try {
+        return await models.room.findOne({
+            where: {
+                [Op.or]: [
+                    {
+                        organizer_id: id
+                    },
+                    {
+                        participant_id: id
+                    }
+                ]
             }
         });
     } catch (err) {
@@ -56,14 +76,21 @@ class CreateRoom {
         try {
             return await models.room.findOne({
                 where: {
-                    organizer_id: this.organizer_id,
+                    [Op.or]: [
+                        {
+                            organizer_id: this.organizer_id
+                        },
+                        {
+                            participant_id: this.organizer_id
+                        }
+                    ]
                 }
             });
         } catch (err) {
             return null;
         }
     }
-
+    
     async create() {
         const participant = await this.checkParticipant();
 
@@ -92,5 +119,6 @@ class CreateRoom {
 
 module.exports.getRooms = getRooms;
 module.exports.getOrganizer = getOrganizer;
+module.exports.getRoomFromUser = getRoomFromUser;
 module.exports.updatePeople = updatePeople;
 module.exports.CreateRoom = CreateRoom;

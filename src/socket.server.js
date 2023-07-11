@@ -55,7 +55,7 @@ module.exports = (io) => {
             const roomData = roomToUser[socket.id];
             
             if (roomData) {
-                socket.broadcast.emit("rtc_getOffer", sdp);
+                socket.broadcast.to(roomData.roomName).emit("rtc_getOffer", sdp);
             }
         });
 
@@ -63,7 +63,7 @@ module.exports = (io) => {
             const roomData = roomToUser[socket.id];
 
             if (roomData) {
-                socket.broadcast.emit("rtc_getAnswer", sdp);
+                socket.broadcast.to(roomData.roomName).emit("rtc_getAnswer", sdp);
             }
         });
 
@@ -71,7 +71,7 @@ module.exports = (io) => {
             const roomData = roomToUser[socket.id];
 
             if (roomData) {
-                socket.broadcast.emit("rtc_getCandidate", candidate);
+                socket.broadcast.to(roomData.roomName).emit("rtc_getCandidate", candidate);
             }
         });
 
