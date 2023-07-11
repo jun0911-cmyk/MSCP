@@ -13,7 +13,7 @@ const socket = window.io("https://219.255.230.120:8000", { transports : ['pollin
 let page = 1;
 
 rtc.webRTC(socket);
-event.socketEvent(socket);
+event.socketEvent(socket, page);
 
 $("#return_btn").hide();
 $("#next_btn").hide();

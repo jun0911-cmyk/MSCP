@@ -1,6 +1,7 @@
 import RTC from "./webRTC.module.js";
+import fileHandle from "./file.module.js";
 
-const socketEvent = (socket) => {
+const socketEvent = (socket, page) => {
     const chat_form = document.getElementById("chat-form");
 
     socket.on("message", (message) => {
@@ -16,19 +17,27 @@ const socketEvent = (socket) => {
         `;
     });
 
-    socket.on("join_room", (message, username, size) => {
+    socket.on("join_room", (message) => {
         if (message.includes("fail")) {
             location.href = "/";
         } else {
             RTC.createOffer(socket);
+            fileHandle.pdfView(page);
 
-            chat_form.innerHTML += `
+            $("#return_btn").show();
+            $("#next_btn").show();
+
+            socket.emit("append_join_msg");
+        }
+    });
+
+    socket.on("append_join_msg", (username) => {
+        chat_form.innerHTML += `
             <div class="chat-message">
                 <span class="sender">System:</span> join to ${username}
                 <span class="timestamp">System</span>
             </div>
             `;
-        }
     });
 
     socket.on("exited_room", (username) => {

@@ -1,14 +1,15 @@
-const createForm = (file, identifier) => {
+const createForm = (file, accesser, identifier) => {
     const formData = new FormData();
 
     formData.append(identifier, file);
+    formData.append("accesser", accesser);
     formData.append("name", file.name);
     
     return formData;
 }
 
-const file_upload = async (file, url, identifier) => {
-    const formData = await createForm(file, identifier);
+const file_upload = async (file, accesser, url, identifier) => {
+    const formData = await createForm(file, accesser, identifier);
 
     const response = await $.ajax({
         type: "POST",
