@@ -25,6 +25,14 @@ module.exports = (io) => {
             io.sockets.to(socket.id).emit("join_room", `room join success`, authData.user.username, io.sockets.adapter.rooms.get(roomName).size);
         });
 
+        socket.on("append_join_msg", () => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData) {
+                io.to(roomData.roomName).emit("append_join_msg", roomData.user.username);
+            }
+        });
+
         socket.on("message_send", async (cookie, organizer_username, message) => {
             const authData = await socketMiddle.authRoom(cookie, organizer_username);
             const date = new Date();

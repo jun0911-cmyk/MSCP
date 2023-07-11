@@ -94,3 +94,8 @@ Stack:
 [TIME : 1688970310977] [LOGGER err LOG] : PDF Parsing Error : TypeError: Cannot read properties of undefined (reading 'split')
 [TIME : 1688970371174] [LOGGER err LOG] : PDF Parsing Error : TypeError: Cannot read properties of undefined (reading 'split')
 [TIME : 1688970393446] [LOGGER err LOG] : PDF Parsing Error : TypeError: Cannot read properties of undefined (reading 'split')
+[TIME : 1689072778190] [LOGGER err LOG] : participant parsing err : ReferenceError: req is not defined
+[TIME : 1689073137895] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open '/Users/user/Desktop/Projects/Meta_Safe_Contract_Platform/contract_temp/8d2abe5450b44523ab1d7a905eab4d1c_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
+[TIME : 1689073334871] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open '/Users/user/Desktop/Projects/Meta_Safe_Contract_Platform/contract_temp/8d2abe5450b44523ab1d7a905eab4d1c_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
+[TIME : 1689073361797] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open '/Users/user/Desktop/Projects/Meta_Safe_Contract_Platform/contract_temp/8d2abe5450b44523ab1d7a905eab4d1c_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
+[TIME : 1689073379715] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open '/Users/user/Desktop/Projects/Meta_Safe_Contract_Platform/contract_temp/8d2abe5450b44523ab1d7a905eab4d1c_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
