@@ -1,5 +1,5 @@
 const path = require("path");
-const { CreateRoom, getRooms, getOrganizer, getRoomFromUser } = require("../services/room.service.js");
+const { CreateRoom, getRooms, getOrganizer, getRoomFromUser, checkRoom } = require("../services/room.service.js");
 const redis = require("../middlewares/redis.moddleware.js");
 
 const generateRooms = async (rooms) => {
@@ -87,8 +87,7 @@ module.exports.joinRoom = async (req, res, next) => {
     }
 
     const organizer_id = organizer.dataValues.id;
-    const createRoom = new CreateRoom(organizer_id, null, null);
-    const room = await createRoom.existRoom();
+    const room = await checkRoom(organizer_id);
 
     if (room == null) {
         return res.redirect("/");

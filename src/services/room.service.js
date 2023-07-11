@@ -42,6 +42,18 @@ const getRoomFromUser = async (id) => {
     }
 }
 
+const checkRoom = async (id) => {
+    try {
+        return await models.room.findOne({
+            where: {
+                organizer_id: id,
+            }
+        });
+    } catch (err) {
+        return null;
+    }
+}
+
 const updatePeople = async (room_id, room_people) => {
     try {
         await models.room.update(
@@ -121,4 +133,5 @@ module.exports.getRooms = getRooms;
 module.exports.getOrganizer = getOrganizer;
 module.exports.getRoomFromUser = getRoomFromUser;
 module.exports.updatePeople = updatePeople;
+module.exports.checkRoom = checkRoom;
 module.exports.CreateRoom = CreateRoom;

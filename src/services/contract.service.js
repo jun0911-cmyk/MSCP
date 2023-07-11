@@ -75,21 +75,21 @@ const createPDF = async (req) => {
 const getFilename = async (user_id) => {
     try {
         const certAuth = await redis.get(user_id + "_authed");
-        const certID = certAuth.split("_")[1].split("-");
+        const roomData = await getRoomFromUser(certAuth.split("_")[1]);
 
         let file_id = "";
-
-        for (let i = 0; i <= 4; i++) {
-            file_id += certID[i];
-        }
-
-        const roomData = await getRoomFromUser(certID);
 
         if (roomData == null) {
             return null;
         }
 
-        const filename = await redis.get(roomData.dataValues.organizer_id);
+        const id = roomData.dataValues.organizer_id.split("-");
+
+        for (let i = 0; i <= 4; i++) {
+            file_id += id[i];
+        }
+
+        const filename = await redis.get(file_id);
 
         if (filename) {
             return filename;

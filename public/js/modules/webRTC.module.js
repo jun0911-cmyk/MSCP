@@ -91,6 +91,10 @@ const webRTC = (socket) => {
                 socket.emit("rtc_candidate", event.candidate); 
             }
         }
+
+        pc.onconnectionstatechange = (event) => {
+            console.log(pc.iceConnectionState);
+        }
     
         pc.ontrack = (event) => {
             remoteVideo.srcObject = event.streams[0];
@@ -106,6 +110,7 @@ const createOffer = (socket) => {
     pc.createOffer({
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
+        iceRestart: true
     }).then((offer) => {
         pc.setLocalDescription(new RTCSessionDescription(offer));
 
@@ -122,6 +127,7 @@ const createAnswer = (offer, socket) => {
         pc.createAnswer({
             offerToReceiveAudio: true,
             offerToReceiveVideo: true,
+            iceRestart: true
         }).then((answer) => {
             pc.setLocalDescription(new RTCSessionDescription(answer));
 
