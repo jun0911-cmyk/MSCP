@@ -18,33 +18,13 @@ event.socketEvent(socket, page);
 $("#return_btn").hide();
 $("#next_btn").hide();
 
-/*
-cert_verify_btn.addEventListener("click", async () => {
-    const file = document.getElementById("inputGroupFile03").files[0];
-    const result = await fileHandle.file_upload(file, "/contract/certificate/verify", "certificate_file");
-
-    if (result.message == "Authed") {
-        $("#return_btn").show();
-        $("#next_btn").show();
-
-        fileHandle.pdfView(page);
-    } else {
-        console.log("certificate file no cert");
-    }
-});
-*/
-
 sign_btn.addEventListener("click", () => {
-    document.getElementById("sign_container").innerHTML = `
-        <h3>Your Signature Sign</h3>
-        <canvas id="canvas" width="250" height="80"></canvas>
-        <div class="sign_btn_class">
-            <button id="redraw">Redraw Sign</button>
-            <button id="save">Sign Ok</button>
-        </div>
-        `;
-
-    signHandle.drawSign();
+    document.getElementById("sign_msg").innerText = `Are you request contract file sign?`;
+    document.getElementById("popupOverlay").style.display = "block";
+    document.getElementById("accept_sign_btn").addEventListener("click", () => {
+        document.getElementById("sign_msg").innerText = `Waiting Another Present Accept...`;
+        socket.emit("contract_sign_request");
+    });
 });
 
 return_btn.addEventListener("click", () => {

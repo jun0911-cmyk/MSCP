@@ -51,11 +51,18 @@ const drawSign = () => {
     }
 
     async function saveLines() {
+        document.getElementById("contract_sign_content").innerHTML = `
+        <p>create contract certificate file.. and Verify NFT...</p>
+        `;
+
         const res = await sendSign({
             sign: JSON.stringify(lines)
         });
 
         if (res.status == 200 && res.message == "success sign") {
+            document.getElementById("contract_sign_content").innerHTML = `
+                <p>successed contract certificate file and Verify NFT file success</p>
+            `;
             document.getElementById("downSignPDF").innerHTML = ` <embed id="downSignPDF" src="/contract/sign/download" type="application/pdf">`;
         } else {
             console.log("sign failure");
@@ -72,30 +79,3 @@ const drawSign = () => {
 export default {
     drawSign,
 }
-
-/*
-
-function loadLines() {
-    const savedLines = JSON.parse(localStorage.getItem('lines'));
-    if (savedLines && Array.isArray(savedLines)) {
-        lines = savedLines;
-        redrawLines();
-}
-}
-
-function redrawLines() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    lines.forEach(function (line) {
-        ctx.beginPath();
-        ctx.lineWidth = 3; 
-        ctx.moveTo(lines[0].x, lines[0].y);
-
-        lines.forEach(function (point) {
-            ctx.lineTo(point.x, point.y);
-        });
-
-        ctx.stroke();
-    });
-}
-*/

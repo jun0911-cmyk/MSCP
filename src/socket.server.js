@@ -75,6 +75,30 @@ module.exports = (io) => {
             }
         });
 
+        socket.on("contract_sign_request", async () => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData) {
+                socket.broadcast.to(roomData.roomName).emit("contract_sign_request", roomData.user.username);
+            }
+        });
+
+        socket.on("contract_sign_request_accept", async (contractor_username) => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData) {
+               if (roomData.room.organizer_username == contractor_username) {
+                    roomToUser[socket.id]["role"] = "participant";
+                    
+                    io.to(roomData.roomName).emit("contract_sign_request_accept");
+               } else if (roomData.room.participant_username == contractor_username) {
+                    roomToUser[socket.id]["role"] = "organizer";
+
+                    io.to(roomData.roomName).emit("contract_sign_request_accept");
+               }
+            }
+        });
+
         socket.on("disconnecting", async () => {
             const roomData = roomToUser[socket.id];
 

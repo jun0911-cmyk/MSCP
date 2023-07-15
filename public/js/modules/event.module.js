@@ -1,5 +1,6 @@
 import RTC from "./webRTC.module.js";
 import fileHandle from "./file.module.js";
+import signHandle from "./sign.module.js";
 
 const socketEvent = (socket, page) => {
     const chat_form = document.getElementById("chat-form");
@@ -63,6 +64,30 @@ const socketEvent = (socket, page) => {
 
     socket.on("rtc_getCandidate", (candidate) => {
         RTC.addCandidate(candidate);     
+    });
+
+    socket.on("contract_sign_request", (contractor_username) => {
+        document.getElementById("sign_msg").innerText = `Request Sign To Contract File, Request user : ${contractor_username}`;
+        document.getElementById("popupOverlay").style.display = "block";
+        document.getElementById("accept_sign_btn").addEventListener("click", () => {
+            socket.emit("contract_sign_request_accept", contractor_username);
+        });
+    });
+
+    socket.on("contract_sign_request_accept", () => {
+        $("#accept_sign_btn").hide();
+
+        document.getElementById("sign_msg").innerText = "";
+        document.getElementById("contract_sign_content").innerHTML = `
+        <p>Your Signature Sign For Sign</p>
+        <canvas id="canvas" width="250" height="80"></canvas>
+        <div class="sign_btn_class">
+            <button id="redraw">Redraw Sign</button>
+            <button id="save">Sign</button>
+        </div>
+        `;
+
+        signHandle.drawSign();
     });
 }
 
