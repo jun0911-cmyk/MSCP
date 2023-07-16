@@ -87,7 +87,22 @@ const socketEvent = (socket, page) => {
         </div>
         `;
 
-        signHandle.drawSign();
+        signHandle.drawSign(socket);
+    });
+
+    socket.on("contract_sign_request_failure", (message) => { 
+        if (message == "not enough room user") {
+            $("#accept_sign_btn").hide();
+
+            document.getElementById("sign_msg").innerText = "Sign Request Failure : not enough in room user";
+        }
+    });
+
+    socket.on("contract_sign_success", () => {
+        document.getElementById("contract_sign_content").innerHTML = `
+            <p>successed contract certificate file and Verify NFT file success </p>
+        `;
+        document.getElementById("downSignPDF").innerHTML = ` <embed id="downSignPDF" src="/contract/sign/download" type="application/pdf">`;
     });
 }
 

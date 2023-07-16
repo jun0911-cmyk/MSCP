@@ -72,12 +72,13 @@ const createPDF = async (req) => {
 }
 
 
-const getFilename = async (user_id) => {
+const getFilename = async (user_id, signKey=null) => {
     try {
         const certAuth = await redis.get(user_id + "_authed");
         const roomData = await getRoomFromUser(certAuth.split("_")[1]);
 
         let file_id = "";
+        let filename = "";
 
         if (roomData == null) {
             return null;
@@ -89,7 +90,11 @@ const getFilename = async (user_id) => {
             file_id += id[i];
         }
 
-        const filename = await redis.get(file_id);
+        if (signKey == null) {
+            filename = await redis.get(file_id);
+        } else {
+            filename = await redis.get(roomData.dataValues.organizer_id + signKey);
+        }
 
         if (filename) {
             return filename;
@@ -181,8 +186,38 @@ const checkRedisData = async (id) => {
     }
 }
 
+const clearContractData = async (signFile, contractFile) => {
+    try {
+        const signFilePath = path.join(__dirname, "/../../certSign_temp/" + signFile);
+        const contractFilePath = path.join(__dirname, "/../../contract_temp/" + contractFile);
+
+        if (fs.existsSync(signFilePath) && fs.existsSync(contractFilePath)) {
+            fs.unlinkSync(signFilePath);
+            fs.unlinkSync(contractFilePath);
+        } else {
+            return null;
+        }
+    } catch (err) {
+        return null;
+    }
+}
+
+const deleteRoom = async (organizer_id) => {
+    try {
+        return await models.room.destroy({
+            where: {
+                organizer_id: organizer_id
+            }
+        });
+    } catch (err) {
+        return null;
+    }
+}
+
 module.exports.checkRedisData = checkRedisData;
 module.exports.createPDF = createPDF;
+module.exports.clearContractData = clearContractData;
+module.exports.deleteRoom = deleteRoom;
 module.exports.isSafeCert = isSafeCert;
 module.exports.convertPDF2JSON = convertPDF2JSON;
 module.exports.getFilename = getFilename;

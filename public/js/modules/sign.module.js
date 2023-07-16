@@ -9,7 +9,7 @@ const sendSign = async (sign_data) => {
     });
 }
 
-const drawSign = () => {
+const drawSign = (socket) => {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
@@ -47,6 +47,8 @@ const drawSign = () => {
     }
 
     function reDrawing() {
+        lines = [];
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
@@ -60,10 +62,7 @@ const drawSign = () => {
         });
 
         if (res.status == 200 && res.message == "success sign") {
-            document.getElementById("contract_sign_content").innerHTML = `
-                <p>successed contract certificate file and Verify NFT file success</p>
-            `;
-            document.getElementById("downSignPDF").innerHTML = ` <embed id="downSignPDF" src="/contract/sign/download" type="application/pdf">`;
+            socket.emit("contract_sign_success");
         } else {
             console.log("sign failure");
         }

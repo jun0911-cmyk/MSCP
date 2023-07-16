@@ -48,12 +48,12 @@ class SignContract {
         const document = {
             html: html,
             data: pdfFormat.PDFFormatObj,
-            path: path.join(__dirname + "/../../certSign_temp/" + this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf"),
+            path: path.join(__dirname + "/../../certSign_temp/" + this.organizer_id + "_" + "sign.pdf"),
             type: "",
         };
 
         return pdf.create(document, pdfFormat.options).then((res) => {
-            return true;
+            return this.organizer_id + "_" + "sign.pdf";
         }).catch((err) => {
             logger("PDF Create Error : " + err, "err");
             return null;
@@ -62,8 +62,8 @@ class SignContract {
 
     async getPDF() {
         try {
-            const filename = path.join(__dirname, "/../../certSign_temp/" + this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf");
-            const returnFilename = this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf";
+            const filename = path.join(__dirname, "/../../certSign_temp/" + this.contract_filename);
+            const returnFilename = this.contract_filename;
             
             if (fs.existsSync(filename)) {
                 const file = fs.createReadStream(filename);
@@ -72,24 +72,6 @@ class SignContract {
                 return {
                     file, stat, returnFilename,
                 };
-            } else {
-                return null;
-            }
-        } catch (err) {
-            return null;
-        }
-    }
-
-    async clearContractData() {
-        try {
-            const idArr = this.organizer_id.split("-");
-            const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
-            const signFilePath = path.join(__dirname, "/../../certSign_temp/" + this.organizer_id + "_" + this.participant_id + "_" + "sign.pdf");
-            const contractFilePath = path.join(__dirname, "/../../contract_temp/" + id + "_" + "contract" + "_" + this.contract_filename);
-
-            if (fs.existsSync(signFilePath) && fs.existsSync(contractFilePath)) {
-                fs.unlinkSync(signFilePath);
-                fs.unlinkSync(contractFilePath);
             } else {
                 return null;
             }

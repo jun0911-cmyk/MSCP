@@ -163,8 +163,12 @@ module.exports.signContract = async (req, res, next) => {
             const createSign = await signContract.createPDF();
 
             if (createSign) {
+                await redis.set(organizerUser.id + "_signFile", createSign);
                 await redis.set(organizerUser.id + "_signed", 1);
                 await redis.set(participantUser.id + "_signed", 1);
+
+                roomRoleUser = [];
+                checkSignRequest[roomName] = undefined;
 
                 return res.json({
                     status: 200,
@@ -192,35 +196,25 @@ module.exports.signContract = async (req, res, next) => {
 
 module.exports.signDownload = async (req, res, next) => {
     try {
-        const idArr = req.id.split("-");
-        const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
         const signer_id = await redis.get(req.id + "_signed");
-        const filename = await contractFile.getFilename(req.id);
-
-        /*
-        if (signer_id) {
-            const originalFilename = filename.split("_")[2];
-            const signContract = new SignContract(originalFilename, null, null, null, null, req.id, req.id);
+        const filename = await contractFile.getFilename(req.id, "_signFile");
+        
+        if (signer_id && filename) {
+            const originalFilename = filename;
+            const signContract = new SignContract(originalFilename, null, null, null, null, null, null);
             const signFile = await signContract.getPDF();
             
             res.setHeader('Content-Length', signFile.stat.size);
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', 'attachment; filename=' + signFile.returnFilename);
 
-            await redis.del(req.id);
-            await redis.del(req.id + "_authed");
-            await redis.del(req.id + "_signed");
-
             signFile.file.pipe(res);
-
-            signContract.clearContractData();
         } else {
             return res.json({
                 status: 400,
                 message: "no signed contract file",
             }).status(400);
         }
-        */
     } catch (err) {
         return res.json({
             status: 400,

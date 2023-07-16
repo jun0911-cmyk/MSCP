@@ -1,5 +1,17 @@
 const socketMiddle = require("./middlewares/socket.middleware.js");
+const redis = require("./middlewares/redis.moddleware.js");
+const { clearContractData, deleteRoom } = require("./services/contract.service.js");
 const roomToUser = [];
+
+const updateRoomPeople = (io, roomName) => {
+    let room_update_people = String(io.sockets.adapter.rooms.get(roomName).size - 1);
+
+    if (Number(room_update_people) < 0) {
+        room_update_people = String(0);
+    }
+
+    return room_update_people;
+}
 
 module.exports = (io) => {
     io.on("connection",  function (socket) {
@@ -77,16 +89,20 @@ module.exports = (io) => {
 
         socket.on("contract_sign_request", async () => {
             const roomData = roomToUser[socket.id];
+            const roomSize = io.sockets.adapter.rooms.get(roomData.roomName).size;
 
-            if (roomData) {
+            if (roomData && roomSize == 2) {
                 socket.broadcast.to(roomData.roomName).emit("contract_sign_request", roomData.user.username);
+            } else {
+                io.sockets.to(socket.id).emit("contract_sign_request_failure", "not enough room user");
             }
         });
 
         socket.on("contract_sign_request_accept", async (contractor_username) => {
             const roomData = roomToUser[socket.id];
+            const roomSize = io.sockets.adapter.rooms.get(roomData.roomName).size;
 
-            if (roomData) {
+            if (roomData && roomSize == 2) {
                if (roomData.room.organizer_username == contractor_username) {
                     roomToUser[socket.id]["role"] = "participant";
                     
@@ -96,6 +112,71 @@ module.exports = (io) => {
 
                     io.to(roomData.roomName).emit("contract_sign_request_accept");
                }
+            } else {
+                io.sockets.to(socket.id).emit("contract_sign_request_failure", "not enough room user");
+            }
+        });
+
+        socket.on("contract_sign_success", async () => {
+            const roomData = roomToUser[socket.id];
+            const roomSize = io.sockets.adapter.rooms.get(roomData.roomName).size;
+
+            if (roomData && roomSize == 2) {
+                const signCheckOriganizer = await redis.get(roomData.room.organizer_id + "_signed");
+                const signCheckParticipant = await redis.get(roomData.room.participant_id + "_signed");
+
+                if (signCheckOriganizer && signCheckParticipant) {
+                    if (roomData.room.organizer_id == roomData.user.id || roomData.room.participant_id == roomData.user.id) {
+                        io.to(roomData.roomName).emit("contract_sign_success");
+                    }
+                }
+            } else {
+                io.sockets.to(socket.id).emit("contract_sign_request_failure", "not enough room user");
+            }
+        });
+
+        socket.on("exit_room", async () => {
+            const roomData = roomToUser[socket.id];
+            
+            if (roomData) {
+                const user_id = roomData.user.id.split("-");
+                const id = user_id[0] + user_id[1] + user_id[2] + user_id[3] + user_id[4];
+                const update_people = updateRoomPeople(io, roomData.roomName);
+                const signData = await redis.get(roomData.user.id + "_signed");
+
+                await redis.del(roomData.user.id + "_authed");
+                await socketMiddle.updatePeople(roomData.room.organizer_id, update_people);
+
+                if (signData != null) {
+                    await redis.del(roomData.user.id + "_signed");
+                }
+
+                if (update_people == 0) {
+                    await deleteRoom(roomData.room.organizer_id);
+                }
+
+                try {
+                    const signFile = await redis.get(roomData.user.id + "_signFile");
+                    const contractFile = await redis.get(id);
+
+                    await redis.del(roomData.user.id);
+
+                    if (signFile && contractFile) {
+                        await clearContractData(signFile, contractFile);
+                    }
+
+                    socket.leave(roomData.roomName);
+
+                    io.to(roomData.roomName).emit("exited_room", roomData.user.username);
+
+                    roomToUser[socket.id] = null;
+                } catch (err) {
+                    socket.leave(roomData.roomName);
+
+                    io.to(roomData.roomName).emit("exited_room", roomData.user.username);
+
+                    roomToUser[socket.id] = null;
+                }
             }
         });
 
