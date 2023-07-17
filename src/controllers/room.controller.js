@@ -44,8 +44,16 @@ module.exports.createRoom = async (req, res, next) => {
     const organizer_id = req.id;
     const organizer_username = req.username;
     const participant_username = req.body.access;
+    const room_password = req.body.password;
 
-    const createRoom = new CreateRoom(organizer_id, organizer_username, participant_username);
+    if (!participant_username || !room_password) {
+        return res.json({
+            status: 400,
+            message: "room form value not full",
+        }).status(400); 
+    }
+
+    const createRoom = new CreateRoom(organizer_id, organizer_username, participant_username, room_password);
 
     const participant = await createRoom.checkParticipant();
 
@@ -80,9 +88,14 @@ module.exports.createRoom = async (req, res, next) => {
 module.exports.joinRoom = async (req, res, next) => {
     const organizer_username = req.params.oww_username;
     const participant_username = req.username;
+    const password = req.query.password
     const organizer = await getOrganizer(organizer_username);
 
-    if (organizer == null) {
+    if (password == undefined || password == null) {
+        return res.redirect("/");
+    }
+
+    if (organizer == null || organizer_username == undefined) {
         return res.redirect("/");
     }
 
@@ -90,6 +103,10 @@ module.exports.joinRoom = async (req, res, next) => {
     const room = await checkRoom(organizer_id);
 
     if (room == null) {
+        return res.redirect("/");
+    }
+
+    if (room.dataValues.room_pin != password) {
         return res.redirect("/");
     }
 

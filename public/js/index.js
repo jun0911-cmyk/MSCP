@@ -36,11 +36,12 @@ const appendRooms = async () => {
 
 create_btn.addEventListener("click", async () => {
     const accesser = document.getElementById("accesser").value;
+    const password = document.getElementById("password").value;
     const file = document.getElementById("inputGroupFile02").files[0];
     const result = await fileHandle.file_upload(file, "/contract/file/upload", "contract_file");
 
     if (result.message == "success") {
-        const isRoomCreated = await room.create_room(accesser);
+        const isRoomCreated = await room.create_room(accesser, password);
 
         console.log(isRoomCreated);
     }  else {
@@ -50,10 +51,11 @@ create_btn.addEventListener("click", async () => {
 
 cert_verify_btn.addEventListener("click", async () => {
     const file = document.getElementById("inputGroupFile03").files[0];
+    const password = document.getElementById("room_password").value;
     const result = await fileHandle.file_upload(file, "/contract/certificate/verify", "certificate_file");
 
     if (result.message == "Authed") {
-        location.href = "/room/join/" + organizer_username;
+        location.href = "/room/join/" + organizer_username + "?password=" + password;
     } else {
         console.log("certificate file no cert");
     }

@@ -19,6 +19,11 @@
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="accesser">
         </div>
         <div id="keyboard.accesser"></div>
+        <div class="input-group mb-3" style="width:30rem; margin: auto;" id="test">
+            <span class="input-group-text" id="inputGroup-sizing-default">ROOM PASSWORD</span>
+            <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="password">
+        </div>
+        <div id="keyboard.password"></div>
         <div class="input-group mb-3" id="file_input_content">
             <input type="file" class="form-control" id="inputGroupFile02" name="contract_file">
             <label class="input-group-text" for="inputGroupFile02">Upload</label>
@@ -51,7 +56,10 @@
             <input type="file" class="form-control" id="inputGroupFile03" name="contract_file">
             <label class="input-group-text" for="inputGroupFile03">Upload</label>
         </div>
-        <button id="cert_verify_btn">Upload</button>
+        <div>
+            <input type="password" class="form-control" id="room_password">
+        </div>
+        <button id="cert_verify_btn">Connect</button>
         </div>
     </div>
     <script src="./static/js/modules/keyboard.module.js"></script>

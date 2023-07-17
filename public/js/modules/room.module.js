@@ -1,9 +1,10 @@
-const create_room = async (accesser) => {
+const create_room = async (accesser, password) => {
     const response = await $.ajax({
         url: '/room/create',
         type: 'POST',
         data: JSON.stringify({ 
-            access: accesser 
+            access: accesser,
+            password: password,
         }),
         headers: {
             "Content-Type": "application/json"

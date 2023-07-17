@@ -66,10 +66,11 @@ const updatePeople = async (room_id, room_people) => {
 }
 
 class CreateRoom {
-    constructor(organizer_id, organizer_username, participant_username) {
+    constructor(organizer_id, organizer_username, participant_username, password) {
         this.organizer_id = organizer_id;
         this.organizer_username = organizer_username;
         this.participant_username = participant_username;
+        this.password = password;
     }
 
     async checkParticipant() {
@@ -117,7 +118,7 @@ class CreateRoom {
                     organizer_username: this.organizer_username,
                     participant_username: this.participant_username,
                     room_name: room_name,
-                    room_pin: "0000",
+                    room_pin: this.password,
                 });
             } catch (err) {
                 logger("room create error : " + err, "err");
