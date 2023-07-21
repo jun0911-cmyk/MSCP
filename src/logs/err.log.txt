@@ -100,3 +100,37 @@ Stack:
 [TIME : 1689073361797] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open '/Users/user/Desktop/Projects/Meta_Safe_Contract_Platform/contract_temp/8d2abe5450b44523ab1d7a905eab4d1c_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
 [TIME : 1689073379715] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open '/Users/user/Desktop/Projects/Meta_Safe_Contract_Platform/contract_temp/8d2abe5450b44523ab1d7a905eab4d1c_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
 [TIME : 1689522082876] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\eb823c3887a3445a86f59e38d711c0a2_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'
+[TIME : 1689961338817] [LOGGER err LOG] : PDF Parsing Error : InvalidPDFException: Invalid PDF structure
+[TIME : 1689961340183] [LOGGER err LOG] : PDF Parsing Error : InvalidPDFException: Invalid PDF structure
+[TIME : 1689962117870] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1689962301562] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962335792] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962353770] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962364170] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962380470] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962387268] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962427987] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962487706] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962591565] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962715068] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962776115] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962826930] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962883077] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962944469] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689962991075] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1689963057643] [LOGGER err LOG] : user findOne Error or user not found
+[TIME : 1689963163528] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689963182393] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689963308447] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689963479689] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689963555471] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689963683674] [LOGGER err LOG] : JWT Verify Error : JsonWebTokenError: jwt malformed
+[TIME : 1689963965643] [LOGGER err LOG] : PDF Create Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\certSign_temp\021f8f78-0768-43f2-837a-e4fd7ffbad07_contract_null'
+[TIME : 1689964160995] [LOGGER err LOG] : PDF Create Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689964380038] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689964404492] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689964501637] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689964511321] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689964522781] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689964553570] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\021f8f78076843f2837ae4fd7ffbad07_contract_210818.pdf'
+[TIME : 1689965871091] [LOGGER err LOG] : file read error :Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\ed2a9b7e3ab948d0a7b0288b2c227358_contract_áá­áá®á«áá³á«áá©áá¨áá£á¨áá¥.pdf'

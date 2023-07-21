@@ -29,6 +29,7 @@ require("./socket.server.js")(io, cookieParser);
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
+app.use("/static/image", express.static("../public/image"));
 app.use("/static/css", express.static("../public/css"));
 app.use("/static/js", express.static("../public/js"));
 app.use(cookieParser(process.env.COOKIE_SECRET));

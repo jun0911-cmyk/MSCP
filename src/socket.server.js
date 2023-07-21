@@ -135,6 +135,14 @@ module.exports = (io) => {
             }
         });
 
+        socket.on("comment_send", (inputBoxObj, page) => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData && inputBoxObj.text != "") {
+                io.to(roomData.roomName).emit("comment_send", inputBoxObj, page);
+            }
+        });
+
         socket.on("exit_room", async () => {
             const roomData = roomToUser[socket.id];
             
@@ -170,12 +178,16 @@ module.exports = (io) => {
                     io.to(roomData.roomName).emit("exited_room", roomData.user.username);
 
                     roomToUser[socket.id] = null;
+
+                    io.sockets.to(socket.id).emit("exit_redirect");
                 } catch (err) {
                     socket.leave(roomData.roomName);
 
                     io.to(roomData.roomName).emit("exited_room", roomData.user.username);
 
                     roomToUser[socket.id] = null;
+
+                    io.sockets.to(socket.id).emit("exit_redirect");
                 }
             }
         });

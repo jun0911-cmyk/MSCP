@@ -2,6 +2,7 @@ const contractFile = require("../services/contract.service.js");
 const redis = require("../middlewares/redis.moddleware.js");
 const SignContract = require("../middlewares/sign.middleware.js");
 const { getRoomFromUser } = require("../services/room.service.js");
+const fs = require("fs");
 
 let checkSignRequest = {};
 
@@ -222,3 +223,48 @@ module.exports.signDownload = async (req, res, next) => {
         }).status(400);
     }
 }
+
+module.exports.saveContractPDF = async (req, res, next) => {
+    try {
+        const filename = await contractFile.getFilename(req.id);
+        const commentObj = JSON.parse(req.body.commentData);
+        const page = req.body.page;
+
+        const pdfData = await contractFile.getPDFData(filename, page);
+
+        if (commentObj == undefined || page == undefined || filename == null || pdfData == null) {
+            return res.json({
+                status: 400,
+                message: "failure pdf fix"
+            }).status(400);
+        }
+
+        for (let i = 0; i < commentObj.length; i++) {
+            const comment = commentObj[i];
+
+            const offsetX = comment.offsetX.split("pt")[0];
+            const offsetY = comment.offsetY.split("pt")[0];
+
+            const x = comment.x * 0.7;
+            const y = offsetY - (comment.y * 0.75);
+
+            pdfData.pdfPage.moveTo(x + 20, y - 15);
+            pdfData.pdfPage.drawText(comment.text, {
+                font: pdfData.fontByte,
+                size: 12,
+            });
+        }
+
+        fs.writeFileSync(pdfData.filepath, await pdfData.document.save());
+
+        return res.json({
+            status: 200
+        }).status(200);
+
+    } catch (err) {
+        return res.json({
+            status: 400,
+            message: "failure pdf fix"
+        }).status(400);
+    }
+} 

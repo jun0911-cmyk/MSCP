@@ -5,7 +5,12 @@ const redis = require("../middlewares/redis.moddleware.js");
 const logger = require("../middlewares/log.middleware.js");
 const { getRoomFromUser } = require("./room.service.js");
 const utf8 = require("utf8");
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+const utf8 = require("utf8");
+const fontkit = require("@pdf-lib/fontkit");
 const pdfParser = require("pdf-parse");
+
+let fontFile = "";
 
 const fileFilter = (req) => {
     try {
@@ -43,7 +48,7 @@ const createFilename = async (req) => {
     if (fileFilter(req)) {
         const idArr = req.id.split("-");
         const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
-        const filename = id + "_" + "contract" + "_" + req.files.contract_file.name;
+        const filename = id + "_" + "contract" + "_" + utf8.decode(req.files.contract_file.name);
 
         await redis.set(id, filename);
 
@@ -214,6 +219,28 @@ const deleteRoom = async (organizer_id) => {
     }
 }
 
+const getPDFData = async (filename, page) => {
+    try {
+        const filepath = path.join(__dirname, "../../contract_temp/" + filename);
+        const document = await PDFDocument.load(fs.readFileSync(filepath));
+        
+        if (fontFile == "") {
+            fontFile = await fs.readFileSync(path.join(__dirname, "../../public/font/Pretendard-Regular.ttf"));
+        }
+
+        document.registerFontkit(fontkit);
+
+        const fontByte = await document.embedFont(fontFile);
+        const pdfPage = document.getPage(page);
+
+        return {
+            pdfPage, fontByte, filepath, document
+        };
+    } catch (err) {
+        return null;
+    }
+}
+
 module.exports.checkRedisData = checkRedisData;
 module.exports.createPDF = createPDF;
 module.exports.clearContractData = clearContractData;
@@ -221,4 +248,5 @@ module.exports.deleteRoom = deleteRoom;
 module.exports.isSafeCert = isSafeCert;
 module.exports.convertPDF2JSON = convertPDF2JSON;
 module.exports.getFilename = getFilename;
+module.exports.getPDFData = getPDFData;
 module.exports.getFile = getFile;

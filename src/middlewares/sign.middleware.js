@@ -1,6 +1,8 @@
 const pdf = require("pdf-creator-node");
 const fs = require("fs");
 const utf8 = require("utf8");
+const redis = require("./redis.moddleware.js");
+const { PDFDocument } = require("pdf-lib");
 const path = require("path");
 const logger = require("./log.middleware.js");
 
@@ -41,6 +43,22 @@ class SignContract {
         };
     }
 
+    async margePDF(contract_filename) {
+        const sign_path = path.join(__dirname + "/../../certSign_temp/" + this.organizer_id + "_" + "sign.pdf");
+        const contract_path = path.join(__dirname + "/../../contract_temp/" + contract_filename);
+
+        const contractPDF = await PDFDocument.load(fs.readFileSync(contract_path));
+        const signPDF = await PDFDocument.load(fs.readFileSync(sign_path));
+
+        const pagesArray = await signPDF.copyPages(contractPDF, contractPDF.getPageIndices());
+
+        for (const page of pagesArray) {
+            signPDF.addPage(page);
+        }
+
+        fs.writeFileSync(sign_path, await signPDF.save());
+    }
+
     async createPDF() {
         const html = fs.readFileSync(path.join(__dirname, "../../public/views/contract_sign.html"), "utf8");
         const pdfFormat = this.formatObject();
@@ -52,7 +70,13 @@ class SignContract {
             type: "",
         };
 
-        return pdf.create(document, pdfFormat.options).then((res) => {
+        return pdf.create(document, pdfFormat.options).then(async (res) => {
+            const idArr = this.organizer_id.split("-");
+            const id = idArr[0] + idArr[1] + idArr[2] + idArr[3] + idArr[4];
+            const contract_filename = await redis.get(id);
+
+            await this.margePDF(contract_filename);
+
             return this.organizer_id + "_" + "sign.pdf";
         }).catch((err) => {
             logger("PDF Create Error : " + err, "err");

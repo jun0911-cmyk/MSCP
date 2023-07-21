@@ -1,6 +1,7 @@
 import RTC from "./webRTC.module.js";
 import fileHandle from "./file.module.js";
 import signHandle from "./sign.module.js";
+import comment from "./pdf_comment.module.js";
 
 const socketEvent = (socket, page) => {
     const chat_form = document.getElementById("chat-form");
@@ -103,6 +104,18 @@ const socketEvent = (socket, page) => {
             <p>successed contract certificate file and Verify NFT file success </p>
         `;
         document.getElementById("downSignPDF").innerHTML = ` <embed id="downSignPDF" src="/contract/sign/download" type="application/pdf">`;
+    });
+
+    socket.on("comment_send", (inputBoxObj, page) => {
+        const now_page = localStorage.getItem("page");
+        
+        if (now_page == page) {
+            comment.addComment(inputBoxObj);
+        }
+    });
+
+    socket.on("exit_redirect", () => {
+        location.href = "/";
     });
 }
 

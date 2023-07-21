@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-style: normal;
+}
+
 .file_input {
     margin-top: 3rem;
     text-align: center;
@@ -68,11 +74,10 @@ button:hover {
 }
 
 .contract_viewer {
+    text-align: center;
     overflow-y: hidden;
     overflow-x: hidden;
     margin: auto;
-    width: 37rem;
-    height: 50rem;
     border-radius: 3%;
     border-color: black;
     background-color: #525659;
@@ -101,8 +106,9 @@ canvas {
 
 .btn_class {
     position: absolute;
-    margin-top: 46rem;
-    margin-left: 70rem;
+    margin-top: 64rem;
+    margin-left: 76rem;
+    z-index: 20;
 }
 
 .btn_class button {
@@ -112,6 +118,7 @@ canvas {
     color: black;
     border-color: black;
     background-color: transparent;
+    z-index: 20;
 }
 
 .chat-container {
@@ -119,7 +126,7 @@ canvas {
     height: 650px;
     margin: 20px auto;
     position: absolute;
-    margin-left: 80rem;
+    margin-left: 86rem;
     margin-top: -46rem;
     background-color: #fff;
     border-radius: 5px;
@@ -209,6 +216,28 @@ canvas {
   .upload-btn {
     display: block;
     margin: 10px 0;
+  }
+
+  .input-box {
+    position: absolute;
+    border: 1px solid transparent;
+    padding: 1px;
+    background-color: transparent;
+    font-family: 'Pretendard-Regular';
+    font-size: 15px;
+    z-index: 100;
+  }
+
+  .cover_pdf {
+    position: absolute;
+    margin-top: -70.5rem;
+    margin-left: 35rem;
+    width: 595pt;
+    height: 841pt;
+    border-radius: 3%;
+    border-color: black;
+    background-color: transparent;
+    z-index: 10;
   }
 
 @keyframes file_upload_btn_animation {
