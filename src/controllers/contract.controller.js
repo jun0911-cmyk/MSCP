@@ -245,10 +245,10 @@ module.exports.saveContractPDF = async (req, res, next) => {
             const offsetX = comment.offsetX.split("pt")[0];
             const offsetY = comment.offsetY.split("pt")[0];
 
-            const x = comment.x * 0.7;
+            const x = comment.x * 0.75;
             const y = offsetY - (comment.y * 0.75);
 
-            pdfData.pdfPage.moveTo(x + 20, y - 15);
+            pdfData.pdfPage.moveTo(x - 5, y - 10);
             pdfData.pdfPage.drawText(comment.text, {
                 font: pdfData.fontByte,
                 size: 12,

@@ -9,9 +9,12 @@ const sign_btn = document.getElementById("sign_contract_btn");
 const chat_btn = document.getElementById("send_chat_btn");
 const close_btn = document.getElementById("close_contract_btn");
 const inputContainer = document.getElementById('inputContainer');
-const pdfcontainer = document.getElementById("pdf_cover");
 
 const socket = window.io("https://219.255.230.120:8000", { transports : ['polling'], path: "/socket.io" });
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.disableFontFace = true;
+pdfjsLib.GlobalWorkerOptions.maxImageSize = 1024 * 1024;
 
 let page = 1;
 
@@ -38,14 +41,14 @@ return_btn.addEventListener("click", () => {
     if (page > 1) {
         page = page - 1;
         localStorage.setItem("page", page);
-        fileHandle.pdfView(page);
+        fileHandle.pdfView(page, socket);
     }
 });
 
 next_btn.addEventListener("click", () => {
     page = page + 1;
     localStorage.setItem("page", page);
-    fileHandle.pdfView(page);
+    fileHandle.pdfView(page, socket);
 });
 
 chat_btn.addEventListener("click", () => {
@@ -65,11 +68,5 @@ close_btn.addEventListener("click", () => {
         await socket.emit("exit_room");
     });
 });
-
-pdfcontainer.addEventListener("click", (event) => {
-    comment.createInputBox(event, socket, page);
-});
-
-pdfcontainer.addEventListener("mousemove", comment.moveSetInputBox);
 
 inputContainer.addEventListener("input", comment.saveInputBox);

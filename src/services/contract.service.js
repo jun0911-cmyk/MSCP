@@ -4,7 +4,6 @@ const models = require("../models");
 const redis = require("../middlewares/redis.moddleware.js");
 const logger = require("../middlewares/log.middleware.js");
 const { getRoomFromUser } = require("./room.service.js");
-const utf8 = require("utf8");
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 const utf8 = require("utf8");
 const fontkit = require("@pdf-lib/fontkit");

@@ -47,15 +47,8 @@ const pdf_fix = async (commentObj, page) => {
     }
 }
 
-const pdfView = async (page) => {
-    const url = "https://219.255.230.120:8000/contract/file/read";
-    const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-    const pages = pdfDoc.getPages();
-    const firstPage = pages[page - 1];
-
-    const { width, height } = firstPage.getSize();
+const pdfView = async (page, socket) => {
+    const container = document.getElementById("pdf_viewer");
 
     if (page > 1) {
         const comment_data = comment.getCommentObj();
@@ -63,24 +56,49 @@ const pdfView = async (page) => {
         await pdf_fix(comment_data, page - 2);
     }
 
-    const option = {
-        pdfOpenParams: {
-            navpanes: 0,
-            toolbar: 0,
-            statusbar: 0,
-            view: "FitV",
-            pagemode:"thumbs",
-            page: page
-        },
-        forcePDFJS: true,
-        width: String(width) + "pt",
-        height: String(height) + "pt",
-    };
+    pdfjsLib.getDocument("/contract/file/read").promise.then(pdfDoc => {
+        return pdfDoc.getPage(page);
+    }).then(pages => {
+          const viewport = pages.getViewport({ scale: 1 });
 
-    document.getElementById("pdf_cover").style.width = String(width) + "pt";
-    document.getElementById("pdf_cover").style.height = String(height) + "pt";
+          const scale = Math.min(viewport.width / (viewport.width * 1.3333333333333), viewport.height / (viewport.height * 1.3333333333333));
+          
+          container.style.width = viewport.width + 2 + "pt";
+          container.style.height = viewport.height + 2 + "pt"; 
+          
+          const canvas = document.createElement('canvas');
 
-    PDFObject.embed("/contract/file/read", "#pdf_viewer", option);
+          canvas.id = "pdf_object";
+
+          container.appendChild(canvas);
+
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height * 1.3333333333333;
+          canvas.width = viewport.width * 1.3333333333333;
+  
+          const renderContext = {
+            canvasContext: context,
+            viewport: pages.getViewport({ scale: 0.6 + scale })
+          };
+
+          pages.render(renderContext).promise.then((function() {
+            console.log(container.childNodes);
+
+            if (container.childNodes.length > 1) {
+                container.removeChild(container.childNodes[2]);
+            }
+
+            container.appendChild(canvas);
+          }));
+
+          canvas.addEventListener("click", (event) => {
+            comment.createInputBox(event, socket, page, canvas, container);
+          });
+                
+          canvas.addEventListener("mousemove", comment.moveSetInputBox);
+        }).catch(err => {
+          console.log(err);
+        });
 }
 
 export default {

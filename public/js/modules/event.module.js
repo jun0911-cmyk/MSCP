@@ -24,7 +24,7 @@ const socketEvent = (socket, page) => {
             location.href = "/";
         } else {
             RTC.createOffer(socket);
-            fileHandle.pdfView(page);
+            fileHandle.pdfView(page, socket);
 
             $("#return_btn").show();
             $("#next_btn").show();
