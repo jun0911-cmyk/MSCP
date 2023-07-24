@@ -91,6 +91,37 @@ const updateCertDownload = async (id) => {
     }
 }
 
+const getTestToken = async (username) => {
+    try {
+        const userData = await models.user.findOne({
+            where: {
+                username: username,
+            }
+        });
+
+        if (userData == null) {
+            return null;
+        }
+
+        const payload = {
+            id: userData.dataValues.id,
+            username: userData.dataValues.username,
+            publicAddress: userData.dataValues.publicAddress,
+        };
+
+        const accessToken = JWT.sign(payload);
+        const user = userData.dataValues
+
+        return {
+            accessToken,
+            user,
+        };
+    } catch (err) {
+        return null;
+    }
+}
+
 module.exports.updateCertDownload = updateCertDownload;
 module.exports.getNonce = getNonce;
+module.exports.getTestToken = getTestToken;
 module.exports.Auth = Auth;

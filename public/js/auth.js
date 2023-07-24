@@ -8,8 +8,24 @@ const authBtn = document.getElementById("auth_btn");
 const metamaskGetBtn = document.getElementById("get_eth_btn");
 const wallet_address = document.getElementById("wallet_address");
 const down_cert_file = document.getElementById("down_cert_file");
+const test_login_btn = document.getElementById("test_auth_btn");
 
 sign.drawSign();
+
+test_login_btn.addEventListener("click", async () => {
+    const test_username = document.getElementById("test_username").value;
+
+    const result = await auth.postTestLogin({
+        username: test_username,
+        sign: JSON.stringify(sign.getSignData()),
+    });
+
+    if (result == "success") {
+        location.href = "/";
+    } else {
+        console.log("auth failure");
+    }
+})
 
 metamaskGetBtn.addEventListener("click", async () => {
   wallet_address.value = await metamask.accessAccountWallet();  

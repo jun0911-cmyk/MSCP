@@ -1,6 +1,6 @@
 const path = require("path");
 const Signup = require("../services/signup.service.js");
-const { getNonce, Auth, updateCertDownload } = require("../services/auth.service.js");
+const { getNonce, Auth, updateCertDownload, getTestToken } = require("../services/auth.service.js");
 const Certification = require("../middlewares/certificate.middleware.js");
 const uuidv4 = require("uuid4");
 
@@ -59,6 +59,33 @@ module.exports.authSignup = async (req, res, next) => {
         }).status(200);
     }
 },
+
+module.exports.testLogin = async (req, res, next) => {
+    const { username, sign } = req.body;
+    const data = await getTestToken(username);
+
+    if (data.accessToken == null) {
+        return res.send({
+            status: 401,
+            message: "is none data in auth data"
+        }).status(401);
+    }
+
+    const certification = new Certification(data.user.id, username, data.user.name, data.user.email, sign);
+    const pdfRes = await certification.createPDF();
+
+    if (pdfRes) {
+        res.cookie("accessToken", data.accessToken, {
+            maxAge: 1000 * 60 * 60 * 3,
+            httpOnly: false,
+        });
+    
+        return res.send({
+            status: 200,
+            message: "success",
+        }).status(200);
+    }
+}
 
 module.exports.authVerify = async (req, res, next) => {
     const { publicAddress, signature } = req.body;
