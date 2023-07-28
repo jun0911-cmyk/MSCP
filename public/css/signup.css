@@ -1,5 +1,5 @@
 .main {
-    margin-top: 10rem;
+    margin-top: 5rem;
     text-align: center;
 }
 
@@ -24,13 +24,17 @@
     text-align: center;
     margin: auto;
     width: 40rem;
-    height: 40rem;
+    height: 50rem;
     border : 2px solid black;
     border-radius: 2rem;
 }
 
 .test_login h2 {
     padding: 1rem;
+}
+
+.test_login .eth_wallet {
+    font-size: 14px;
 }
 
 .test_login .sign_desc {

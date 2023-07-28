@@ -10,52 +10,30 @@
     <title>Document</title>
 </head>
 <body>
+    <div id="nav_container"></div>
     <div class="main">
         <div class="test_login">
-            <h2>Test Login For Guest</h2>
+            <h2>2023 메타버스 개발자 로그인</h2>
             <div class="input-group mb-3" style="width:30rem; margin: auto;" id="test">
-                <span class="input-group-text" id="inputGroup-sizing-default">USERNAME</span>
+                <span class="input-group-text" id="inputGroup-sizing-default">Tester ID</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="test_username">
             </div>
-            <button class="auth_btn" id="test_auth_btn">LOGIN FOR GUEST</button>
-            <hr>
-        </div>
-        <div class="signup-input" style="text-align: center;">
-            <div class="input-group mb-3" style="width:30rem; margin: auto;" id="test">
-                <span class="input-group-text" id="inputGroup-sizing-default">USERNAME</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="username">
-            </div>
-            <div id="keyboard.username"></div>
-            <div class="input-group mb-3" style="width:30rem; margin: auto;">
-                <span class="input-group-text" id="inputGroup-sizing-default">USEREMAIL</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="useremail">
-            </div>
-            <div id="keyboard.useremail"></div>
-            <div class="input-group mb-3" style="width:30rem; margin: auto;">
-                <span class="input-group-text" id="inputGroup-sizing-default">REALNAME</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="name">
-            </div>
-            <div id="keyboard.name"></div>
-            <div class="input-group mb-3" style="width:30rem; margin: auto;">
-                <span class="input-group-text" id="inputGroup-sizing-default">ETHWALLET</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="wallet_address" disabled>
-            </div>
             <div class="sign_container">
-                <h3>Your Signature Sign</h3>
+                <h4>인증서 서명란</h4>
                 <canvas id="canvas" width="250" height="80"></canvas>
+                <p class="sign_desc">해당 서명은 사용자 인증서 발급에 사용됩니다,</br>마우스를 드래그하여 서명을 진행해주세요.</p>
                 <div class="sign_btn_class">
-                    <button id="redraw">Redraw Sign</button>
+                    <button id="redraw">다시 서명하기</button>
                 </div>
             </div>
-        </div>
-        <div class="btn_class">
-            <button class="auth_btn" id="auth_btn">LOGIN FOR ETH</button>
-            <button class="auth_btn" id="down_cert_file">DOWN CERT FILE</button>
-            <button class="auth_btn" id="signup_btn">SIGNUP FOR ETH</button>
-            <button class="auth_btn" id="get_eth_btn">GET ETH WALLET</button>
+            <button class="auth_btn" id="auth_btn">Web3 로그인</button>
+            <button class="auth_btn" id="test_auth_btn">테스트용 로그인</button>
+            <p class="fail_msg" id="fail_message"></p>
+            <p class="sign_msg">아직 MSCP 서비스 계정이 없으시다면 <a href="/auth/signup">여기</a>를 클릭해서 회원가입해주세요.</p>
         </div>
     </div>
     <script src="./static/js/modules/keyboard.module.js" type="module"></script>
+    <script src="/static/js/modules/check_auth.module.js" type="module"></script>
     <script src="./static/js/auth.js" type="module"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ const postSignUp = async (account_data) => {
     if (response.status == 200 & response.message == "signup ok") {
         return "success signup";
     } else {
-        return "failure signup";
+        return response.message;
     }
 };
 

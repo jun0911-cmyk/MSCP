@@ -2,10 +2,43 @@ const path = require("path");
 const Signup = require("../services/signup.service.js");
 const { getNonce, Auth, updateCertDownload, getTestToken } = require("../services/auth.service.js");
 const Certification = require("../middlewares/certificate.middleware.js");
+const jwtAuth = require("../controllers/jwt.controller.js");
 const uuidv4 = require("uuid4");
 
 module.exports.renderFile = (req, res, next) => {
     res.sendFile(path.join(__dirname + "/../../public/views/auth.html"));
+}
+
+module.exports.renderSignFile = (req, res, next) => {
+    res.sendFile(path.join(__dirname + "/../../public/views/signup.html"));
+}
+
+module.exports.authCheck = async (req, res, next) => {
+    if (req.cookies.accessToken) {
+        const userObj = {};
+        const accessToken = req.cookies.accessToken;
+        const userData = await jwtAuth("socket", accessToken, userObj);
+
+        if (userData == null) {
+            return res.json({
+                isLogin: false,
+                user: null
+            }).status(200);
+        }
+
+        return res.json({
+            isLogin: true,
+            user: {
+                name: userData.name,
+                username: userData.username,
+            },
+        }).status(200);
+    } else {
+        return res.json({
+            isLogin: false,
+            user: null
+        }).status(200);
+    }
 }
 
 module.exports.authNonce = async (req, res, next) => {
@@ -62,6 +95,14 @@ module.exports.authSignup = async (req, res, next) => {
 
 module.exports.testLogin = async (req, res, next) => {
     const { username, sign } = req.body;
+
+    if ((username == undefined || username == null) || (sign == undefined || sign == null)) {
+        return res.send({
+            status: 401,
+            message: "is none data in auth data"
+        }).status(401);
+    }
+
     const data = await getTestToken(username);
 
     if (data.accessToken == null) {
@@ -84,6 +125,11 @@ module.exports.testLogin = async (req, res, next) => {
             status: 200,
             message: "success",
         }).status(200);
+    } else {
+        return res.send({
+            status: 401,
+            message: "fail login"
+        }).status(401);
     }
 }
 
