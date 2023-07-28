@@ -50,11 +50,13 @@ create_btn.addEventListener("click", async () => {
 });
 
 cert_verify_btn.addEventListener("click", async () => {
-    const file = document.getElementById("inputGroupFile03").files[0];
+    const cert_file = document.getElementById("inputGroupFile03").files[0];
+    const contract_file = document.getElementById("inputGroupFile04").files[0];
     const password = document.getElementById("room_password").value;
-    const result = await fileHandle.file_upload(file, "/contract/certificate/verify", "certificate_file");
+    const cert_result = await fileHandle.file_upload(cert_file, "/contract/certificate/verify", "certificate_file");
+    const contract_result = await fileHandle.file_upload(contract_file, "/contract/file/verify", "contract_file");
 
-    if (result.message == "Authed") {
+    if (cert_result.message == "Authed" && contract_result.message == "Authed") {
         location.href = "/room/join/" + organizer_username + "?password=" + password;
     } else {
         console.log("certificate file no cert");

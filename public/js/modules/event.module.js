@@ -24,10 +24,6 @@ const socketEvent = (socket, page) => {
             location.href = "/";
         } else {
             RTC.createOffer(socket);
-            fileHandle.pdfView(page, socket);
-
-            $("#return_btn").show();
-            $("#next_btn").show();
 
             socket.emit("append_join_msg");
         }
@@ -75,6 +71,14 @@ const socketEvent = (socket, page) => {
         });
     });
 
+    socket.on("contract_load_request", (contractor_username) => {
+        document.getElementById("sign_msg").innerText = `Request Start To Contract, Request user : ${contractor_username}`;
+        document.getElementById("popupOverlay").style.display = "block";
+        document.getElementById("accept_sign_btn").addEventListener("click", () => {
+            socket.emit("contract_load_request_accept", contractor_username);
+        });
+    });
+
     socket.on("contract_sign_request_accept", () => {
         $("#accept_sign_btn").hide();
 
@@ -91,7 +95,25 @@ const socketEvent = (socket, page) => {
         signHandle.drawSign(socket);
     });
 
+    socket.on("contract_load_request_accept", () => {
+        fileHandle.pdfView(page, socket);
+
+        $("#accept_sign_btn").hide();
+        $("#popupOverlay").hide();
+
+        $("#return_btn").show();
+        $("#next_btn").show();
+    });
+
     socket.on("contract_sign_request_failure", (message) => { 
+        if (message == "not enough room user") {
+            $("#accept_sign_btn").hide();
+
+            document.getElementById("sign_msg").innerText = "Sign Request Failure : not enough in room user";
+        }
+    });
+
+    socket.on("contract_load_request_failure", (message) => { 
         if (message == "not enough room user") {
             $("#accept_sign_btn").hide();
 

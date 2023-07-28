@@ -9,6 +9,9 @@ const sign_btn = document.getElementById("sign_contract_btn");
 const chat_btn = document.getElementById("send_chat_btn");
 const close_btn = document.getElementById("close_contract_btn");
 const inputContainer = document.getElementById('inputContainer');
+const load_btn = document.getElementById("load_contract_btn");
+const speak_btn = document.getElementById("speak_contract_btn");
+const stop_tts_btn = document.getElementById("stop_tts_btn");
 
 const socket = window.io("https://219.255.230.120:8000", { transports : ['polling'], path: "/socket.io" });
 
@@ -24,6 +27,48 @@ localStorage.setItem("page", page);
 
 $("#return_btn").hide();
 $("#next_btn").hide();
+$("#stop_tts_btn").hide();
+
+speak_btn.addEventListener("click", () => {
+    const pdf_obj = document.getElementById("pdf_object");
+
+    if (pdf_obj != null) {
+        const page_num = localStorage.getItem("page");
+
+        $("#stop_tts_btn").show();
+
+        document.getElementById("speak").innerHTML = `
+        <audio src="/contract/speak/${page_num}" type="audio/mpeg" controls autoplay hidden></audio>
+        `;
+    } else {
+        document.getElementById("speak").innerHTML = `
+            <audio src="/contract/speak/0" type="audio/mpeg" id="tts" controls autoplay hidden></audio>
+        `;
+    }
+});
+
+stop_tts_btn.addEventListener("click", () => {
+    const ttsElement = document.getElementById("tts");
+    const speakDiv = document.getElementById("speak");
+
+    if (ttsElement != null) {
+        speakDiv.removeChild(ttsElement);
+        
+        $("#stop_tts_btn").hide();
+    }
+})
+
+load_btn.addEventListener("click", () => {
+    document.getElementById("sign_msg").innerText = `Are you start contract?`;
+    document.getElementById("popupOverlay").style.display = "block";
+    document.getElementById("accept_sign_btn").addEventListener("click", () => {
+        $("#accept_sign_btn").hide();
+
+        document.getElementById("sign_msg").innerText = `Waiting Another Present Accept...`;
+        
+        socket.emit("contract_load_request");
+    });
+});
 
 sign_btn.addEventListener("click", () => {
     document.getElementById("sign_msg").innerText = `Are you request contract file sign?`;

@@ -2,6 +2,7 @@ const contractFile = require("../services/contract.service.js");
 const redis = require("../middlewares/redis.moddleware.js");
 const SignContract = require("../middlewares/sign.middleware.js");
 const { getRoomFromUser } = require("../services/room.service.js");
+const tts = require("../middlewares/tts.middleware.js");
 const fs = require("fs");
 
 let checkSignRequest = {};
@@ -268,3 +269,101 @@ module.exports.saveContractPDF = async (req, res, next) => {
         }).status(400);
     }
 } 
+
+module.exports.checkContractFile = async (req, res, next) => {
+    if (req.files.contract_file) {
+        const basePDFname = await contractFile.getFilename(req.id);
+        const targetPDF = req.files.contract_file;
+
+        const baseData = contractFile.convertPDF2Base64(basePDFname);
+        const targetData = targetPDF.data.toString("base64");
+
+        const authKey = req.id + "_authed";
+        const isKey = await contractFile.isCheckRedisKey(authKey);
+
+        if (baseData == null) {
+            if (isKey) {
+                await redis.del(authKey);
+            }
+
+            return res.json({
+                status: 401,
+                message: "Permission Denined",
+            }).status(401);   
+        }
+
+        if (baseData === targetData) {
+            return res.json({
+                status: 200,
+                message: "Authed",
+            }).status(200);
+        } else {
+            if (isKey) {
+                await redis.del(authKey);
+            }
+
+            return res.json({
+                status: 401,
+                message: "Permission Denined",
+            }).status(401); 
+        }
+    } else {
+        return res.json({
+            status: 401,
+            message: "Permission Denined",
+        }).status(401);
+    }
+}
+
+module.exports.ttsContract = async (req, res, next) => {
+    if (req.params.page) {
+        const pdf_page = req.params.page;
+        const contract_filename = await contractFile.getFilename(req.id);
+
+        if (pdf_page == 0) {
+            let fail_audio = await tts.getSpeech("계약서가 아직 로딩되지 않았습니다. 룸안에 참가자를 확인하신 후 계약 시작 버튼을 누르신 다음, 해당 버튼을 다시 눌러주세요.");
+
+            res.setHeader("Content-Type", "audio/mpeg");
+            res.send(fail_audio).status(200);
+
+            return;
+        }
+
+        const text = await contractFile.convertPDF2TEXT(contract_filename, pdf_page);
+
+        if (text != null) {
+            const sentences = text.split(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)\s/g);
+            const split_text = sentences.filter(sentence => sentence.trim() !== '');
+            
+            let text_data = "";
+            let text_array = [];
+            let audioData_array = [];
+            let audioData = "";
+
+            text_array.push("계약서의 " + String(pdf_page) + "쪽 음성 읽기를 시작합니다. 멈춤을 원하시면 음성 읽기 버튼 아래 중단 버튼을 눌러주세요.");
+
+            for (let i=0; i < split_text.length; i++) {
+                if (i % 5 == 0) {
+                    text_array.push(text_data);
+                    text_data = "";
+                }
+
+                text_data += split_text[i];
+            }
+
+            text_array.push(text_data);
+            text_array.push("계약서의 " + String(pdf_page) + "쪽 음성 읽기가 끝났습니다. 다음 페이지 읽기를 요청하시려면 페이지를 넘기신 후 버튼을 눌러주시기 바랍니다.");
+
+            for (let j=0; j < text_array.length; j++) {
+                audioData_array.push(await tts.getSpeech(text_array[j]));
+            }
+
+            audioData = Buffer.concat(audioData_array);
+
+            res.setHeader("Content-Type", "audio/mpeg");
+            res.send(audioData).status(200);
+        } else {
+            return res.send(null).status(400);
+        }
+    }
+}

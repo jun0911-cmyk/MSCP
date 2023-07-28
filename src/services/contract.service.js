@@ -5,6 +5,7 @@ const redis = require("../middlewares/redis.moddleware.js");
 const logger = require("../middlewares/log.middleware.js");
 const { getRoomFromUser } = require("./room.service.js");
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+const pdfjsLib = require("pdfjs-dist");
 const utf8 = require("utf8");
 const fontkit = require("@pdf-lib/fontkit");
 const pdfParser = require("pdf-parse");
@@ -240,8 +241,57 @@ const getPDFData = async (filename, page) => {
     }
 }
 
+const convertPDF2Base64 = (filename) => {
+    try {
+        const pdfPath = path.join(__dirname, "../../contract_temp/" + filename);
+        const pdfBuffer = fs.readFileSync(pdfPath);
+
+        const base64Data = pdfBuffer.toString("base64");
+
+        return base64Data;
+    } catch (err) {
+        logger("Base64 Encode Error : " + err, "err");
+        return null
+    }
+}
+
+const convertPDF2TEXT = async (filename, pageNum) => {
+    try {
+        const file_path = path.join(__dirname, "../../contract_temp/" + filename);
+        const data = new Uint8Array(fs.readFileSync(file_path));
+
+        const pdf = await pdfjsLib.getDocument({ data }).promise;
+        const page = await pdf.getPage(Number(pageNum));
+
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+
+        return pageText;
+    } catch (err) {
+        logger("PDF Parsing Error : " + err, "err");
+        return null;
+    }
+}
+
+const isCheckRedisKey = async (key) => {
+    try {
+        const data = await redis.get(key);
+
+        if (data == null || data == undefined || data == "") {
+            return false;
+        }
+
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
 module.exports.checkRedisData = checkRedisData;
 module.exports.createPDF = createPDF;
+module.exports.convertPDF2TEXT = convertPDF2TEXT;
+module.exports.isCheckRedisKey = isCheckRedisKey;
+module.exports.convertPDF2Base64 = convertPDF2Base64;
 module.exports.clearContractData = clearContractData;
 module.exports.deleteRoom = deleteRoom;
 module.exports.isSafeCert = isSafeCert;
