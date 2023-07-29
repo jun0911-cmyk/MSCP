@@ -23,6 +23,10 @@ const generateRooms = async (rooms) => {
     return room_list;
 }
 
+module.exports.renderRoomPage = (req, res, next) => {
+    res.sendFile(path.join(__dirname + "/../../public/views/room_list.html"));   
+}
+
 module.exports.roomList = async (req, res, next) => {
     const rooms = await getRooms();
 

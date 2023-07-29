@@ -64,21 +64,21 @@
 <body>
     <div class="certificate">
         <div class="certificate-header">
-            <h1 class="certificate-title"><div>Contract Access Certification Document<hr></h1>
+            <h1 class="certificate-title"><div>MSCP 사용자 NFT 인증서<hr></h1>
         </div>
         <div class="certificate-body">
-            <p class="certificate-description">Since the certificate is an NFT certificate used in the MSCP service contract, tampering and sharing are prohibited and must be owned only by the user. A public certificate is an important means of authentication for identity verification when signing contracts between contractors. If disclosed to others, the certificate may be tampered with and may be vulnerable to security. That certificate should only be owned by you. The certificate is protected by the NFT blockchain.<hr></p>
+            <p class="certificate-description">해당 인증서는 MSCP 서비스 중 계약룸에서 사용되는 NFT 인증서이므로 변조 및 공유가 금지되며 아래의 명시되어 있는 사용자만 본인이 소유해야 합니다. 해당 인증서는 계약자간 계약 체결 시, 계약룸 입장 시 등 다양한 계약 상황에서의 신원 확인을 위한 중요한 인증 수단입니다. 타인에게 공개 또는 복제되지 않도록 주의해주세요, 신뢰할 수 PC에 보관하시는 것을 권장합니다. 해당 인증서는 NFT 블록체인에 의해 보호되고 있으며 해당 인증서를 복제하여 2차적인 변조, 복제는 금지되며 MSCP 서비스 시스템에서는 이를 감지하고 보호합니다.<hr></p>
             <div class="certificate-info">
-                <p class="certificate-recipient">Owner Identification ID : {{id}}</p>
-                <p class="certificate-recipient">Owner Nickname : {{username}}</p>
-                <p class="certificate-recipient">Owner Name : <span style="font-family: 'Pinyon Script', cursive;">{{name}}</span></p>
-                <p class="certificate-recipient" style="margin-bottom: 50px;">Owner Email : {{email}}</p>
+                <p class="certificate-recipient">사용자 식별 ID : {{id}}</p>
+                <p class="certificate-recipient">소유자 ID : {{username}}</p>
+                <p class="certificate-recipient">소유자 실명 : {{name}}</p>
+                <p class="certificate-recipient" style="margin-bottom: 50px;">소유자 이메일 : {{email}}</p>
                 <hr style="margin-bottom: 50px;">
-                <p class="certificate-date">Date of issue of certificate : <span style="font-family: 'Pinyon Script', cursive;">{{date}}</span></p>
+                <p class="certificate-date">인증서 공식 발급일자 : {{date}}</span></p>
             </div>
         </div>
         <div class="certificate-footer" style="text-align: right;">
-          <p class="certificate-signature" style="margin-top: 10px;">Owner Signature : &nbsp;&nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{name}}</p>
+          <p class="certificate-signature" style="margin-top: 10px;">사용자 서명 승인 : &nbsp;&nbsp;&nbsp;<span style="font-family: 'Pinyon Script', cursive;">{{name}}</p>
                   <canvas id="canvas" width="250" height="80"></canvas>
         </div>
     </div>

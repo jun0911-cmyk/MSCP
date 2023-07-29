@@ -855,3 +855,16 @@
 [TIME : 1690568667915] [LOGGER database LOG] : sequelize DB Connect Success
 [TIME : 1690570281972] [LOGGER database LOG] : sequelize DB Connect Success
 [TIME : 1690570386370] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690628106125] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690628303157] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690628765315] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690628789343] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690641727578] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690642449105] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690642567360] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690642675761] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690643055543] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690643474955] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690643548990] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690643583085] [LOGGER database LOG] : sequelize DB Connect Success
+[TIME : 1690643613375] [LOGGER database LOG] : sequelize DB Connect Success

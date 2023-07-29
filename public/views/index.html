@@ -10,63 +10,46 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.12/pdfobject.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
-    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="file_input">
-        <div class="input-group mb-3" style="width:30rem; margin: auto;" id="test">
-            <span class="input-group-text" id="inputGroup-sizing-default">ACCESS_USERNAME OR EMAIL</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="accesser">
+    <div id="nav_container"></div>
+    <header>
+        <h1>메타버스상에서의 안전한 계약 체결 플랫폼</h1>
+    </header>
+    <section class="cta-section">
+        <div class="cta-container">
+            <p>MSCP는 블록체인 기술과 암호화폐를 활용하여<br>계약 체결을 더욱 간편하고 안전하게 만들어줍니다.</p>
+            <button class="cta-button">지금 시작하기</button>
         </div>
-        <div id="keyboard.accesser"></div>
-        <div class="input-group mb-3" style="width:30rem; margin: auto;" id="test">
-            <span class="input-group-text" id="inputGroup-sizing-default">ROOM PASSWORD</span>
-            <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="password">
+    </section>
+    <hr style="margin-top: 8rem; box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">
+    <section class="features-section">
+        <div class="features-container">
+            <h2>NFT를 사용, 그 어떤 계약 플랫폼보다,</br>안전하고 신뢰성있게 계약하세요!</h2>
+            <p>기존에 사용하던 문서 그대로 업로드하고,</br>
+                카카오톡, 문자, 이메일로 서명을 요청하세요.</br>
+                상대방은 회원가입 없이 검토 후 서명하면 끝!</p>
         </div>
-        <div id="keyboard.password"></div>
-        <div class="input-group mb-3" id="file_input_content">
-            <input type="file" class="form-control" id="inputGroupFile02" name="contract_file">
-            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+    </section>
+    <section class="how-it-works-section">
+        <div class="how-it-works-container">
+            <h2>서비스 이용 방법</h2>
+            <p>기존에 사용하던 문서 그대로 업로드하고,</br>
+                카카오톡, 문자, 이메일로 서명을 요청하세요.</br>
+                상대방은 회원가입 없이 검토 후 서명하면 끝!</p>
         </div>
-        <button id="room_create_btn">Create Contract Room</button>
-    </div>
-    <div class="room_list">
-        <table class="table caption-top">
-            <caption>Contract Room list</caption>
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">name</th>
-                <th scope="col">organizer_username</th>
-                <th scope="col">participant_username</th>
-                <th scope="col">status</th>
-                <th scope="col">people</th>
-                <th scope="col">join</th>
-              </tr>
-            </thead>
-            <tbody id="room_table">
-            </tbody>
-          </table>
-    </div>
-    <div id="popupOverlay" class="overlay">
-        <div class="popup">
-          <span class="close-btn" id="close_popup">&times;</span>
-          <h2>Upload Your Certificate File And Contract File</h2>
-          <div class="input-group mb-3" id="file_input_content">
-            <input type="file" class="form-control" id="inputGroupFile03" name="contract_file">
-            <label class="input-group-text" for="inputGroupFile03">Upload</label>
-          </div>
-          <div class="input-group mb-3" id="file_input_content">
-            <input type="file" class="form-control" id="inputGroupFile04" name="contract_file">
-            <label class="input-group-text" for="inputGroupFile03">Upload</label>
-          </div>
-        <div>
-            <input type="password" class="form-control" id="room_password">
+    </section>
+    <section class="about-us-section">
+        <div class="about-us-container">
+            <h2>MSCP 소개</h2>
+            <p>기존에 사용하던 문서 그대로 업로드하고,</br>
+                카카오톡, 문자, 이메일로 서명을 요청하세요.</br>
+                상대방은 회원가입 없이 검토 후 서명하면 끝!</p>
         </div>
-        <button id="cert_verify_btn">Connect</button>
-        </div>
-    </div>
-    <script src="./static/js/modules/keyboard.module.js"></script>
-    <script src="./static/js/index.js" type="module"></script>
+    </section>
+    <script src="/static/js/modules/check_auth.module.js" type="module"></script>
+    <script src="/static/js/index.js" type="module"></script>
 </body>

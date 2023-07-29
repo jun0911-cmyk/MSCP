@@ -96,7 +96,7 @@ module.exports.authSignup = async (req, res, next) => {
 module.exports.testLogin = async (req, res, next) => {
     const { username, sign } = req.body;
 
-    if ((username == undefined || username == null) || (sign == undefined || sign == null)) {
+    if ((username == undefined || username == null) || (sign == "[]" || sign == null)) {
         return res.send({
             status: 401,
             message: "is none data in auth data"
@@ -169,6 +169,24 @@ module.exports.authVerify = async (req, res, next) => {
 module.exports.authLogOut = (req, res, next) => {
     res.clearCookie("accessToken");
     res.redirect("/auth");
+}
+
+module.exports.certificateCheckHandle = async (req, res, next) => {
+    try {
+        const id = req.id;
+        const certificate = new Certification(id, null, null, null);
+        const auth = new Auth(req.publicAddress, null);
+        const user = await auth.getUser();
+        const fileObj = await certificate.getPDF();
+
+        if (fileObj && !user.dataValues.cert_file_download) {
+            res.send("ok").status(200);
+        } else {
+            res.send("no").status(400);
+        }
+    } catch (err) {
+        res.send("no").status(400);
+    }
 }
 
 module.exports.certificateHandle = async (req, res, next) => {
