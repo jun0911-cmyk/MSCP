@@ -53,11 +53,11 @@
     </div>
     <hr style="margin-top: 5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">
     <div class="room_list_container">
-        <h2 id="count_contract_room">대한민국에서 현재 진행중인 온라인 계약 : 2건</h2>
+        <h2 id="count_contract_room">대한민국에서 현재 진행중인 온라인 계약 : 0건</h2>
         <p>해당하는 계약룸에 참가하기를 눌러서 바로 온라인에서 계약을 안전하고 빠르게 진행해보세요!</br>만약 계약룸이 없으실 경우 위에서 계약룸을 새로 생성해주세요.</p>
         <div class="search-container">
-            <input type="text" class="search-input" name="search" placeholder="찾으시려는 계약룸을 검색하세요">
-            <input type="submit" class="search-button" value="검색">
+            <input type="text" class="search-input" name="search" id="search_value" placeholder="찾으시려는 계약룸을 검색하세요">
+            <input type="submit" class="search-button" id="search_btn" value="검색">
         </div>
         <div class="room_list">
             <table class="table caption-top" style="width: 80rem; margin: auto;">
@@ -77,24 +77,26 @@
             </table>
         </div>
     </div>
-    <div id="popupOverlay" class="overlay">
-        <div class="popup">
-          <span class="close-btn" id="close_popup">&times;</span>
-          <h2>Upload Your Certificate File And Contract File</h2>
-          <div class="input-group mb-3" id="file_input_content">
-            <input type="file" class="form-control" id="inputGroupFile03" name="contract_file">
-            <label class="input-group-text" for="inputGroupFile03">Upload</label>
-          </div>
-          <div class="input-group mb-3" id="file_input_content">
-            <input type="file" class="form-control" id="inputGroupFile04" name="contract_file">
-            <label class="input-group-text" for="inputGroupFile03">Upload</label>
-          </div>
-        <div>
-            <input type="password" class="form-control" id="room_password">
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <h2 id="connect_message">팝업 창</h2>
+            <div class="popup-input-content">
+                <label for="file1">사용자 NFT 인증서를 업로드해주세요.</label>
+                <input type="file" id="inputGroupFile03" accept=".pdf">
+        
+                <label for="file2">계약서 검증을 위한 계약서 파일을 업로드해주세요.</label>
+                <input type="file" id="inputGroupFile04"" accept=".pdf">
+        
+                <label for="textInput">계약룸 비밀번호를 입력해주세요.</label>
+                <input type="password" id="room_password" name="textInput">
+
+                <p style="margin-top: 1rem; color: red; font-size: 15px;" id="fail_msg"></p>
+        
+                <button type="submit" id="cert_verify_btn">접속하기</button>
+                <button type="submit" style="background-color: red;" id="cancel_join_btn">취소하기</button>
+            </div>
         </div>
-        <button id="cert_verify_btn">Connect</button>
-        </div>
-    </div>
+    </div>      
     <script src="/static/js/modules/check_auth.module.js" type="module"></script>
     <script src="/static/js/modules/keyboard.module.js"></script>
     <script src="/static/js/room_list.js" type="module"></script>

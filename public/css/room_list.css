@@ -105,7 +105,10 @@ button:hover {
     border-radius: 0 20px 20px 0;
   }
 
-.overlay {
+  .popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -113,32 +116,82 @@ button:hover {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9999;
-    display: none;
+    animation: fadeIn 0.5s;
   }
   
-  .popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    padding: 20px;
+  .popup-content {
     background-color: #fff;
-    border-radius: 5px;
+    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
   
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+  .popup-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
   }
   
-  .upload-btn {
-    display: block;
-    margin: 10px 0;
+  .popup-content label {
+    margin-bottom: 5px;
   }
+  
+  .popup-content input[type="file"],
+  .popup-content input[type="text"] {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .popup-content input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+
+  .popup-content input[type="file"]::before {
+    content: '파일 선택';
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px;
+    width: 5rem;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .popup-content input[type="file"]:hover::before {
+    background-color: #0056b3;
+  }
+
+  .popup-content .popup-input-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup-content button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .popup-content button:hover {
+    background-color: #0056b3;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }  
 
 @keyframes file_upload_btn_animation {
     20% {

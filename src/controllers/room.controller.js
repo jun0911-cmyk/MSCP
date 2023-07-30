@@ -1,5 +1,5 @@
 const path = require("path");
-const { CreateRoom, getRooms, getOrganizer, getRoomFromUser, checkRoom } = require("../services/room.service.js");
+const { CreateRoom, getRooms, getOrganizer, getRoomFromUser, checkRoom, searchRoomByName } = require("../services/room.service.js");
 const redis = require("../middlewares/redis.moddleware.js");
 
 const generateRooms = async (rooms) => {
@@ -28,7 +28,14 @@ module.exports.renderRoomPage = (req, res, next) => {
 }
 
 module.exports.roomList = async (req, res, next) => {
-    const rooms = await getRooms();
+    const search_keyword = req.query.search;
+    let rooms = null;
+
+    if (search_keyword) {
+        rooms = await searchRoomByName(search_keyword);
+    } else {
+        rooms = await getRooms();
+    }
 
     if (rooms == null) {
         return res.json({

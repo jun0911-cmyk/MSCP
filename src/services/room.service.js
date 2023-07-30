@@ -23,6 +23,21 @@ const getOrganizer = async (username) => {
     }
 }
 
+const searchRoomByName = async (keyword) => {
+    try {
+        return await models.room.findAll({
+            where: {
+                room_name: {
+                    [Op.like]: "%" + keyword + "%"
+                }
+            }
+        });
+    } catch (err) {
+        logger("sequelize like error : " + err, "err");
+        return null;
+    }
+}
+
 const getRoomFromUser = async (id) => {
     try {
         return await models.room.findOne({
@@ -136,3 +151,4 @@ module.exports.getRoomFromUser = getRoomFromUser;
 module.exports.updatePeople = updatePeople;
 module.exports.checkRoom = checkRoom;
 module.exports.CreateRoom = CreateRoom;
+module.exports.searchRoomByName = searchRoomByName;

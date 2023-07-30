@@ -146,3 +146,4 @@ Stack:
 [TIME : 1690485678190] [LOGGER err LOG] : tts error : Error: 3 INVALID_ARGUMENT: Either `input.text` or `input.ssml` is longer than the limit of 5000 bytes. This limit is different from quotas. To fix, reduce the byte length of the characters in this request, or consider using the Long Audio API: https://cloud.google.com/text-to-speech/docs/create-audio-text-long-audio-synthesis.
 [TIME : 1690548257250] [LOGGER err LOG] : PDF Parsing Error : Error: Invalid page request.
 [TIME : 1690548465319] [LOGGER err LOG] : PDF Parsing Error : Error: Invalid page request.
+[TIME : 1690732480136] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
