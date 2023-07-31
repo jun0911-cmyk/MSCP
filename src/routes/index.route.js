@@ -4,6 +4,6 @@ const { renderFile } = require("../controllers/index.controller.js");
 
 const router = express.Router();
 
-router.get("/", jwtAuth, renderFile);
+router.get("/", renderFile);
 
 module.exports = router;

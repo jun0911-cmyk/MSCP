@@ -4,85 +4,51 @@
   font-style: normal;
 }
 
-.file_input {
-    margin-top: 3rem;
-    text-align: center;
-}
-
-#file_input_content {
-    width: 20rem; 
-    margin: auto;
-}
-
-.file_input button {
-    border: none;
-    width: 15rem;
-    height: 3rem;
-    font-weight: 900;
-    border-radius: 3%;
-    font-size: 17px;
-    background-color: rgb(64, 64, 173);
-    color: aqua;
-}
-
-button:hover {
-    animation: file_upload_btn_animation;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-}
-
-.mute_btn {
-  display: flex;
-  margin-left: 20rem;
-}
-
-.toggle-button {
-  margin-left: 0.5rem;
-  font-weight: 900;
-  color: white;
-  width: 140px;
-  height: 50px;
-  border-radius: 3%;
-  background-color: blue;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+body { 
+  background-color: #f9f9fb;
 }
 
 .webRTC {
-    text-align: center;
-    margin-top: 2rem;
+  position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
 }
 
-.webRTC #local {
+.webRTC .video_container {
+  display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.webRTC #local, .webRTC #remote {
     background-color: #303436;
-    height: 22.5rem;
-    width: 30rem;
-    border-radius: 1rem;
+    width: 20.8vw;
+    height: 20.5vh;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 1px;
 }
 
-.webRTC #remote {
-    background-color: #303436;
-    width: 30rem;
-    height: 22.5rem;
-    border-radius: 1rem;
-}
-
-.read_file {
-    margin-top: 1rem;
+.pdf {
+  width: 58vw;
+  height: 90vh;
+  background-color: #f9f9fb;
+  overflow: scroll;
 }
 
 .contract_viewer {
-  position: absolute;
     overflow-y: hidden;
     overflow-x: hidden;
-    margin: auto;
-    border-radius: 3%;
     border-color: black;
-    background-color: #525659;
-    left: 50%;
-    transform:translateX(-50%);
+    margin: auto;
+    background-color: #FFF;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 #sign_container {
@@ -106,30 +72,13 @@ canvas {
     color: aqua;
 }
 
-.btn_class {
-    position: absolute;
-    margin-top: 64rem;
-    margin-left: 76rem;
-    z-index: 20;
-}
-
-.btn_class button {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    color: black;
-    border-color: black;
-    background-color: transparent;
-    z-index: 20;
-}
-
 .chat-container {
-    width: 500px;
-    height: 650px;
-    margin: 20px auto;
-    position: absolute;
-    margin-left: 86rem;
+      position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 41.8%;
     background-color: #fff;
+    height: 79%;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     overflow: hidden;
@@ -161,13 +110,15 @@ canvas {
   }
   
   .chat-input {
+      position: fixed;
+      bottom: 0;
     padding: 10px;
   }
   
   .chat-input input[type="text"] {
     width: 100%;
     padding: 5px;
-    border: none;
+    border: 2px solid black;
     border-radius: 3px;
   }
   
@@ -175,6 +126,7 @@ canvas {
     background-color: #333;
     color: #fff;
     border: none;
+    margin-top: 0.5rem;
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
@@ -184,39 +136,53 @@ canvas {
     background-color: #555;
   }
 
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    display: none;
+  .setting-content {
+      width: 58%;
+      height: 10%;
+      padding: 1rem;
+      background-color: #f0e5e5;
+      border: 2px solid rgb(211, 195, 195);
+      box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      bottom: 0;
   }
-  
-  .popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+  .setting-button {
+      display: flex;
   }
-  
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+
+  .setting-button button {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background-color: #FFF;
+      box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+      border: none;
   }
-  
-  .upload-btn {
-    display: block;
-    margin: 10px 0;
+
+  .setting-button .video-setting button {
+      margin-left: 0.5rem;
+  }
+
+  .setting-button .contract-setting {
+      text-align: center;
+      margin: auto;
+  }
+
+  .setting-button .contract-setting button {
+      margin-left: 0.5rem;
+  }
+
+  .video-setting button:hover, .contract-setting button:hover {
+      animation: file_upload_btn_animation;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+  }
+
+  .exit_btn:hover {
+      animation: exit_btn_animation;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
   }
 
   .input-box {
@@ -229,14 +195,110 @@ canvas {
     z-index: 100;
   }
 
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+  }
+
+  .popup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      animation: fadeIn 0.5s;
+    }
+    
+    .popup-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .popup-content h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .popup-content label {
+      margin-bottom: 5px;
+    }
+    
+    .popup-content input[type="file"],
+    .popup-content input[type="text"] {
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    .popup-content input[type="file"]::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+
+    .popup-content .popup-input-content {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .popup-content button {
+      background-color: green;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    .popup-content button:hover {
+      background-color: #0056b3;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }  
+
 @keyframes file_upload_btn_animation {
     20% {
-        background-color: blue;
+      background-color: #c0a6a6;
     }
     50% {
-        background-color: blue;
+      background-color: #c0a6a6;
     }
     100% {
-        background-color: blue;
+      background-color: #c0a6a6;
     }
 }
+
+@keyframes exit_btn_animation {
+  20% {
+    background-color: red;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: red;
+  }
+}
+

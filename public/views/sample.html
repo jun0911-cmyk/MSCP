@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <link rel="stylesheet" href="/static/css/room.css">
+    <link rel="stylesheet" href="/static/css/sample.css">
 </head>
 <body>
     <div class="webRTC">
@@ -25,13 +25,15 @@
     <div class="chat-container">
         <div class="chat-content">
             <div class="chat-header">
-                <h2>계약룸 실시간 채팅</h2>
+                <h2>Contract Chatting</h2>
               </div>
               <div class="chat-messages" id="chat-form">
               </div>
               <div class="chat-input">
-                <input type="text" class="form-control" id="chatting_message" placeholder="상대방 계약자에게 보낼 메시지를 입력해주세요" size="100">
-                <button id="send_chat_btn">보내기</button>
+                <form id="chatForm">
+                  <input type="text" class="form-control" id="chatting_message" placeholder="input yout message" size="100">
+                </form>
+                <button id="send_chat_btn">Submit</button>
             </div>
         </div>
     </div>
@@ -49,15 +51,15 @@
         <div class="setting-content">
             <div class="setting-button">
                 <div class="video-setting">
-                    <button id="videoToggle"><i class="fa-solid fa-video-slash fa-2xl"></i></button>
-                    <button id="audioToggle"><i class="fa-solid fa-microphone-slash fa-2xl"></i></button>
+                    <button id="videoToggle"><i class="fa-solid fa-video fa-2xl"></i></button>
+                    <button id="audioToggle"><i class="fa-solid fa-microphone fa-2xl"></i></button>
                 </div>
                 <div class="contract-setting">
                     <button id="sign_contract_btn"><i class="fa-solid fa-file-signature fa-2xl"></i></button>
                     <button id="load_contract_btn"><i class="fa-solid fa-play fa-2xl"></i></button>
                     <button id="speak_contract_btn"><i class="fa-solid fa-headphones-simple fa-2xl"></i></button>
-                    <button id="return_btn"><i class="fa-solid fa-arrow-left fa-2xl"></i></button>
-                    <button id="next_btn"><i class="fa-solid fa-arrow-right fa-2xl"></i></button>
+                    <button id="next_btn"><i class="fa-solid fa-arrow-left fa-2xl"></i></button>
+                    <button id="return_btn"><i class="fa-solid fa-arrow-right fa-2xl"></i></button>
                 </div>
                 <button class="exit_btn" id="close_contract_btn"><i class="fa-solid fa-right-from-bracket fa-2xl"></i></button>
             </div>
@@ -68,15 +70,11 @@
             <h2 id="connect_message">계약룸 승인 요청</h2>
             <div class="popup-input-content">
                 <div id="contract_sign_content">
-                    <p id="sign_msg"></p>
+                    <p id="sign_msg">teststestest</p>
                 </div>
                 <button type="submit" id="accept_sign_btn">승인하기</button>
-                <button type="submit" id="accept_load_btn">승인하기</button>
-                <button type="submit" id="accept_exit_btn">나가기</button>
                 <button type="submit" style="background-color: red;" id="close_popup">취소하기</button>
             </div>
         </div>
     </div>
-    <script src="/static/js/modules/keyboard.module.js" type="module"></script>
-    <script src="/static/js/room.js" type="module"></script>
 </body>

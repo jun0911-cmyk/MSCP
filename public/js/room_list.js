@@ -111,7 +111,7 @@ create_btn.addEventListener("click", async () => {
             Swal.fire(
                 '계약룸 생성 성공',
                 '계약룸이 성공적으로 생성되었습니다!',
-                'error'
+                'success'
             );
         } else {
             Swal.fire(

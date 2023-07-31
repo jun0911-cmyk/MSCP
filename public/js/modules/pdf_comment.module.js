@@ -4,22 +4,10 @@ let inputBoxes = [];
 
 const addComment = (inputBoxObj) => {
     const target = document.getElementById('inputContainer');
-
+    
     target.innerHTML += `
-    <input type="text" class="input-box" style="left: ${String(inputBoxObj.x)}px; top: ${String(inputBoxObj.y)}px; width: 11ch;" value="${inputBoxObj.text}" disabled>
+    <input type="text" class="input-box" style="left: ${String(inputBoxObj.clientX)}px; top: ${String(inputBoxObj.clientY)}px; width: ${inputBoxObj.inputSize}ch;" value="${inputBoxObj.text}" disabled>
     `;
-}
-
-const appendText = (text, left, top) => {
-    const p = document.createElement('p');
-    p.innerText = text;
-    p.style.position = "absolute";
-    p.style.left = left + "px";
-    p.style.top = top + "px";
-    p.style.fontFamily = "Pretendard-Regular";
-    p.style.fontSize = "15px";
-    p.style.zIndex = 100;
-    inputContainer.appendChild(p);
 }
 
 
@@ -32,8 +20,8 @@ const createInputBox = (event, socket, page, pdf_cover, container) => {
     inputBox.type = 'text';
     inputBox.className = 'input-box';
 
-    inputBox.style.left = `${x}px`;
-    inputBox.style.top = `${y}px`;
+    inputBox.style.left = `${event.clientX - 5}px`;
+    inputBox.style.top = `${event.clientY - 10}px`;
 
     inputBox.addEventListener('click', function (event) {
         event.stopPropagation();
@@ -48,6 +36,8 @@ const createInputBox = (event, socket, page, pdf_cover, container) => {
         text: '',
         x: x,
         y: y,
+        clientX: event.clientX - 5,
+        clientY: event.clientY - 10,
         offsetX: container.style.width,
         offsetY: container.style.height,
     };
@@ -68,6 +58,7 @@ const createInputBox = (event, socket, page, pdf_cover, container) => {
 
     function resizeInputBox() {
         inputBox.style.width = inputBox.value.length + 10 + 'ch';
+        inputBoxObj.inputSize = inputBox.value.length + 2;
     }
   
     inputBox.addEventListener('input', resizeInputBox);

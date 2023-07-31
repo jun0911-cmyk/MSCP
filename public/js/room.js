@@ -11,7 +11,7 @@ const close_btn = document.getElementById("close_contract_btn");
 const inputContainer = document.getElementById('inputContainer');
 const load_btn = document.getElementById("load_contract_btn");
 const speak_btn = document.getElementById("speak_contract_btn");
-const stop_tts_btn = document.getElementById("stop_tts_btn");
+const cancel_popup_btn = document.getElementById("close_popup");
 
 const socket = window.io("https://219.255.230.120:8000", { transports : ['polling'], path: "/socket.io" });
 
@@ -20,6 +20,7 @@ pdfjsLib.GlobalWorkerOptions.disableFontFace = true;
 pdfjsLib.GlobalWorkerOptions.maxImageSize = 1024 * 1024;
 
 let page = 1;
+let tts_toggle = 0;
 
 rtc.webRTC(socket);
 event.socketEvent(socket, page);
@@ -27,56 +28,81 @@ localStorage.setItem("page", page);
 
 $("#return_btn").hide();
 $("#next_btn").hide();
-$("#stop_tts_btn").hide();
+$("#popupOverlay").hide();
 
 speak_btn.addEventListener("click", () => {
     const pdf_obj = document.getElementById("pdf_object");
 
-    if (pdf_obj != null) {
-        const page_num = localStorage.getItem("page");
+    tts_toggle += 1;
 
-        $("#stop_tts_btn").show();
+    if (tts_toggle % 2 == 0) {
+        speak_btn.style.backgroundColor = "white";
 
-        document.getElementById("speak").innerHTML = `
-        <audio src="/contract/speak/${page_num}" type="audio/mpeg" controls autoplay hidden></audio>
-        `;
+        const ttsElement = document.getElementById("tts");
+        const speakDiv = document.getElementById("speak");
+
+        if (ttsElement != null) {
+            speakDiv.removeChild(ttsElement);
+        }
     } else {
-        document.getElementById("speak").innerHTML = `
-            <audio src="/contract/speak/0" type="audio/mpeg" id="tts" controls autoplay hidden></audio>
-        `;
+        speak_btn.style.backgroundColor = "green";
+
+        if (pdf_obj != null) {
+            const page_num = localStorage.getItem("page");
+    
+            $("#stop_tts_btn").show();
+    
+            document.getElementById("speak").innerHTML = `
+            <audio src="/contract/speak/${page_num}" type="audio/mpeg" controls autoplay hidden></audio>
+            `;
+        } else {
+            document.getElementById("speak").innerHTML = `
+                <audio src="/contract/speak/0" type="audio/mpeg" id="tts" controls autoplay hidden></audio>
+            `;
+        }
     }
 });
 
-stop_tts_btn.addEventListener("click", () => {
-    const ttsElement = document.getElementById("tts");
-    const speakDiv = document.getElementById("speak");
-
-    if (ttsElement != null) {
-        speakDiv.removeChild(ttsElement);
-        
-        $("#stop_tts_btn").hide();
-    }
-})
+cancel_popup_btn.addEventListener("click", () => {
+    $("#popupOverlay").hide();
+    $("#accept_load_btn").hide();
+    $("#accept_sign_btn").hide();
+    $("#accept_exit_btn").hide();
+});
 
 load_btn.addEventListener("click", () => {
-    document.getElementById("sign_msg").innerText = `Are you start contract?`;
-    document.getElementById("popupOverlay").style.display = "block";
-    document.getElementById("accept_sign_btn").addEventListener("click", () => {
-        $("#accept_sign_btn").hide();
+    document.getElementById("sign_msg").innerText = `계약서를 로딩하고 계약을 시작하시겠습니까?, 계약룸에 모두 참가하고 있으셔야합니다.`;
+    
+    $("#accept_load_btn").show();
+    $("#close_popup").show();
+    $("#accept_sign_btn").hide();
+    $("#accept_exit_btn").hide();
+    $("#popupOverlay").show();
+    
+    document.getElementById("accept_load_btn").addEventListener("click", () => {
+        $("#accept_load_btn").hide();
+        $("#close_popup").hide();
 
-        document.getElementById("sign_msg").innerText = `Waiting Another Present Accept...`;
+        document.getElementById("sign_msg").innerText = `상대방의 승인을 대기중입니다... 잠시만 기다려주세요.`;
         
         socket.emit("contract_load_request");
     });
 });
 
 sign_btn.addEventListener("click", () => {
-    document.getElementById("sign_msg").innerText = `Are you request contract file sign?`;
-    document.getElementById("popupOverlay").style.display = "block";
+    document.getElementById("sign_msg").innerText = `계약서 서명, 체결 요청을 보내시겠습니까?`;
+    
+    $("#accept_load_btn").hide();
+    $("#accept_sign_btn").show();
+    $("#accept_exit_btn").hide();
+    $("#close_popup").show();
+    $("#popupOverlay").show();
+
     document.getElementById("accept_sign_btn").addEventListener("click", () => {
         $("#accept_sign_btn").hide();
+        $("#close_popup").hide();
 
-        document.getElementById("sign_msg").innerText = `Waiting Another Present Accept...`;
+        document.getElementById("sign_msg").innerText = `상대방의 요청 승인을 대기중입니다... 잠시만 기다려주세요.`;
         
         socket.emit("contract_sign_request");
     });
@@ -105,11 +131,27 @@ chat_btn.addEventListener("click", () => {
     document.getElementById("chatting_message").value = "";
 });
 
+document.getElementById("chatting_message").addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        const msg = document.getElementById("chatting_message").value;
+        const organizer_username = location.pathname.split("/")[3]; 
+
+        socket.emit("message_send", document.cookie, organizer_username, msg);
+
+        document.getElementById("chatting_message").value = "";
+    }
+});
+
 close_btn.addEventListener("click", () => {
-    document.getElementById("sign_msg").innerText = `Are you sure exit this contract room?`;
-    document.getElementById("accept_sign_btn").innerText = "Exit";
-    document.getElementById("popupOverlay").style.display = "block";
-    document.getElementById("accept_sign_btn").addEventListener("click", async () => {
+    document.getElementById("sign_msg").innerText = `정말로 해당 계약룸을 나가시겠습니까?`;
+    
+    $("#accept_load_btn").hide();
+    $("#accept_sign_btn").hide();
+    $("#accept_exit_btn").show();
+    $("#close_popup").show();
+    $("#popupOverlay").show();
+    
+    document.getElementById("accept_exit_btn").addEventListener("click", async () => {
         await socket.emit("exit_room");
     });
 });

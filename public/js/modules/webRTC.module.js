@@ -21,15 +21,13 @@ document.getElementById("videoToggle").addEventListener("click", () => {
 
     if (localStream) {
         if (video_toggle % 2 == 0) {
-            element.style.backgroundColor = "#ea4435";
-            element.style.innerText = "Muted Video";
+            element.innerHTML = '<i class="fa-solid fa-video-slash fa-2xl"></i>';
             
             localStream.getVideoTracks().forEach(function(track) {
                 track.enabled = false;
             });
         } else {
-            element.style.backgroundColor = "#545454";
-            element.style.innerText = "Opened Video";
+            element.innerHTML = '<i class="fa-solid fa-video fa-2xl"></i>';
             
             localStream.getVideoTracks().forEach(function(track) {
                 track.enabled = true;
@@ -45,15 +43,13 @@ document.getElementById("audioToggle").addEventListener("click", () => {
 
     if (localStream) {
         if (audio_toggle % 2 == 0) {
-            element.style.backgroundColor = "#ea4435";
-            element.style.innerText = "Muted Audio";
+            element.innerHTML = '<i class="fa-solid fa-microphone-slash fa-2xl"></i>';
             
             localStream.getAudioTracks().forEach(function(track) {
                 track.enabled = false;
             });
         } else {
-            element.style.backgroundColor = "#545454";
-            element.style.innerText = "Opened Audio";
+            element.innerHTML = '<i class="fa-solid fa-microphone fa-2xl"></i>';
             
             localStream.getAudioTracks().forEach(function(track) {
                 track.enabled = true;

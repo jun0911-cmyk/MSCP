@@ -1,0 +1,299 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
+  }
+
+  body { 
+    background-color: #f9f9fb;
+    overflow: hidden;
+  }
+
+  .webRTC {
+    position: fixed;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+  }
+  
+  .webRTC .video_container {
+    display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+  }
+  
+  .webRTC #local, .webRTC #remote {
+      background-color: #303436;
+      width: 20.8vw;
+      height: 20.5vh;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 1px;
+  }
+
+  .pdf {
+    width: 58vw;
+    height: 90vh;
+    background-color: #f9f9fb;
+    overflow: scroll;
+  }
+  
+  .contract_viewer {
+      overflow-y: hidden;
+      overflow-x: hidden;
+      border-color: black;
+      margin: auto;
+      background-color: #FFF;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      width: 598pt;
+      height: 842pt;
+  }
+  
+  #sign_container {
+      margin-top: 2rem;
+      text-align: center;
+  }
+  
+  canvas {
+      border: 2px solid #000;
+      border-radius: 3%;
+  }
+  
+  #sign_container button {
+      border: none;
+      width: 10rem;
+      height: 2rem;
+      font-weight: 900;
+      border-radius: 3%;
+      font-size: 13px;
+      background-color: rgb(64, 64, 173);
+      color: aqua;
+  }
+  
+  .chat-container {
+        position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 41.8%;
+      background-color: #fff;
+      height: 79%;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    
+    .chat-header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+    }
+    
+    .chat-messages {
+      height: 480px;
+      padding: 10px;
+      overflow-y: scroll;
+    }
+    
+    .chat-message {
+      margin-bottom: 10px;
+    }
+    
+    .chat-message .sender {
+      font-weight: bold;
+    }
+    
+    .chat-message .timestamp {
+      font-size: 12px;
+      color: #888;
+    }
+    
+    .chat-input {
+        position: fixed;
+        bottom: 0;
+      padding: 10px;
+    }
+    
+    .chat-input input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      border: 2px solid black;
+      border-radius: 3px;
+    }
+    
+    .chat-input button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      margin-top: 0.5rem;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .chat-input button:hover {
+      background-color: #555;
+    }
+  
+    .setting-content {
+        width: 58%;
+        height: 10%;
+        padding: 1rem;
+        background-color: #f0e5e5;
+        border: 2px solid rgb(211, 195, 195);
+        box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        bottom: 0;
+    }
+
+    .setting-button {
+        display: flex;
+    }
+
+    .setting-button button {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background-color: #FFF;
+        box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .setting-button .video-setting button {
+        margin-left: 0.5rem;
+    }
+
+    .setting-button .contract-setting {
+        text-align: center;
+        margin: auto;
+    }
+
+    .setting-button .contract-setting button {
+        margin-left: 0.5rem;
+    }
+
+    .video-setting button:hover, .contract-setting button:hover {
+        animation: file_upload_btn_animation;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+
+    .exit_btn:hover {
+        animation: exit_btn_animation;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      display: none;
+    }
+
+    .popup {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        animation: fadeIn 0.5s;
+        display: none;
+      }
+      
+      .popup-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      
+      .popup-content h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .popup-content label {
+        margin-bottom: 5px;
+      }
+      
+      .popup-content input[type="file"],
+      .popup-content input[type="text"] {
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+    
+      .popup-content input[type="file"]::-webkit-file-upload-button {
+        visibility: hidden;
+      }
+
+      .popup-content .popup-input-content {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .popup-content button {
+        background-color: green;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      
+      .popup-content button:hover {
+        background-color: #0056b3;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }  
+  
+  @keyframes file_upload_btn_animation {
+      20% {
+        background-color: #c0a6a6;
+      }
+      50% {
+        background-color: #c0a6a6;
+      }
+      100% {
+        background-color: #c0a6a6;
+      }
+  }
+
+  @keyframes exit_btn_animation {
+    20% {
+      background-color: red;
+    }
+    50% {
+      background-color: red;
+    }
+    100% {
+      background-color: red;
+    }
+}
+
+  
