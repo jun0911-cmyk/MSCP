@@ -67,29 +67,49 @@ const socketEvent = (socket, page) => {
         document.getElementById("sign_msg").innerText = `계약서 서명, 체결 요청이 도착했습니다, 해당 계약서를 서명하시려면 승인버튼을 눌러주세요. 요청한 계약자 : ${contractor_username}`;
 
         $("#accept_load_btn").hide();
-        $("#accept_sign_btn").show();
         $("#accept_exit_btn").hide();
-        $("#close_popup").show();
-
+        $("#close_popup").hide();
+        
+        $("#accept_sign_btn").show();
+        $("#reject_sign_btn").show();
         $("#popupOverlay").show();
 
         document.getElementById("accept_sign_btn").addEventListener("click", () => {
+            $("#reject_sign_btn").hide();
+
             socket.emit("contract_sign_request_accept", contractor_username);
+        });
+
+        document.getElementById("reject_sign_btn").addEventListener("click", () => {
+            $("#reject_sign_btn").hide();
+            $("#popupOverlay").hide();
+
+            socket.emit("contract_sign_request_reject");
         });
     });
 
     socket.on("contract_load_request", (contractor_username) => {
         document.getElementById("sign_msg").innerText = `상대방으로부터 계약 시작 요청이 왔습니다, 계약서를 로드하고 계약을 진행하시려면 승인 버튼을 눌러주세요. 요청한 계약자 : ${contractor_username}`;
         
-        $("#accept_load_btn").show();
         $("#accept_sign_btn").hide();
         $("#accept_exit_btn").hide();
-        $("#close_popup").show();
+        $("#close_popup").hide();
 
+        $("#reject_load_btn").show();
+        $("#accept_load_btn").show();
         $("#popupOverlay").show();
 
         document.getElementById("accept_load_btn").addEventListener("click", () => {
+            $("#reject_load_btn").hide();
+        
             socket.emit("contract_load_request_accept", contractor_username);
+        });
+        
+        document.getElementById("reject_load_btn").addEventListener("click", () => {
+            $("#reject_load_btn").hide();
+            $("#popupOverlay").hide();
+        
+            socket.emit("contract_load_request_reject");
         });
     });
 
@@ -98,7 +118,7 @@ const socketEvent = (socket, page) => {
         $("#close_popup").hide();
 
         document.getElementById("sign_msg").innerText = "";
-        document.getElementById("contract_sign_content").innerHTML = `
+        document.getElementById("sign_content").innerHTML = `
         <p>계약서와 계약 인증서에 첨부될 계약자 서명을 진행해주세요.</p>
         <canvas id="canvas" width="250" height="80"></canvas>
         <div class="sign_btn_class">
@@ -116,8 +136,21 @@ const socketEvent = (socket, page) => {
         $("#accept_load_btn").hide();
         $("#popupOverlay").hide();
 
+        $("#save_contract_btn").show();
         $("#return_btn").show();
         $("#next_btn").show();
+    });
+
+    socket.on("contract_load_request_reject", () => {
+        document.getElementById("sign_msg").innerText = `상대방으로부터 계약 시작 요청이 거절되었습니다, 다시 시도해주세요.`;
+
+        $("#close_popup").show();
+    });
+
+    socket.on("contract_sign_request_reject", () => {
+        document.getElementById("sign_msg").innerText = `상대방으로부터 계약서 서명 요청이 거절되었습니다, 다시 시도해주세요.`;
+
+        $("#close_popup").show();
     });
 
     socket.on("contract_sign_request_failure", (message) => { 
@@ -139,10 +172,12 @@ const socketEvent = (socket, page) => {
     });
 
     socket.on("contract_sign_success", () => {
-        document.getElementById("contract_sign_content").innerHTML = `
+        document.getElementById("sign_content").innerHTML = `
             <p>계약 체결 NFT 인증서가 성공적으로 발급되고, 계약이 체결되었습니다! (계약서 체결 인증서가 다운되었습니다.)</p>
         `;
         document.getElementById("downSignPDF").innerHTML = ` <embed id="downSignPDF" src="/contract/sign/download" type="application/pdf">`;
+
+        $("#close_popup").show();
     });
 
     socket.on("comment_send", (inputBoxObj, page) => {
@@ -154,6 +189,8 @@ const socketEvent = (socket, page) => {
     });
 
     socket.on("exit_redirect", () => {
+        localStorage.clear();
+
         location.href = "/";
     });
 }

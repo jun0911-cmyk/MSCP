@@ -92,6 +92,10 @@ const clearCommentObj = () => {
     inputContainer.innerHTML = "";
 }
 
+const clearCommentObjSaveBtn = () => {
+    inputBoxes = [];
+}
+
 export default {
     createInputBox,
     saveInputBox,
@@ -99,4 +103,5 @@ export default {
     getCommentObj,
     addComment,
     clearCommentObj,
+    clearCommentObjSaveBtn,
 };

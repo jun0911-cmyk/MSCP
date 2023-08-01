@@ -53,7 +53,7 @@ const drawSign = (socket) => {
     }
 
     async function saveLines() {
-        document.getElementById("contract_sign_content").innerHTML = `
+        document.getElementById("sign_content").innerHTML = `
         <p>계약 체결(서명) NFT 인증서를 발급중입니다... 시간이 소요될 수 있습니다, 잠시 대기해주세요.</p>
         `;
 
@@ -64,8 +64,8 @@ const drawSign = (socket) => {
         if (res.status == 200 && res.message == "success sign") {
             socket.emit("contract_sign_success");
         } else {
-            document.getElementById("contract_sign_content").innerHTML = `
-            <p>계약 체결(서명) NFT 인증서 발급에 실패하였습니다. 올바르게 서명하였는지 확인후 다시 시도해주세요.</p>
+            document.getElementById("sign_content").innerHTML = `
+            <p>계약 체결(서명) NFT 인증서 발급 대기중입니다...</p>
             `;
         }
     }

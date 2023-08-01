@@ -152,6 +152,24 @@ module.exports = (io) => {
 
             if (roomData && roomSize == 2) {
                 io.to(roomData.roomName).emit("contract_load_request_accept");
+            }
+        });
+
+        socket.on("contract_load_request_reject", async () => {
+            const roomData = roomToUser[socket.id];
+            const roomSize = io.sockets.adapter.rooms.get(roomData.roomName).size;
+
+            if (roomData && roomSize == 2) {
+                socket.broadcast.to(roomData.roomName).emit("contract_load_request_reject");
+            }
+        });
+
+        socket.on("contract_sign_request_reject", async () => {
+            const roomData = roomToUser[socket.id];
+            const roomSize = io.sockets.adapter.rooms.get(roomData.roomName).size;
+
+            if (roomData && roomSize == 2) {
+                socket.broadcast.to(roomData.roomName).emit("contract_sign_request_reject");
             } else {
                 io.sockets.to(socket.id).emit("contract_load_request_failure", "not enough room user");
             }

@@ -340,7 +340,7 @@ module.exports.ttsContract = async (req, res, next) => {
             let audioData_array = [];
             let audioData = "";
 
-            text_array.push("계약서의 " + String(pdf_page) + "쪽 음성 읽기를 시작합니다. 멈춤을 원하시면 음성 읽기 버튼 아래 중단 버튼을 눌러주세요.");
+            text_array.push("계약서의 " + String(pdf_page) + "쪽 음성 읽기를 시작합니다.");
 
             for (let i=0; i < split_text.length; i++) {
                 if (i % 5 == 0) {

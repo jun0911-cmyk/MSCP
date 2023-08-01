@@ -1,4 +1,5 @@
 import comment from "./pdf_comment.module.js";
+import loading from "./loading.module.js";
 
 const { PDFDocument, StandardFonts, rgb } = PDFLib;
 
@@ -40,6 +41,8 @@ const pdf_fix = async (commentObj, page) => {
         headers: {
             "Content-Type": "application/json"
         },
+        beforeSend: loading.loadingMsg("파일 임시 저장중입니다."),
+        complete: loading.completeLoading
     });
 
     if (response.status == 200) {
@@ -57,6 +60,8 @@ const pdfView = async (page, socket) => {
     }
 
     pdfjsLib.getDocument("/contract/file/read").promise.then(pdfDoc => {
+        localStorage.setItem("last_page", pdfDoc.numPages);
+
         return pdfDoc.getPage(page);
     }).then(pages => {
           const viewport = pages.getViewport({ scale: 1 });

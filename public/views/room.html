@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/static/css/room.css">
 </head>
 <body>
+    <div id="loading_bar">
+    </div>
     <div class="webRTC">
         <div class="video_container">
             <video id="local" autoplay="true"></video>
@@ -56,6 +58,7 @@
                     <button id="sign_contract_btn"><i class="fa-solid fa-file-signature fa-2xl"></i></button>
                     <button id="load_contract_btn"><i class="fa-solid fa-play fa-2xl"></i></button>
                     <button id="speak_contract_btn"><i class="fa-solid fa-headphones-simple fa-2xl"></i></button>
+                    <button id="save_contract_btn"><i class="fa-solid fa-floppy-disk fa-2xl"></i></button>
                     <button id="return_btn"><i class="fa-solid fa-arrow-left fa-2xl"></i></button>
                     <button id="next_btn"><i class="fa-solid fa-arrow-right fa-2xl"></i></button>
                 </div>
@@ -69,11 +72,16 @@
             <div class="popup-input-content">
                 <div id="contract_sign_content">
                     <p id="sign_msg"></p>
+                    <div id="sign_content"></div>
                 </div>
                 <button type="submit" id="accept_sign_btn">승인하기</button>
+                <button type="submit" id="start_sign_btn">승인하기</button>
                 <button type="submit" id="accept_load_btn">승인하기</button>
+                <button type="submit" id="start_load_btn">승인하기</button>
                 <button type="submit" id="accept_exit_btn">나가기</button>
-                <button type="submit" style="background-color: red;" id="close_popup">취소하기</button>
+                <button type="submit" style="background-color: red;" id="close_popup">창닫기</button>
+                <button type="submit" style="background-color: red;" id="reject_load_btn">거절하기</button>
+                <button type="submit" style="background-color: red;" id="reject_sign_btn">거절하기</button>
             </div>
         </div>
     </div>
