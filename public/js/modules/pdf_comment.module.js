@@ -6,13 +6,14 @@ const addComment = (inputBoxObj) => {
     const target = document.getElementById('inputContainer');
     
     target.innerHTML += `
-    <input type="text" class="input-box" style="left: ${String(inputBoxObj.clientX)}px; top: ${String(inputBoxObj.clientY)}px; width: ${inputBoxObj.inputSize}ch;" value="${inputBoxObj.text}" disabled>
+    <input type="text" class="input-box" style="left: ${String(inputBoxObj.x)}px; top: ${String(inputBoxObj.y)}px; width: ${inputBoxObj.inputSize}ch;" value="${inputBoxObj.text}" disabled>
     `;
 }
 
 
 const createInputBox = (event, socket, page, pdf_cover, container) => {
     const rect = pdf_cover.getBoundingClientRect();
+
     const x = (event.clientX - rect.left) - 5;
     const y = (event.clientY - rect.top) - 10;
 
@@ -20,8 +21,8 @@ const createInputBox = (event, socket, page, pdf_cover, container) => {
     inputBox.type = 'text';
     inputBox.className = 'input-box';
 
-    inputBox.style.left = `${event.clientX - 5}px`;
-    inputBox.style.top = `${event.clientY - 10}px`;
+    inputBox.style.left = `${x}px`;
+    inputBox.style.top = `${y}px`;
 
     inputBox.addEventListener('click', function (event) {
         event.stopPropagation();

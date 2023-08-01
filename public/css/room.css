@@ -43,6 +43,7 @@ body {
 }
 
 .contract_viewer {
+  position: relative;
     overflow-y: hidden;
     overflow-x: hidden;
     border-color: black;
