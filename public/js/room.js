@@ -3,6 +3,7 @@ import rtc from "./modules/webRTC.module.js";
 import event from "./modules/event.module.js";
 import loading from "./modules/loading.module.js";
 import comment from "./modules/pdf_comment.module.js";
+import canvas_comment from "./modules/canvas_comment.module.js";
 
 const return_btn = document.getElementById("return_btn");
 const next_btn = document.getElementById("next_btn");
@@ -14,6 +15,7 @@ const load_btn = document.getElementById("load_contract_btn");
 const speak_btn = document.getElementById("speak_contract_btn");
 const save_btn = document.getElementById("save_contract_btn");
 const cancel_popup_btn = document.getElementById("close_popup");
+const toggle_text_canvas_btn = document.getElementById("change_box_btn");
 
 const socket = window.io("https://219.255.230.120:8000", { transports : ['polling'], path: "/socket.io" });
 
@@ -23,8 +25,10 @@ pdfjsLib.GlobalWorkerOptions.maxImageSize = 1024 * 1024;
 
 let page = 1;
 let tts_toggle = 0;
+let box_toggle = 0;
 
 rtc.webRTC(socket);
+
 localStorage.setItem("page", page);
 event.socketEvent(socket, page);
 
@@ -36,6 +40,45 @@ $("#reject_load_btn").hide();
 $("#save_contract_btn").hide();
 $("#start_load_btn").hide();
 $("#start_sign_btn").hide();
+
+const canvasEvent = (event) => {
+    const container = document.getElementById("pdf_viewer");
+    const canvas = document.getElementById("pdf_object");
+
+    canvas_comment.createInputBox(event, socket, page, canvas, container);
+};
+
+const textEvent = (event) => {
+    const container = document.getElementById("pdf_viewer");
+    const canvas = document.getElementById("pdf_object");
+
+    comment.createInputBox(event, socket, page, canvas, container);
+}
+
+toggle_text_canvas_btn.addEventListener("click", () => {
+    const container = document.getElementById("pdf_viewer");
+    const canvas = document.getElementById("pdf_object");
+
+    if (container && canvas) {
+        box_toggle += 1;
+
+        if (box_toggle % 2 == 0) {
+            toggle_text_canvas_btn.style.backgroundColor = "white";
+            
+            canvas.removeEventListener("click", canvasEvent)
+            canvas.addEventListener("click", textEvent);
+                
+            canvas.addEventListener("mousemove", comment.moveSetInputBox);
+        } else {
+            toggle_text_canvas_btn.style.backgroundColor = "green";
+
+            canvas.removeEventListener("click", textEvent);
+            canvas.removeEventListener("mousemove", comment.moveSetInputBox);
+
+            canvas.addEventListener("click", canvasEvent);
+        }
+    }
+});
 
 speak_btn.addEventListener("click", () => {
     const pdf_obj = document.getElementById("pdf_object");
@@ -163,12 +206,14 @@ close_btn.addEventListener("click", () => {
 save_btn.addEventListener("click", async () => {
     if (page >= 1) {
         const comment_data = comment.getCommentObj();
+        const canvas_data = canvas_comment.getCommentObj();
 
         const response = await $.ajax({
             type: "POST",
             url: "/contract/file/save",
             data: JSON.stringify({
                 commentData: JSON.stringify(comment_data),
+                canvasData: JSON.stringify(canvas_data),
                 page: page - 1,
             }),
             headers: {
@@ -180,6 +225,7 @@ save_btn.addEventListener("click", async () => {
     
         if (response.status == 200) {
             comment.clearCommentObjSaveBtn();
+            canvas_comment.clearCommentObjSaveBtn();
         }
     }
 });

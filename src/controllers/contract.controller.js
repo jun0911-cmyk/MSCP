@@ -229,11 +229,12 @@ module.exports.saveContractPDF = async (req, res, next) => {
     try {
         const filename = await contractFile.getFilename(req.id);
         const commentObj = JSON.parse(req.body.commentData);
+        const canvasObj = JSON.parse(req.body.canvasData);
         const page = req.body.page;
 
         const pdfData = await contractFile.getPDFData(filename, page);
 
-        if (commentObj == undefined || page == undefined || filename == null || pdfData == null) {
+        if (commentObj == undefined || canvasObj == undefined || page == undefined || filename == null || pdfData == null) {
             return res.json({
                 status: 400,
                 message: "failure pdf fix"
@@ -256,6 +257,30 @@ module.exports.saveContractPDF = async (req, res, next) => {
             });
         }
 
+        for (let j = 0; j < canvasObj.length; j++) {
+            const canvas = canvasObj[j];
+            
+            const array = JSON.parse(canvas.blob);
+            const typedArray = Uint8Array.from(array);
+            const arrayBuffer = typedArray.buffer;
+
+            const offsetX = canvas.offsetX.split("pt")[0];
+            const offsetY = canvas.offsetY.split("pt")[0];
+
+            const x = canvas.x * 0.75;
+            const y = offsetY - (canvas.y * 0.75);
+
+            const canvasImage = await pdfData.document.embedPng(arrayBuffer);
+            const imageDims = canvasImage.scale(1);
+
+            pdfData.pdfPage.drawImage(canvasImage, {
+                x: x - 5,
+                y: y - 50,
+                width: imageDims.width,
+                height: imageDims.height,
+            });
+        }
+
         fs.writeFileSync(pdfData.filepath, await pdfData.document.save());
 
         return res.json({
@@ -263,6 +288,7 @@ module.exports.saveContractPDF = async (req, res, next) => {
         }).status(200);
 
     } catch (err) {
+        console.log(err);
         return res.json({
             status: 400,
             message: "failure pdf fix"

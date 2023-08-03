@@ -69,6 +69,8 @@ const autoMute = (stream) => {
 }
 
 const webRTC = (socket) => {
+    socket.emit("join_room", document.cookie, location.pathname.split("/")[3]);
+
     navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -95,8 +97,8 @@ const webRTC = (socket) => {
         pc.ontrack = (event) => {
             remoteVideo.srcObject = event.streams[0];
         }
-    
-        socket.emit("join_room", document.cookie, location.pathname.split("/")[3]);
+
+        socket.emit("create_offer");
     }).catch(err => {
         console.log(err);
     });

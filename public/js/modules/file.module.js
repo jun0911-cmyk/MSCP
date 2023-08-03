@@ -1,5 +1,6 @@
 import comment from "./pdf_comment.module.js";
 import loading from "./loading.module.js";
+import canvas_comment from "./canvas_comment.module.js";
 
 const { PDFDocument, StandardFonts, rgb } = PDFLib;
 
@@ -30,12 +31,13 @@ const file_upload = async (file, url, identifier) => {
     }
 }
 
-const pdf_fix = async (commentObj, page) => {
+const pdf_fix = async (commentObj, canvas_data, page) => {
     const response = await $.ajax({
         type: "POST",
         url: "/contract/file/save",
         data: JSON.stringify({
             commentData: JSON.stringify(commentObj),
+            canvasData: JSON.stringify(canvas_data),
             page: page
         }),
         headers: {
@@ -47,6 +49,7 @@ const pdf_fix = async (commentObj, page) => {
 
     if (response.status == 200) {
         comment.clearCommentObj();
+        canvas_comment.clearCommentObj();
     }
 }
 
@@ -55,8 +58,9 @@ const pdfView = async (page, socket) => {
 
     if (page > 1) {
         const comment_data = comment.getCommentObj();
+        const canvas_comment_data = canvas_comment.getCommentObj();
 
-        await pdf_fix(comment_data, page - 2);
+        await pdf_fix(comment_data, canvas_comment_data, page - 2);
     }
 
     pdfjsLib.getDocument("/contract/file/read").promise.then(pdfDoc => {
@@ -90,7 +94,7 @@ const pdfView = async (page, socket) => {
             console.log(container.childNodes);
 
             if (container.childNodes.length > 1) {
-                container.removeChild(container.childNodes[2]);
+                container.removeChild(container.childNodes[4]);
             }
 
             container.appendChild(canvas);

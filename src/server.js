@@ -44,6 +44,10 @@ app.use((req, res, next) => {
     res.status(404);
 });
 
+http.on('clientError', (err, socket) => {
+    socket.destroy();
+});
+
 http.listen(port, (err) => {
     if (err) return logging(err, "err");
     logging(`MSCP server running success http://localhost:${String(port)}`, "server");

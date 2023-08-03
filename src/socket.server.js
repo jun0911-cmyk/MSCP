@@ -63,6 +63,14 @@ module.exports = (io) => {
             io.to(roomName).emit("message", `message:${authData.user.username}:${message}:${time}`);
         });
 
+        socket.on("create_offer", () => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData) {
+                io.sockets.to(socket.id).emit("create_offer", `room join success`, io.sockets.adapter.rooms.get(roomData.roomName).size);
+            }
+        })
+
         socket.on("rtc_offer", (sdp) => {
             const roomData = roomToUser[socket.id];
             
@@ -180,6 +188,14 @@ module.exports = (io) => {
 
             if (roomData && inputBoxObj.text != "") {
                 io.to(roomData.roomName).emit("comment_send", inputBoxObj, page);
+            }
+        });
+
+        socket.on("comment_canvas_send", (canvasBoxObj, page) => {
+            const roomData = roomToUser[socket.id];
+
+            if (roomData && canvasBoxObj.text != "") {
+                io.to(roomData.roomName).emit("comment_canvas_send", canvasBoxObj, page);
             }
         });
 

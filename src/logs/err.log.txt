@@ -153,3 +153,11 @@ Stack:
 [TIME : 1690792296196] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
 [TIME : 1690792297827] [LOGGER err LOG] : PDF Parsing Error : InvalidPDFException: Invalid PDF structure
 [TIME : 1690792297895] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057198032] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057203001] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057204118] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057251819] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057263495] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057295523] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691057309889] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
+[TIME : 1691068733592] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'

@@ -2,6 +2,7 @@ import RTC from "./webRTC.module.js";
 import fileHandle from "./file.module.js";
 import signHandle from "./sign.module.js";
 import comment from "./pdf_comment.module.js";
+import canvas_comment from "./canvas_comment.module.js";
 
 const socketEvent = (socket, page) => {
     const chat_form = document.getElementById("chat-form");
@@ -23,8 +24,6 @@ const socketEvent = (socket, page) => {
         if (message.includes("fail")) {
             location.href = "/";
         } else {
-            RTC.createOffer(socket);
-
             socket.emit("append_join_msg");
         }
     });
@@ -49,15 +48,17 @@ const socketEvent = (socket, page) => {
         }
     });
 
+    socket.on("create_offer", () => {
+        RTC.createOffer(socket);
+    })
+
     socket.on("rtc_getOffer", (sdp) => {
         RTC.createAnswer(sdp, socket);
     });
 
-
     socket.on("rtc_getAnswer", (sdp) => {
         RTC.setRemoteSDP(sdp);     
     });
-
 
     socket.on("rtc_getCandidate", (candidate) => {
         RTC.addCandidate(candidate);     
@@ -185,6 +186,14 @@ const socketEvent = (socket, page) => {
         
         if (now_page == page) {
             comment.addComment(inputBoxObj);
+        }
+    });
+
+    socket.on("comment_canvas_send", (canvasBoxObj, page) => {
+        const now_page = localStorage.getItem("page");
+        
+        if (now_page == page) {
+            canvas_comment.addComment(canvasBoxObj);
         }
     });
 
