@@ -35,6 +35,24 @@ body {
     margin: 1px;
 }
 
+.webRTC #local-avator-container, .webRTC #remote-avator-container {
+  width: 20.8vw;
+  height: 20.5vh;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  background-color: #264670;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 1px;
+  overflow: hidden;
+}
+
+.webRTC #local-avator, .webRTC #remote-avator {
+  margin-top: -2rem;
+  width: 12.8vw;
+  height: 27.5vh;
+}
+
 .pdf {
   width: 58vw;
   height: 90vh;

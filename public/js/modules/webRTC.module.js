@@ -1,4 +1,23 @@
+import avator from "./avator.module.js";
+
 const pc_config = {};
+const checkUseAvator = (message) => {
+    return Swal.fire({
+        title: '카메라, 마이크 장치에 연결할 수 없습니다.',
+        text: "카메라 접근을 아바타로 대체하여 접속하시겠습니까? (" + message + ")",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Avator 사용'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            return true;
+        } else {
+            return false;
+        }
+    })
+};
 
 (async() => {
   const response = await axios.get("https://mscp_turn.metered.live/api/v1/turn/credentials?apiKey=fd18020bdcffe24cf5ee7f008da52d262fbd");
@@ -99,8 +118,41 @@ const webRTC = (socket) => {
         }
 
         socket.emit("create_offer");
-    }).catch(err => {
-        console.log(err);
+    }).catch(async (err) => {
+        let message;
+
+        switch(err.name) {
+            case "NotFoundError":
+                message = "카메라나 마이크 장치를 찾을 수 없음.";
+                break;
+            case "NotAllowedError":
+                message  = "카메라, 마이크 장치 접근 궈한이 거부됨.";
+                break;
+            default:
+                message = "알 수 없는 접근 거부 오류.";
+        }
+
+        const isUseAvator = await checkUseAvator(message);
+
+        if (isUseAvator) {
+            avator.loadLocalAvator(socket);
+            
+            pc.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.emit("rtc_candidate", event.candidate); 
+                }
+            }
+    
+            pc.onconnectionstatechange = (event) => {
+                console.log(pc.iceConnectionState);
+            }
+        
+            pc.ontrack = (event) => {
+                remoteVideo.srcObject = event.streams[0];
+            }
+    
+            socket.emit("create_offer");
+        }
     });
 }
 

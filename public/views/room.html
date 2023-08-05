@@ -21,7 +21,13 @@
     <div class="webRTC">
         <div class="video_container">
             <video id="local" autoplay="true"></video>
+            <div id="local-avator-container">
+                <img id="local-avator" src="/static/image/default_avator.png" />
+            </div>
             <video id="remote" autoplay="true"></video>
+            <div id="remote-avator-container">
+                <img id="remote-avator" src="/static/image/default_avator.png" />
+            </div>
         </div>
     </div>
     <div class="chat-container">
@@ -61,6 +67,7 @@
                     <button id="speak_contract_btn"><i class="fa-solid fa-headphones-simple fa-2xl"></i></button>
                     <button id="save_contract_btn"><i class="fa-solid fa-floppy-disk fa-2xl"></i></button>
                     <button id="change_box_btn"><i class="fa-solid fa-pencil fa-2xl"></i></button>
+                    <button id="avator_btn"><i class="fa-solid fa-user fa-2xl"></i></button>
                     <button id="return_btn"><i class="fa-solid fa-arrow-left fa-2xl"></i></button>
                     <button id="next_btn"><i class="fa-solid fa-arrow-right fa-2xl"></i></button>
                 </div>

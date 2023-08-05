@@ -60,6 +60,12 @@ module.exports = (io) => {
                 return null;
             }
 
+            if (message[0] == "/") {
+                const type = message.split("/")[1];
+
+                return io.sockets.to(socket.id).emit("change_avator", type);
+            }
+
             io.to(roomName).emit("message", `message:${authData.user.username}:${message}:${time}`);
         });
 
@@ -180,6 +186,17 @@ module.exports = (io) => {
                 socket.broadcast.to(roomData.roomName).emit("contract_sign_request_reject");
             } else {
                 io.sockets.to(socket.id).emit("contract_load_request_failure", "not enough room user");
+            }
+        });
+
+        socket.on("use_avator", (avatorPath) => {
+            const roomData = roomToUser[socket.id];
+            const roomSize = io.sockets.adapter.rooms.get(roomData.roomName).size;
+
+            if (roomData && roomSize == 2) {
+                socket.broadcast.to(roomData.roomName).emit("use_avator", avatorPath);
+            } else {
+                io.sockets.to(socket.id).emit("use_avator", null);
             }
         });
 

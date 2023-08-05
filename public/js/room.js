@@ -4,6 +4,7 @@ import event from "./modules/event.module.js";
 import loading from "./modules/loading.module.js";
 import comment from "./modules/pdf_comment.module.js";
 import canvas_comment from "./modules/canvas_comment.module.js";
+import avator from "./modules/avator.module.js";
 
 const return_btn = document.getElementById("return_btn");
 const next_btn = document.getElementById("next_btn");
@@ -16,6 +17,7 @@ const speak_btn = document.getElementById("speak_contract_btn");
 const save_btn = document.getElementById("save_contract_btn");
 const cancel_popup_btn = document.getElementById("close_popup");
 const toggle_text_canvas_btn = document.getElementById("change_box_btn");
+const avator_btn = document.getElementById("avator_btn");
 
 const socket = window.io("https://219.255.230.120:8000", { transports : ['polling'], path: "/socket.io" });
 
@@ -26,6 +28,7 @@ pdfjsLib.GlobalWorkerOptions.maxImageSize = 1024 * 1024;
 let page = 1;
 let tts_toggle = 0;
 let box_toggle = 0;
+let avator_toggle = 0;
 
 rtc.webRTC(socket);
 
@@ -35,6 +38,8 @@ event.socketEvent(socket, page);
 $("#return_btn").hide();
 $("#next_btn").hide();
 $("#popupOverlay").hide();
+$("#local-avator-container").hide();
+$("#remote-avator-container").hide();
 $("#reject_sign_btn").hide();
 $("#reject_load_btn").hide();
 $("#save_contract_btn").hide();
@@ -54,6 +59,42 @@ const textEvent = (event) => {
 
     comment.createInputBox(event, socket, page, canvas, container);
 }
+
+const checkUseAvator = () => {
+    return Swal.fire({
+        title: '아바타를 사용하시겠습니까?',
+        text: "카메라 접근을 아바타로 대체하여 접속하시겠습니까?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Avator 사용'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            return true;
+        } else {
+            return false;
+        }
+    })
+};
+
+avator_btn.addEventListener("click", async () => {
+    avator_toggle += 1;
+
+    if (avator_toggle % 2 == 0) {
+        avator_btn.style.backgroundColor = "white";
+        avator.deleteLocalAvator(socket);
+    } else {
+        const isUseAvator = await checkUseAvator();
+
+        if (isUseAvator) {
+            avator_btn.style.backgroundColor = "green";
+            avator.loadLocalAvator(socket);
+        } else {
+            avator_toggle -= 1;
+        }
+    }
+})
 
 toggle_text_canvas_btn.addEventListener("click", () => {
     const container = document.getElementById("pdf_viewer");

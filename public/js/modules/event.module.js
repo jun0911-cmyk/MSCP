@@ -3,6 +3,7 @@ import fileHandle from "./file.module.js";
 import signHandle from "./sign.module.js";
 import comment from "./pdf_comment.module.js";
 import canvas_comment from "./canvas_comment.module.js";
+import avator from "./avator.module.js";
 
 const socketEvent = (socket, page) => {
     const chat_form = document.getElementById("chat-form");
@@ -170,6 +171,25 @@ const socketEvent = (socket, page) => {
 
             document.getElementById("sign_msg").innerText = "서명요청에 실패하였습니다, 계약룸안에 계약자가 접속해있지 않습니다.";
         }
+    });
+
+    socket.on("use_avator", (avatorPath) => {
+        if (avatorPath == "delete") {
+            avator.deleteRemoteAvator();
+        } else if (avatorPath != "delete") {
+            avator.loadRemoteAvator(avatorPath);
+        } else {
+            avator.deleteLocalAvator(socket);
+            Swal.fire({
+                icon: 'error',
+                title: '아바타 설정 실패',
+                text: '계약자가 연결되어있지 않아, 아바타 연결에 실패하였습니다. 나중에 다시 시도해주세요.',
+            });
+        }
+    });
+
+    socket.on("change_avator", (type) => {
+        avator.changeLocalAvator(type, socket);
     });
 
     socket.on("contract_sign_success", () => {
