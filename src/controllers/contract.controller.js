@@ -260,25 +260,31 @@ module.exports.saveContractPDF = async (req, res, next) => {
         for (let j = 0; j < canvasObj.length; j++) {
             const canvas = canvasObj[j];
             
-            const array = JSON.parse(canvas.blob);
-            const typedArray = Uint8Array.from(array);
-            const arrayBuffer = typedArray.buffer;
+            try {
+                const array = JSON.parse(canvas.blob);
+                const typedArray = Uint8Array.from(array);
+                const arrayBuffer = typedArray.buffer;
 
-            const offsetX = canvas.offsetX.split("pt")[0];
-            const offsetY = canvas.offsetY.split("pt")[0];
+                const offsetX = canvas.offsetX.split("pt")[0];
+                const offsetY = canvas.offsetY.split("pt")[0];
 
-            const x = canvas.x * 0.75;
-            const y = offsetY - (canvas.y * 0.75);
+                const x = canvas.x * 0.75;
+                const y = offsetY - (canvas.y * 0.75);
 
-            const canvasImage = await pdfData.document.embedPng(arrayBuffer);
-            const imageDims = canvasImage.scale(1);
+                const canvasImage = await pdfData.document.embedPng(arrayBuffer);
+                const imageDims = canvasImage.scale(1);
 
-            pdfData.pdfPage.drawImage(canvasImage, {
-                x: x - 5,
-                y: y - 50,
-                width: imageDims.width,
-                height: imageDims.height,
-            });
+                pdfData.pdfPage.drawImage(canvasImage, {
+                    x: x - 5,
+                    y: y - 50,
+                    width: imageDims.width,
+                    height: imageDims.height,
+                });
+            } catch (error) {
+                if (error instanceof SyntaxError) {
+                    console.log("save pass");            
+                }
+            }
         }
 
         fs.writeFileSync(pdfData.filepath, await pdfData.document.save());
@@ -382,6 +388,10 @@ module.exports.ttsContract = async (req, res, next) => {
 
             for (let j=0; j < text_array.length; j++) {
                 audioData_array.push(await tts.getSpeech(text_array[j]));
+            }
+
+            if (audioData_array[0] == null) {
+                return res.send(null).status(400);    
             }
 
             audioData = Buffer.concat(audioData_array);

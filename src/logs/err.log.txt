@@ -162,3 +162,4 @@ Stack:
 [TIME : 1691057309889] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
 [TIME : 1691068733592] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'
 [TIME : 1691250503610] [LOGGER err LOG] : tts error : Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+[TIME : 1691515294952] [LOGGER err LOG] : Base64 Encode Error : Error: ENOENT: no such file or directory, open 'C:\Users\jun09\OneDrive\바탕 화면\Hosting\MSCP\MSCP\contract_temp\null'

@@ -20,14 +20,27 @@ class SignContract {
     formatObject() {
         const date = new Date();
 
-        const PDFFormatObj = {
-            contract_filename: utf8.decode(this.contract_filename.split("_")[2]),
-            organizer_name: this.organizer_name,
-            participant_name: this.participant_name,
-            date: String(date),
-            organizer_signData: this.organizer_signData,
-            participant_signData: this.participant_signData,
-        };
+        let PDFFormatObj = {};
+
+        try {
+            PDFFormatObj = {
+                contract_filename: utf8.decode(this.contract_filename.split("_")[2]),
+                organizer_name: this.organizer_name,
+                participant_name: this.participant_name,
+                date: String(date),
+                organizer_signData: this.organizer_signData,
+                participant_signData: this.participant_signData,
+            };
+        } catch (err) {
+            PDFFormatObj = {
+                contract_filename: this.contract_filename.split("_")[2],
+                organizer_name: this.organizer_name,
+                participant_name: this.participant_name,
+                date: String(date),
+                organizer_signData: this.organizer_signData,
+                participant_signData: this.participant_signData,
+            };
+        }
 
         const options = {
             format: "A2",
